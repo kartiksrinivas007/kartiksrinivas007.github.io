@@ -105,15 +105,15 @@
 
 
 /* Tufte CSS styles */
-html { font-size: 11px;}
+html { font-size: 16px;}
 
 body { width: 87.5%;
        margin-left: auto;
        margin-right: auto;
        padding-left: 12.5%;
        font-family: -apple-system, BlinkMacSystemFont, serif, et-book, Palatino, "Palatino Linotype", "Palatino LT STD", "Book Antiqua", Georgia, serif;
-       background-color: #161b22;
-       color: #fff;
+       background-color: #f9f6ee;
+       color: #2e5077;
        max-width: 1400px;
        counter-reset: sidenote-counter; }
 
@@ -224,9 +224,9 @@ figure.fullwidth figcaption { margin-right: 24%; }
 
 /* */
 /*a:link { text-decoration: none; color: #027db9}*/
-a:link { text-decoration: none; color: #fff}
+a:link { text-decoration: none; color: #4DA1A9}
 
-a:link, a:visited { color: #fff; }
+a:link, a:visited { color: #4DA1A9; }
      /*
          background: -webkit-linear-gradient(#fffff8, #fffff8), -webkit-linear-gradient(#fffff8, #fffff8), -webkit-linear-gradient(#333, #333);
          background: linear-gradient(#fffff8, #fffff8), linear-gradient(#fffff8, #fffff8), linear-gradient(#333, #333);
@@ -249,7 +249,7 @@ a:link::-moz-selection { text-shadow: 0.03em 0 #b4d5fe, -0.03em 0 #b4d5fe, 0 0.0
 
 a {
   text-decoration: none;
-  color: #d03533;
+  color: #79d7be;
   position: relative;
 }
 
@@ -260,7 +260,7 @@ a::after {
   bottom: -2px;
   width: 0;
   height: 2px;
-  background-color: #d03533;
+  background-color: #79d7be;
   transition: width 0.3s ease-in-out;
 }
 
