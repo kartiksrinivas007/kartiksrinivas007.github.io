@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>cpluplus</title>
+<base href="https://kartiksrinivas007.github.io/" target="_self"/>
+<link href="css/reset.css" rel="stylesheet"/>
+<link href="css/tufte.css" rel="stylesheet"/>
+<link href="css/latex.css" rel="stylesheet"/>
+<link href="css/header_footer.css" rel="stylesheet"/>
+<link href="css/table.css" rel="stylesheet"/>
+<link href="css/tufte_pandoc_compat.css" rel="stylesheet"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+</head>
+<body>
+<header>
+<nav>
+<a href="contact.html">Contact</a>
+<a href="posts.html">Posts</a>
+<a href="index.html">Index</a>
+</nav>
+</header>
+<article>
+<section class="level2" id="c-plus-plus">
+<h2>C Plus Plus</h2>
+<ul>
+<li>Move constructors take r-values as references</li>
+<li>If you make two functions fun(int &amp; x) and fun (int
+&amp;&amp;x) , with an l-value it will map to the first one, with an
+r-value it will call the second one if i call fun(5), the second one
+will be called</li>
+<li>R-values are useful when you have r-values and want to keep them
+for a while my guy</li>
+<li>What if you want an l-value to be passed as an r-value, then use
+<code>std::move</code>, it does nothing else other than cast!</li>
+<li>the Move constructor needs to set the original member’s pointed
+to null or when the object goes out of scope and the other object goes
+out of scope, you will get a double free</li>
+<li>The object a = object b calls the copy assignment operator, not
+the copy constructor</li>
+<li>The new class object a (object b) is copy constructor</li>
+<li>Calling foo(class v) and then passing a v object will call the
+move constructor for v if you pass an r-value or the copy constructor if
+its an l-value!!</li>
+<li>Calling Class v = 5, might implicitly call the constructor for
+the casting operation, mark explicit so that this does not
+happen</li>
+<li>use make_shared to avoid errors during the construction itself to
+cause a memory leak, use make_shared to avoid this</li>
+</ul>
+<blockquote>
+<p>std::move just casts, the logic is written in the move constructor of
+the class that is actually playing this game (the move constructor of
+the unique_ptr, since that is the one that is being moved) The move
+constructor denotes how unique pointer transfers ownership of the
+unerlying raw pointer (data),</p>
+</blockquote>
+<ul>
+<li>What if I want to pass a shared pointer as argument or something
+like that, what happens?, what if I want to pass a unique pointer as an
+argument, must I pass it by reference?</li>
+<li>map (implemented) as a red black tree and the keys can be made if
+you say map[“chris”], then the key chris will be made</li>
+</ul>
+<section class="level3" id="threads">
+<h3>Threads</h3>
+<ul>
+<li>To pass a reference into the thread use std::ref(s) instead of
+&amp;s, since that does not work</li>
+<li>you can also pass std::move(s) but then that might destory the local
+s</li>
+<li>threads are movable but not copyable</li>
+</ul>
+<p>locak_guard is like a wrapper on mutex that unlocks if there is an
+exception and the mutex goes out of scope, or there is an error -
+std::scoped_lock, std::lock both have some deadlock algorothms -
+condition variables that ask the thread to wait untilit is notified</p>
+</section>
+</section>
+</article>
+<footer>
+<hr/>
+<!-- <div class="credits">
+<span><a href="http://github.com/adityaramesh/tufte-blog">Tufte-Blog</a> uses
+                    <a href="http://pandoc.org">Pandoc</a> along with
+                    <a href="http://github.com/edwardtufte/tufte-css">Tufte CSS,</a>
+                    <a href="http://mathjax.org">MathJax,</a> and
+                    <a href="http://disqus.com">Disqus.</a>
+</div> -->
+</footer>
+</body>
+</html>
