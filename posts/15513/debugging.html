@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>debugging</title>
+<base href="https://kartiksrinivas007.github.io/" target="_self"/>
+<link href="css/reset.css" rel="stylesheet"/>
+<link href="css/tufte.css" rel="stylesheet"/>
+<link href="css/latex.css" rel="stylesheet"/>
+<link href="css/header_footer.css" rel="stylesheet"/>
+<link href="css/table.css" rel="stylesheet"/>
+<link href="css/tufte_pandoc_compat.css" rel="stylesheet"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+</head>
+<body>
+<header>
+<nav>
+<a href="contact.html">Contact</a>
+<a href="posts.html">Posts</a>
+<a href="index.html">Index</a>
+</nav>
+</header>
+<article>
+<section class="level3" id="debugging-tips-and-tricks">
+<h3>Debugging Tips and Tricks</h3>
+<ul>
+<li>Use Valgrind</li>
+<li>Use GDB</li>
+<li>Make assertion statements where you can, always helpful</li>
+<li>check all branches of the control flow, always</li>
+<li>Update the condition, see what happens, do it piece by piece</li>
+</ul>
+<p>Good code is performance, available, portable, scalable, secure,
+testable and usable and READABLE. Do things algorithmically, split the
+task into multiple components, each of which can be testable</p>
+<ul>
+<li>Adding tiny tests as you go makes it much easier to verify things
+are working</li>
+<li>Before that – test your parsing by outputting our logging
+format</li>
+</ul>
+<p>Think separation of concerns, modularity and reusability, DRY and
+much more Each module is responsible for its own internals No outside
+code “intrudes” on the inner workings of another module Use dictionary
+words to make sure that the code is well done use the four word maximum
+rule, limit names to the number of words that people can read at a
+glance This resource is <a href="https://www.whyprogramsfail.com/slides.php">gold</a></p>
+<p>There is also a gdb cheatsheet on the website for the intro to
+computer systems book usee bt for frame up and down for moving up frames
+etc <code>list x</code> for 10 lines of code from line x optionally pass
+the function name also, use finish to finish the present function</p>
+<p>use <code>watch &lt;variable&gt;/value</code> to see where that value
+or variable changes use <code>x</code> to examin the memory location and
+see what is there are that place (useful for mallocs surely)</p>
+<p>use <code>call expr</code> to evaluate the function without the void
+return values, or use <code>set [variable] expression</code> to change
+the value assosciated with a varble or a memory address</p>
+<ul>
+<li>The style guide - “https://www.cs.cmu.edu/~213/codeStyle.html”</li>
+<li>Git style guide - “https://github.com/agis/git-style-guide”</li>
+</ul>
+</section>
+</article>
+<footer>
+<hr/>
+<!-- <div class="credits">
+<span><a href="http://github.com/adityaramesh/tufte-blog">Tufte-Blog</a> uses
+                    <a href="http://pandoc.org">Pandoc</a> along with
+                    <a href="http://github.com/edwardtufte/tufte-css">Tufte CSS,</a>
+                    <a href="http://mathjax.org">MathJax,</a> and
+                    <a href="http://disqus.com">Disqus.</a>
+</div> -->
+</footer>
+</body>
+</html>

@@ -72,7 +72,7 @@ you say map[“chris”], then the key chris will be made</li>
 s</li>
 <li>threads are movable but not copyable</li>
 </ul>
-<p>locak_guard is like a wrapper on mutex that unlocks if there is an
+<p>lock_guard is like a wrapper on mutex that unlocks if there is an
 exception and the mutex goes out of scope, or there is an error -
 std::scoped_lock, std::lock both have some deadlock algorothms -
 condition variables that ask the thread to wait untilit is notified</p>

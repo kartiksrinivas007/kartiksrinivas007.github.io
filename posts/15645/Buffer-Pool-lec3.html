@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>Buffer-Pool-lec3</title>
+<base href="https://kartiksrinivas007.github.io/" target="_self"/>
+<link href="css/reset.css" rel="stylesheet"/>
+<link href="css/tufte.css" rel="stylesheet"/>
+<link href="css/latex.css" rel="stylesheet"/>
+<link href="css/header_footer.css" rel="stylesheet"/>
+<link href="css/table.css" rel="stylesheet"/>
+<link href="css/tufte_pandoc_compat.css" rel="stylesheet"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+</head>
+<body>
+<header>
+<nav>
+<a href="contact.html">Contact</a>
+<a href="posts.html">Posts</a>
+<a href="index.html">Index</a>
+</nav>
+</header>
+<article>
+<section class="level3" id="buffer-pool">
+<h3>Buffer Pool</h3>
+<hr/>
+<p>Talking about the disk manager (the lowest layer of the setup)</p>
+<p>The primary storage that that the database is assumed to be on the
+disk (non-volatile). Non volatile means that if you pull the plug the
+data will still be there. S3 is object storage. Network storage is the
+slowest. The better ones are cpu caches and the other things. Persistent
+memory from intel was faster than SSD but it did not go ahead. Access
+times – L1 cache reference is like 1ns, L2 is like 4ns, SSD, 16,000 ns,
+2 million ns for HDD</p>
+<p>Random access is memory that you can do random access at any place
+and ask for the pointer to that memory. But for the hard disk a
+sequential memory access is much better as the hard drive is physical
+and sequential is much better.</p>
+<p>System design goals are to minimize disk access, make it sequential
+and hanlde cases when the RAM is not big enough for the memory (use
+virtual memory or soemting)</p>
+<p>The disk pushes the page to the memory (buffer pool) and then the
+pointer to that page from the memory is given to the execution engine,
+changes are made on the RAM and then the copy is written back to the
+system</p>
+<p><b> Problem 1</b>: How to efficiently store files on the disk <b>
+Problem 2</b>: How to efficiently move files on the disk to Bpool</p>
+</section>
+<section class="level3" id="storage-manager">
+<h3>Storage manager</h3>
+<p>The OS does not understand the memory in the disk that the storage
+manager understands, only the storage manager understand the data
+written here.</p>
+<p>Organizes the data in the form of pages on the disk. Each page has a
+pageid and the pages are self contained, there is a layer that maps the
+pageid to the physical locations in the dsik</p>
+<p>The page is the largest block of data that can be written
+atomically(all bytes are written or none) (there are failsafe writes).
+For constant, writes and updates, a smaller page is better coz then we
+have to transfer less to memory again and again.</p>
+<p>Different databases manage pages differently. Most common is heap
+file organization. Hashing file organization is also there.</p>
+<blockquote>
+<p>sqlite is a sigle filesystem and postgres uses multiple files</p>
+</blockquote>
+<p>The file contains multiple pages and the dbms maintains special pages
+that tracks the location of the page within the file system. One entry
+pper database object in the directory (like one for each table) Must
+make sure that the directory pages are in sync with the data pages The
+directory page also needs to be persistent and should not die.</p>
+<p><b>Self containment</b></p>
+<p>How do we store tuples in a page, use the slotted pages architecture.
+Each tuple is prefixed with aheader that contains met-ata about it (the
+order that you use for the <code>CREATE TABLE</code> is the exact order
+in which it is actually stored. (sometimes it is better to change it but
+they do not reorder))</p>
+<p>For engineering reasons they specify them in the same order than
+something else. There us a way to pre-join the tuples that will be
+joined most frequently (called a physical denormalization) that allows
+for mroe efficient I/O since both of them are usually joined when the
+updates are being made However, it can makes updates more expensive</p>
+<p>postgres has something called the ctid that gives you the offset of
+the tuple!. (deletion will nto change the tuple ids evenif it could
+become more efficient ) There is something called the vacuum that does
+garbage collection and then the tuple ids become more optimized.</p>
+<p>(sometimes when you are inserting the tuple, they will reuse the open
+slots (in SQL server i think))</p>
+<p>Database made of files – files contain pages,(organized differently)
+and the pages contain the tuples (in different ways)</p>
+</section>
+</article>
+<footer>
+<hr/>
+<!-- <div class="credits">
+<span><a href="http://github.com/adityaramesh/tufte-blog">Tufte-Blog</a> uses
+                    <a href="http://pandoc.org">Pandoc</a> along with
+                    <a href="http://github.com/edwardtufte/tufte-css">Tufte CSS,</a>
+                    <a href="http://mathjax.org">MathJax,</a> and
+                    <a href="http://disqus.com">Disqus.</a>
+</div> -->
+</footer>
+</body>
+</html>

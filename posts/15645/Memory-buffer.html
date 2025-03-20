@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>Memory-buffer</title>
+<base href="https://kartiksrinivas007.github.io/" target="_self"/>
+<link href="css/reset.css" rel="stylesheet"/>
+<link href="css/tufte.css" rel="stylesheet"/>
+<link href="css/latex.css" rel="stylesheet"/>
+<link href="css/header_footer.css" rel="stylesheet"/>
+<link href="css/table.css" rel="stylesheet"/>
+<link href="css/tufte_pandoc_compat.css" rel="stylesheet"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js?config=TeX-AMS_HTML-full" type="text/javascript"></script>
+</head>
+<body>
+<header>
+<nav>
+<a href="contact.html">Contact</a>
+<a href="posts.html">Posts</a>
+<a href="index.html">Index</a>
+</nav>
+</header>
+<article>
+<section class="level3" id="buffer-pool">
+<h3>Buffer Pool</h3>
+<p>Execution engine gets shared pointers to a page in the buffer pool
+buffer pool is just an array in memory of frames (the buffer pools can
+be nearly 1TB in size)</p>
+<p>Modified pages are called dirty and they are not immediately written
+and there is a page table that keeps track of what pages are in memory.
+Pin counter is to prevent the pages from being moved to diff frames so
+that the pointer from the page tale does not become invalid The page
+table contains the page and is a hash table that supports <span class="math display">\[O(1)\]</span> lookups of whether the page is in
+memory or not and whether it is dirty or not etc.</p>
+<p>There is other stuff in memory called log buffers etc sometimes
+machine learning algorithms are used in this to predict levels of memory
+needed.</p>
+<p>latches used to protect th page table in th assignment</p>
+<p>Caching pages common in os and there is a mech called
+<code>mmap</code> that uses virtual memory and there will be a map from
+disk onto the virtual memory (even 1TB). The OS has a buffer pool that
+pulls the page onto physical memory Why not let the OS do this stuff? –
+the transactions need to wait for the operating system to run the
+eviction policy and it takes too much time. Thread will get
+suspended</p>
+<p>The DBMS would not know what is in physical memory and multiple
+threads would be stalled. The OS can flush the pages at any time even if
+it is a dirty page.</p>
+<p>The least recently used is expensive since on every page access I
+need to update the newest page</p>
+<p>Use the Clock replacement algorithm, each page has a reference bit
+and the pages are oriented in a circle. On access to a page set
+reference bit to 1. For eviction keep rotating and setting ref bits to
+one until you get a ref bit set.</p>
+<p>Often the pages are run-time compile optimizations to the buffer
+pool. A better algorithm than LRU is to keep track of the page that is
+taken once per hour and the other one is once per day then clearly the
+one to keep in memory is the once per hour.</p>
+<blockquote>
+<p>Combining clock and the lRUK is interesting</p>
+</blockquote>
+<p>Postgres assigns a limited number of buffer bool pages to a query and
+uses it as a circular ring buffer Based on the file organization and the
+pointers you can optimize the page calls into the buffer (indexes and
+pointers from one page to the other)</p>
+<p>There is a background BP worker thread and sees page 2 that is dirty
+and either writes and sets undirty flag or evicts the page onto the
+disk.</p>
+<p>Disk IO is the one that optimizes the writes. Most DBMS bypass the OS
+cache (so that the cache memory does not take the same page back that is
+in the bufferpool) The buffer pool uses <code>O_direct</code> to bypass
+the OS in that sense</p>
+<p><code>fsync</code> called a massive amount of pain since the USB once
+removed the pages were marked undirty but nothing is actually written
+since the usb was just removed and the OS did not tell the dbms that
+that the stuff was not there.</p>
+<p>There are approaches where there are multiple buffer pools. You can
+join two queries together to read the same stuff on the disk pages so
+that they both access the same pages instead of different ones.</p>
+</section>
+</article>
+<footer>
+<hr/>
+<!-- <div class="credits">
+<span><a href="http://github.com/adityaramesh/tufte-blog">Tufte-Blog</a> uses
+                    <a href="http://pandoc.org">Pandoc</a> along with
+                    <a href="http://github.com/edwardtufte/tufte-css">Tufte CSS,</a>
+                    <a href="http://mathjax.org">MathJax,</a> and
+                    <a href="http://disqus.com">Disqus.</a>
+</div> -->
+</footer>
+</body>
+</html>

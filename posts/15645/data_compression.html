@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>data_compression</title>
+<base href="https://kartiksrinivas007.github.io/" target="_self"/>
+<link href="css/reset.css" rel="stylesheet"/>
+<link href="css/tufte.css" rel="stylesheet"/>
+<link href="css/latex.css" rel="stylesheet"/>
+<link href="css/header_footer.css" rel="stylesheet"/>
+<link href="css/table.css" rel="stylesheet"/>
+<link href="css/tufte_pandoc_compat.css" rel="stylesheet"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+</head>
+<body>
+<header>
+<nav>
+<a href="contact.html">Contact</a>
+<a href="posts.html">Posts</a>
+<a href="index.html">Index</a>
+</nav>
+</header>
+<article>
+<section class="level4" id="storage-models-and-data-compression">
+<h4>Storage models and data compression</h4>
+<p>The 3 key categories of workloads</p>
+<ul>
+<li>OLTP (online transaction processing) - queries touch only some
+records</li>
+<li>OLAP (online analytical processing) - jim gray - heavy workloads
+and read-heavy (large amounts of data) - heavy joins and more</li>
+<li>Hybrid transactions + analytical processing (you wont both of
+them then it is called HTAP)</li>
+<li>Massive amount of data (big database) - used to mine fo rapterns
+to improve the operational efficiency</li>
+</ul>
+<p>(OLTP systems want everything in a single place), OLAP we need a
+diametrically opposite storage system though - everybody wants HTAP and
+the answers are not obvious (talk offline with him)</p>
+<p>Physical data independence and the other data independence
+(logical)</p>
+<p>Logical and you can define a view on top of that and then only expose
+the view to the user. (security) the LSM/heap file are examples of
+physical data independence (same SQL query different storage model)</p>
+<p>In NSM the bitmap index is present in the header for every tuple in
+the slotted page Remember that there is a page directory. We go from the
+query to the index on that which then points me to the page and then I
+take that page into memory (if I have an index) – otherwise just bring
+all the pages into the memory I can look into the page directory to ask
+if there is space to add into a page or not.</p>
+<p>Column stores the decomposition storage model (fixed length value per
+attribute ( all elements of a column are of equal length)) - have
+different pages for each column (storage ideas).</p>
+<blockquote>
+<p>can I switch the database storage style on the fly? – storage systems
+like S3 really like this, there is sometimes software on disk that might
+change how the data is stored so that the queries become efficient
+(hybrid data-storage models)</p>
+</blockquote>
+<ul>
+<li>can do offset calculations</li>
+<li>you can also do variable length stuff (use pointers to point to the
+other rows and stuff)</li>
+</ul>
+<blockquote>
+<p>slow for point queries, inserts updates and deletes</p>
+</blockquote>
+<p>Middle ground</p>
+<p>PAX (partition attributes across) Within a row group, store them
+column wise.</p>
+</section>
+<section class="level4" id="dictionary-compression">
+<h4>Dictionary compression</h4>
+<ul>
+<li>Need lossless compression</li>
+<li>block level compression</li>
+<li>tuple level (done in NSM type storage)</li>
+</ul>
+<p>Compression techniques - LZO, LZ4, Snappy etc - Zstd (internal
+dictionary compression, huffman decoding etc)</p>
+<ul>
+<li>The mod log is common (the mod log is changes recorded and the
+compressed page is a value of th mode log (INNODB compression))</li>
+<li>you want the database to operate on compressed data (ideally) -
+the database does ths internally sometimes.</li>
+<li>Column stores have 2 big things – they are efficient with memory
+(no garbage though), they are also very good with compression (vey
+superior). (more likely that you find similar attribute values making
+compression much better in DSM)</li>
+</ul>
+</section>
+<section class="level4" id="rle">
+<h4>RLE</h4>
+<p>Run length encoding (same value will turn up more often). (database
+compression of one type) (sorting gives the best but you cannot sort the
+other columns as well) count * froup by very good with this encoding</p>
+<p>Pick the most important column (you are ready to change the layout) –
+works in this case very well</p>
+<p>Bit Packing (parquet uses it a lot)</p>
+<p>Reduce the number of bits for each value dependent on the value
+itself. (use bit shifting tricks to operate on multiple values in a
+single word)</p>
+<p>Bit packing sucks when there is a single outlier thats a problem (too
+big and the bits are used) - then store that member separately (offset
+and the value)</p>
+<p>Bitmap indexing You maintain the state of whether the element is
+present or not. (works when the domain of the column values is small
+(not too many different ones)) - 2 is the size then only 2* 8 + (bits
+take how much size) type of space. Sometimes the bitmaps can also be
+compressed</p>
+<p>Roaring bitmaps (storing the bitmaps efficiently)</p>
+<p>Delta encoding (you stroe the difference in the values since the
+values barely change as we move from row to row) - then on top of that
+you can run RLE.</p>
+<blockquote>
+<p>different columns have different encoding techniques depending on the
+situation. IO is the bottleneck, that is where you need to save time!
+corruptions (we maintain a checksum) the header is also compressed.</p>
+</blockquote>
+</section>
+<section class="level2" id="dictionary-compression-1">
+<h2>Dictionary compression</h2>
+<p>each string is given a code (huffman coding source coding). parquet
+could have one dictionary group for each</p>
+</section>
+</article>
+<footer>
+<hr/>
+<!-- <div class="credits">
+<span><a href="http://github.com/adityaramesh/tufte-blog">Tufte-Blog</a> uses
+                    <a href="http://pandoc.org">Pandoc</a> along with
+                    <a href="http://github.com/edwardtufte/tufte-css">Tufte CSS,</a>
+                    <a href="http://mathjax.org">MathJax,</a> and
+                    <a href="http://disqus.com">Disqus.</a>
+</div> -->
+</footer>
+</body>
+</html>

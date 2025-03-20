@@ -21,7 +21,7 @@ body > article {
 header > nav {
     padding: 3rem 3rem 0 0;
     font-size: 1.3rem;
-    font-family: "Funnel Sans";
+    font-family: "Courier New";
 }
 
 @media (max-width: 760px) {

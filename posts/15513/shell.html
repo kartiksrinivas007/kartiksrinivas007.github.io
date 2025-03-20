@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>shell</title>
+<base href="https://kartiksrinivas007.github.io/" target="_self"/>
+<link href="css/reset.css" rel="stylesheet"/>
+<link href="css/tufte.css" rel="stylesheet"/>
+<link href="css/latex.css" rel="stylesheet"/>
+<link href="css/header_footer.css" rel="stylesheet"/>
+<link href="css/table.css" rel="stylesheet"/>
+<link href="css/tufte_pandoc_compat.css" rel="stylesheet"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+</head>
+<body>
+<header>
+<nav>
+<a href="contact.html">Contact</a>
+<a href="posts.html">Posts</a>
+<a href="index.html">Index</a>
+</nav>
+</header>
+<article>
+<section class="level3" id="best-resources">
+<h3>Best resources</h3>
+<p>Use the <a href="https://www.cs.cmu.edu/~213/bootcamps/lab1_slides.pdf">slides</a>
+or instead use the <a href="https://www.cs.cmu.edu/~15122/">15-122</a>
+things.</p>
+<p><code>grep [options] pattern filename</code>, then use “command
+&gt;&gt; file.txt” to get an appending behavior onto the thing. for
+<code>tar</code>, use -c to compress, -x to decompress, the final
+argument is -f for the filename (of the compressed/decompressed file)
+and the -z is for gzip that you need, and the final argument is that of
+the directory.</p>
+<p>Use sort, tree and other commands. <code>sort -n</code> for numeric,
+else <code>sort -d</code> for the dictionary order, use head and tail
+instead of cat, uiq for unique outputs</p>
+<p><code>git config --global push.default simple</code>, is useful maybe
+use <code>git reset HEAD &lt;FILE_NAME&gt;</code> unstages the file from
+the commit <code>git rm</code> is used to stage files that need to be
+removed <code>git log</code> to show the commit history
+<code>git revert &lt;commit_hash&gt;</code>, rollsback the changes as a
+new commit <code>git checkout &lt;file_name&gt;</code> to go reset the
+changes made to a previous commit</p>
+<p>Use <code>fs</code> to call the file system</p>
+<p>Use wildcards for regex matching - <a href="https://tldp.org/LDP/GNU-Linux-Tools-Summary/html/x11655.htm">wc</a></p>
+<p>use <code>ps aux</code> for the processes running now, or use
+<code>top</code> Background jobs can be run with an <code>&amp;</code>
+in the background use <code>jobs</code> to list all the jobs. There are
+2 types of jobs, foreground jobs and background jobs. The two are
+<code>fg %n</code> and <code>bg %n</code>, brings the job into the
+forgeround or takes it to the background. <code>ctrl + z</code> to send
+the job into the background and stop it temporarily, ctrt c is to send
+SIGINT to the fg job and exit it</p>
+<p>sed <code>s/old_word/new_word</code> file.txt</p>
+<p>Resources <a href="https://tldp.org/LDP/abs/html/textproc.html">tdlp</a>, <a href="https://www.cs.cmu.edu/~15131/f17/">15131</a>, <a href="https://linuxcommand.org/index.php">lcd</a>, <a href="https://linuxblog.io/linux-securely-copy-files-using-scp/">scp</a></p>
+</section>
+</article>
+<footer>
+<hr/>
+<!-- <div class="credits">
+<span><a href="http://github.com/adityaramesh/tufte-blog">Tufte-Blog</a> uses
+                    <a href="http://pandoc.org">Pandoc</a> along with
+                    <a href="http://github.com/edwardtufte/tufte-css">Tufte CSS,</a>
+                    <a href="http://mathjax.org">MathJax,</a> and
+                    <a href="http://disqus.com">Disqus.</a>
+</div> -->
+</footer>
+</body>
+</html>

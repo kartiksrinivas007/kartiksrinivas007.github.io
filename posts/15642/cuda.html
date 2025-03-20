@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>cuda</title>
+<base href="https://kartiksrinivas007.github.io/" target="_self"/>
+<link href="css/reset.css" rel="stylesheet"/>
+<link href="css/tufte.css" rel="stylesheet"/>
+<link href="css/latex.css" rel="stylesheet"/>
+<link href="css/header_footer.css" rel="stylesheet"/>
+<link href="css/table.css" rel="stylesheet"/>
+<link href="css/tufte_pandoc_compat.css" rel="stylesheet"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+</head>
+<body>
+<header>
+<nav>
+<a href="contact.html">Contact</a>
+<a href="posts.html">Posts</a>
+<a href="index.html">Index</a>
+</nav>
+</header>
+<article>
+<section class="level2" id="cuda">
+<h2>CUDA</h2>
+<ul>
+<li>Threads, blocks and grids</li>
+<li>CUDA memcpy is slow, keep stuff there as much as you can</li>
+<li>CUDA malloc is getting better (stream dependent)</li>
+<li>Per block shared memory (readable and writable for all threads in
+the block (shared))</li>
+<li>Each thread also has his own memory private memory per thread.</li>
+<li>there is a device global memory (thats the ne that everything
+shares) and there is also the host memory.</li>
+</ul>
+<p>Usually having one thread per output is a good idea. You can write
+<code>convolve</code> as a function.</p>
+<p>You cannto synchronize between different thread blocks, you can only
+synchronize in a single block</p>
+<p>Sometimes the processor cannot do so many threads and ten you ned to
+stop the other ones while some others finish. If syncthreads stopped
+everyone you would hit a dealock</p>
+<ul>
+<li>you can block all threads also (only on the end – persiste t
+kernels)</li>
+<li>Benchmarking (addition kernels etc)</li>
+</ul>
+<p>torch cuda.sync() will ait until all the ongoing tasks finish and
+then returns (otherwise its all asynchronou) the CPU-GPU synch is a
+little expensive</p>
+</section>
+</article>
+<footer>
+<hr/>
+<!-- <div class="credits">
+<span><a href="http://github.com/adityaramesh/tufte-blog">Tufte-Blog</a> uses
+                    <a href="http://pandoc.org">Pandoc</a> along with
+                    <a href="http://github.com/edwardtufte/tufte-css">Tufte CSS,</a>
+                    <a href="http://mathjax.org">MathJax,</a> and
+                    <a href="http://disqus.com">Disqus.</a>
+</div> -->
+</footer>
+</body>
+</html>

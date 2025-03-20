@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>lecture-1</title>
+<base href="https://kartiksrinivas007.github.io/" target="_self"/>
+<link href="css/reset.css" rel="stylesheet"/>
+<link href="css/tufte.css" rel="stylesheet"/>
+<link href="css/latex.css" rel="stylesheet"/>
+<link href="css/header_footer.css" rel="stylesheet"/>
+<link href="css/table.css" rel="stylesheet"/>
+<link href="css/tufte_pandoc_compat.css" rel="stylesheet"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+</head>
+<body>
+<header>
+<nav>
+<a href="contact.html">Contact</a>
+<a href="posts.html">Posts</a>
+<a href="index.html">Index</a>
+</nav>
+</header>
+<article>
+<section class="level3" id="databases-and-sql-notes">
+<h3>Databases and SQL Notes</h3>
+<p>Important operations include - aggregate functions that average on a
+set of tuples that could be obtained after a reduction (using
+<code>WHERE</code>), a join and then grouping by and a next reduction
+using <code>having</code>.</p>
+<p>10 tuples, or a small number of tuples that achieve something, (with
+ties) etc are all forms of output control, order by also is output
+control</p>
+<p>You can select specific things according to the column number or you
+can also pass in string functions like <code>SELECT UPPER(name)</code>
+to modify the result of what you want to obtain. But this is done in the
+end clearly – for like a final change. Understanding what tuples that
+actually make up the answer seems like the core idea. Also remember that
+‘%’ matches every string and ’_’ matches a single character.</p>
+<p>You can use window functions to compte ranks over partitions in the
+table, something like a group by, but oyu can use this to insert new
+columns with ranks as well.</p>
+<p>You can nest queries not only inside the from clause but also with
+conditions inside the <code>WHERE</code> clause. You can use statements
+like <code>EXISTS</code>, <code>IN</code> etc to check whether the given
+tuple satisfies the necessary conditions</p>
+<p>Use lateral joins for references, or use the <code>WITH</code> clause
+for local temporary tables, they can also bind to the column names
+before hand. Use lateral joins when you have two attributes that need to
+be averaged over the same table but grouped over different
+attributes.</p>
+</section>
+</article>
+<footer>
+<hr/>
+<!-- <div class="credits">
+<span><a href="http://github.com/adityaramesh/tufte-blog">Tufte-Blog</a> uses
+                    <a href="http://pandoc.org">Pandoc</a> along with
+                    <a href="http://github.com/edwardtufte/tufte-css">Tufte CSS,</a>
+                    <a href="http://mathjax.org">MathJax,</a> and
+                    <a href="http://disqus.com">Disqus.</a>
+</div> -->
+</footer>
+</body>
+</html>

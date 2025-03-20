@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>virtual_memory</title>
+<base href="https://kartiksrinivas007.github.io/" target="_self"/>
+<link href="css/reset.css" rel="stylesheet"/>
+<link href="css/tufte.css" rel="stylesheet"/>
+<link href="css/latex.css" rel="stylesheet"/>
+<link href="css/header_footer.css" rel="stylesheet"/>
+<link href="css/table.css" rel="stylesheet"/>
+<link href="css/tufte_pandoc_compat.css" rel="stylesheet"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+</head>
+<body>
+<header>
+<nav>
+<a href="contact.html">Contact</a>
+<a href="posts.html">Posts</a>
+<a href="index.html">Index</a>
+</nav>
+</header>
+<article>
+<section class="level2" id="the-virtual-memory">
+<h2>The virtual memory</h2>
+<hr/>
+<ul>
+<li>the page fault is an interrupt that the kernel handles once some
+data that you do not have is in the memory.</li>
+<li>iret is used to resume your program when you are coming back from
+the interrupt process</li>
+<li>the MMUis what maps your programs addresses to the virtual
+memory</li>
+<li>Thrashing is when too many processes are using the disk
+bandwidth</li>
+<li>Each process has its own virtual address space. It can view
+memory as a simple linear array.</li>
+<li>sometiemes different Virtual addres spaces can map to the same
+loctions in the phsycial memory (a form of sharing) of read only code.
+read only code can go to the same place.</li>
+</ul>
+<p>The Page table is a per process thing that is in the dram.</p>
+<p>The page table contains the bits for each process - CR3 register that
+lives on the CPU, that holds the PTE value( points to the page table in
+SRAM cache/ DRAM), MMU uses that to go and obtain find the page table
+entry and copute the physical address needed, then the dram sends the
+data to the cpu.</p>
+<p>the TLB is to prevent the repeated memory access The TLB is a cache
+for the page table entries.</p>
+<p>The VPN has two parts that has a VPN index etc.</p>
+<p>TLB is way larger than cache. tag and a page table entry. is stored
+there.</p>
+<p>PTE entries change when there is a pge fault (the thing is not in
+memory)</p>
+<ul>
+<li>Multi level page tables (trie style page table it is called).</li>
+</ul>
+<p>The intel x86 breaks the VPN into mulitple pieces and the pieces are
+then used (trie style data structure for multilevel paging)</p>
+</section>
+</article>
+<footer>
+<hr/>
+<!-- <div class="credits">
+<span><a href="http://github.com/adityaramesh/tufte-blog">Tufte-Blog</a> uses
+                    <a href="http://pandoc.org">Pandoc</a> along with
+                    <a href="http://github.com/edwardtufte/tufte-css">Tufte CSS,</a>
+                    <a href="http://mathjax.org">MathJax,</a> and
+                    <a href="http://disqus.com">Disqus.</a>
+</div> -->
+</footer>
+</body>
+</html>

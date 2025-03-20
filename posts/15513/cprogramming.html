@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>cprogramming</title>
+<base href="https://kartiksrinivas007.github.io/" target="_self"/>
+<link href="css/reset.css" rel="stylesheet"/>
+<link href="css/tufte.css" rel="stylesheet"/>
+<link href="css/latex.css" rel="stylesheet"/>
+<link href="css/header_footer.css" rel="stylesheet"/>
+<link href="css/table.css" rel="stylesheet"/>
+<link href="css/tufte_pandoc_compat.css" rel="stylesheet"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+</head>
+<body>
+<header>
+<nav>
+<a href="contact.html">Contact</a>
+<a href="posts.html">Posts</a>
+<a href="index.html">Index</a>
+</nav>
+</header>
+<article>
+<section class="level3" id="quick-review-c-programming">
+<h3>Quick review C programming</h3>
+<ul>
+<li>Makefiles review is <a href="https://www.cs.cmu.edu/~213/bootcamps/lab3_slides.pdf">here</a></li>
+<li>You can also make your own dynamic libraries in C and more!</li>
+</ul>
+<p>Always explicitly cast pointer to other types and move to different
+levels of bytes <code>(char*)A + i)</code> to avoid the worry of moving
+to other locations, the pointer automatically takes care of the size of
+the type so that you do not have to worry about it</p>
+<p>Only malloc when you have a persistent variable size data structure,
+or you have concurrent accesses (all threads can access stuff on the
+heap)</p>
+<p>use <code>valgrind --leak-check=full ./a.out &lt;args&gt;</code> to
+check for memory leaks</p>
+<p>in <code>strcmp</code> ensure that the src and dst do not overlap,
+also ensure that the strings are null terminated and ensure that the
+string actually contains n bytes.</p>
+<p>Important functions can be</p>
+<p><code>memset (void *ptr, int val, size_t n)</code>, set the locations
+to val for these n bytes. commonly used to to initialize a value to all
+zero bytes (usually for character arrays), since that is a byte level
+access</p>
+<p>similarly we use <code>memcpy(dst, src, bytes)</code>. They should
+not overlap, if they do I think memmove is the right way to go.</p>
+</section>
+</article>
+<footer>
+<hr/>
+<!-- <div class="credits">
+<span><a href="http://github.com/adityaramesh/tufte-blog">Tufte-Blog</a> uses
+                    <a href="http://pandoc.org">Pandoc</a> along with
+                    <a href="http://github.com/edwardtufte/tufte-css">Tufte CSS,</a>
+                    <a href="http://mathjax.org">MathJax,</a> and
+                    <a href="http://disqus.com">Disqus.</a>
+</div> -->
+</footer>
+</body>
+</html>

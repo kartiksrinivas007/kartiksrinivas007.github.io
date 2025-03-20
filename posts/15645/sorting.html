@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>sorting</title>
+<base href="https://kartiksrinivas007.github.io/" target="_self"/>
+<link href="css/reset.css" rel="stylesheet"/>
+<link href="css/tufte.css" rel="stylesheet"/>
+<link href="css/latex.css" rel="stylesheet"/>
+<link href="css/header_footer.css" rel="stylesheet"/>
+<link href="css/table.css" rel="stylesheet"/>
+<link href="css/tufte_pandoc_compat.css" rel="stylesheet"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+</head>
+<body>
+<header>
+<nav>
+<a href="contact.html">Contact</a>
+<a href="posts.html">Posts</a>
+<a href="index.html">Index</a>
+</nav>
+</header>
+<article>
+<p>In memory sorting algorithms</p>
+<p>(Interpolation search vs binary search)</p>
+<p>Depending on the hardware, the type of the data and the available
+memory a different sort algorithm might work well</p>
+<p>clustered b trees are them something like nearly sorted data that
+happens again and again</p>
+<p>postgres usually uses the quicksort. the data properties will also
+matter</p>
+<p>Heapsort methods – database company neon thats on fire (serverless
+stuff like that)</p>
+<p>Finding the top k elements is a great heapsort method based
+algorithms that work well</p>
+<p>The member coming in can be greater than everything in the heap (that
+is size of k)</p>
+<p>This is common in order by and limit type of a thing</p>
+<p>k plus duplicates is also needed sometimes</p>
+<p>You need only 3 pages in memory for each merge sort type thing (2
+way)</p>
+<p>Use k - way merging instead.</p>
+<p>Use B buffer pages, produce ceil (n/B) sorted runs of size B</p>
+<p>Then merge B - 1 of the buffer pool pages (one left for the output
+page)</p>
+<p>Strings take up a lot of space in the database usually</p>
+<blockquote>
+<p>talks about unclustered b tree – i did not understand this part</p>
+</blockquote>
+</article>
+<footer>
+<hr/>
+<!-- <div class="credits">
+<span><a href="http://github.com/adityaramesh/tufte-blog">Tufte-Blog</a> uses
+                    <a href="http://pandoc.org">Pandoc</a> along with
+                    <a href="http://github.com/edwardtufte/tufte-css">Tufte CSS,</a>
+                    <a href="http://mathjax.org">MathJax,</a> and
+                    <a href="http://disqus.com">Disqus.</a>
+</div> -->
+</footer>
+</body>
+</html>

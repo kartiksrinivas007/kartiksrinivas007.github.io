@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>locaility</title>
+<base href="https://kartiksrinivas007.github.io/" target="_self"/>
+<link href="css/reset.css" rel="stylesheet"/>
+<link href="css/tufte.css" rel="stylesheet"/>
+<link href="css/latex.css" rel="stylesheet"/>
+<link href="css/header_footer.css" rel="stylesheet"/>
+<link href="css/table.css" rel="stylesheet"/>
+<link href="css/tufte_pandoc_compat.css" rel="stylesheet"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+</head>
+<body>
+<header>
+<nav>
+<a href="contact.html">Contact</a>
+<a href="posts.html">Posts</a>
+<a href="index.html">Index</a>
+</nav>
+</header>
+<article>
+<section class="level3" id="memory-and-locality">
+<h3>Memory and Locality</h3>
+<ul>
+<li>Spatial and temporal locality</li>
+<li>100 ns time for DRAM and for sram even lower</li>
+<li>SRAM is the one that is on the CPU chip (on chip stuff)</li>
+<li>Predicting the data that you need makes it much easier for you to
+get what you need.</li>
+</ul>
+<blockquote>
+<p>Increasing the locality is the most important thing</p>
+</blockquote>
+<ul>
+<li>Big Oh notation is good but so are constant factors. Its
+important to write code that uses the cache locality.</li>
+<li>There is good locality of reference when you are doing things in
+a particular order.</li>
+<li>column wise (strided) pattern is the problem of taking random
+meory locations</li>
+<li>The CPU is the one that handles the prefetching</li>
+<li>cpu sometimes optimizes stuff for you, but if it plays with order
+fo floats its okay (assosciative), will nto do it for ints.</li>
+<li>The gap between main memory and the CPU is increasing</li>
+<li>data in registers are at the speed of instructions</li>
+<li>cache is memory and holds a temporary copy of the data. (stores
+the main memory copy)</li>
+<li>communication messages between the cores that allow same copy of
+data to be the same across different cores</li>
+<li>browsers maintain caches, everywhere.</li>
+<li>memory abstraction. To hide the actual speeds.</li>
+<li>non inclusive cache, and inclusive caches</li>
+<li>Wacky tradeoffs in the SSD (flash drive memory – stored using
+charges)</li>
+<li>stored in pages inside blocks.</li>
+<li>Modifying a block page requires all other pages to be copied to a
+new block (in an SSD)</li>
+</ul>
+</section>
+</article>
+<footer>
+<hr/>
+<!-- <div class="credits">
+<span><a href="http://github.com/adityaramesh/tufte-blog">Tufte-Blog</a> uses
+                    <a href="http://pandoc.org">Pandoc</a> along with
+                    <a href="http://github.com/edwardtufte/tufte-css">Tufte CSS,</a>
+                    <a href="http://mathjax.org">MathJax,</a> and
+                    <a href="http://disqus.com">Disqus.</a>
+</div> -->
+</footer>
+</body>
+</html>

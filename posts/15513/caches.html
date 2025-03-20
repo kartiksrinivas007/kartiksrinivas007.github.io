@@ -3,7 +3,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8"/>
-<title>index</title>
+<title>caches</title>
 <base href="https://kartiksrinivas007.github.io/" target="_self"/>
 <link href="css/reset.css" rel="stylesheet"/>
 <link href="css/tufte.css" rel="stylesheet"/>
@@ -22,17 +22,25 @@
 </nav>
 </header>
 <article>
-<section class="level2" id="about-me">
-<h2>About Me</h2>
-<hr/>
-<p>I’m Kartik Srinivas. I am studying deep learning, systems and
-statistics at CMU. Prior, I used to study computer science and applied
-mathematics at <a href="https://www.iith.ac.in/">IIT Hyderabad</a>.</p>
-<p>My interests lie at the intersection of mathematics and computer
-systems. I like to program things that have a mathematical taste and
-enjoy making them efficient to run on computer systems, this draws me to
-areas like probabilistic programming, generative modelling and machine
-learning systems</p>
+<section class="level3" id="two-types">
+<h3>Two types</h3>
+<p>Direct mapped and the set associative Essentially you need to know if
+a memory is in the cache or not you only need to hash the address and
+check that location in the cache</p>
+<p>We favour powers of 2 since they are cheaper and easy to implement
+architecture. (what can we do super-fast in transistors)</p>
+<p>Each set has a bunch of lines and each line has a valid bit, and a
+tag and then space for what is actually in the cache</p>
+<p>The line stores the tag (that tells you what element of the set of
+elements that map to this location in the cache are oyu looking at)</p>
+<p>The tag simply is everything else other thant the set index and the
+block offset</p>
+<p>if you have the same tag and the same set index then the data that
+you are pointing two for both of these addresses lie next to each other
+inside the cache block</p>
+<p>Maybe use bloom filters for the tags</p>
+<p>The entire block is written back to memory if the dirty bit has been
+set</p>
 </section>
 </article>
 <footer>

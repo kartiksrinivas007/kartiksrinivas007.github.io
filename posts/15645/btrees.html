@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>btrees</title>
+<base href="https://kartiksrinivas007.github.io/" target="_self"/>
+<link href="css/reset.css" rel="stylesheet"/>
+<link href="css/tufte.css" rel="stylesheet"/>
+<link href="css/latex.css" rel="stylesheet"/>
+<link href="css/header_footer.css" rel="stylesheet"/>
+<link href="css/table.css" rel="stylesheet"/>
+<link href="css/tufte_pandoc_compat.css" rel="stylesheet"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+</head>
+<body>
+<header>
+<nav>
+<a href="contact.html">Contact</a>
+<a href="posts.html">Posts</a>
+<a href="index.html">Index</a>
+</nav>
+</header>
+<article>
+<section class="level3" id="btrees">
+<h3>btrees</h3>
+<p>The records are in the leaf nodes, the keys are the ones on which the
+index is built upon.</p>
+<p>Bringing the while page or leaf node is not good and may take too
+much space (memory)</p>
+<p>If you stored the data in an LSM tree on some key, and then you could
+choose another column to build a Btree index on and then ask the node
+value to point to the object in the lsm tree (thats how it works)</p>
+<p>(can also be done with heap file organization or lSM and you can
+build a B-tree index on some ooher column)</p>
+<p>The page splits (first half stays where it is and the second half
+shifts to the newly allocated (page(node)))</p>
+<p>Also add an entry to the parent and a pointer to do this. - need a
+new key for the parent of the node that is being searchedfor.</p>
+<p>Take the smallest value on the right side to be perfectly fine;</p>
+<p>If the parent is full then split the parent by middle key will be
+made the new root</p>
+</section>
+<section class="level3" id="deletion">
+<h3>Deletion</h3>
+<ul>
+<li>if you are not half full (ask yoursibling for a key())</li>
+<li>for the concurrent case that is not the correct implementation</li>
+<li>you can use the modlog (propagate the borrowing from the right)</li>
+</ul>
+<p>Order of operations matter in concurrency. Order is the most
+important thing in concurrency</p>
+</section>
+</article>
+<footer>
+<hr/>
+<!-- <div class="credits">
+<span><a href="http://github.com/adityaramesh/tufte-blog">Tufte-Blog</a> uses
+                    <a href="http://pandoc.org">Pandoc</a> along with
+                    <a href="http://github.com/edwardtufte/tufte-css">Tufte CSS,</a>
+                    <a href="http://mathjax.org">MathJax,</a> and
+                    <a href="http://disqus.com">Disqus.</a>
+</div> -->
+</footer>
+</body>
+</html>

@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>Pages</title>
+<base href="https://kartiksrinivas007.github.io/" target="_self"/>
+<link href="css/reset.css" rel="stylesheet"/>
+<link href="css/tufte.css" rel="stylesheet"/>
+<link href="css/latex.css" rel="stylesheet"/>
+<link href="css/header_footer.css" rel="stylesheet"/>
+<link href="css/table.css" rel="stylesheet"/>
+<link href="css/tufte_pandoc_compat.css" rel="stylesheet"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+</head>
+<body>
+<header>
+<nav>
+<a href="contact.html">Contact</a>
+<a href="posts.html">Posts</a>
+<a href="index.html">Index</a>
+</nav>
+</header>
+<article>
+<section class="level3" id="pages-and-storage">
+<h3>Pages and Storage</h3>
+<p>the DBMS assigns a logical tuple a unique record identifier per
+record . File ID, Page id and then the slot number together gives you
+the unique identification sqlite uses the rowid as the primary key and
+uses that as a hidden key</p>
+<p>Slotted pages has a continguous memory requirement after delete and
+things might need to be shifted.</p>
+<p><code>ctid</code> in postgres is the internal record id – made during
+the creation of the table. (postgres) The ctid has 0,3,5,7,9 when the
+ctid is not stord vaccumed and changed. Postgres does it lazily The
+vacuum needs to lock the page otherwise the other process that is trying
+to make a read query is going to be problematic.</p>
+<p>Updating these record id’s is tiring (MVCC and concurrent
+accesses).</p>
+<p>weaknesses of tuple oriented pages is that the storage not fully used
+and then the entire page needs to be brought into memory for even
+chanign aisngle tuple. Worst case scenario when updating multiple tuples
+that are on different pages</p>
+<p>(HDFS, Google Collosus - S3) (in the cloud you get an S3-bucket
+instead of a page and you cannot change it otherwise (immutable)), so
+the block structured file system has become more prevalent.</p>
+<p>Moved from Spinning disk to SSD’s. You can no longer write to that
+via disks</p>
+</section>
+<section class="level3" id="log-structured-storage">
+<h3>Log structured storage</h3>
+<p>There is a key that the log structured file system maintains. The
+primary key if present is used as the key for that tuple (the value is
+the full tuple), if no tpkey then lets make a hidden key again Each log
+entry has a <code>PUT/DELETE</code> operation.</p>
+<p>Memtable (in memory – organized as a skip list based on the key or
+something – based on the key quickly find the record for some key). PUTs
+consecutively update the same key.</p>
+<blockquote>
+<p>Within each SSTable the keys are sorted.</p>
+</blockquote>
+<p>Last layer is stored in an SSTable and the SSTable is sorted in the
+keys from low to high. Level #0 is the SSTable and after the changes are
+made, it is flushed to disk</p>
+<p>Since there maybe multiple SSTables, the SSTables are next to each
+other from newest to oldest. Since the same key could be in 2 different
+SSTables, then to find the next level I can jsur merge the 2 SSTables
+together.</p>
+<blockquote>
+<p>Better merging algorithms for SSTables is interesting</p>
+</blockquote>
+<p>The latest copy is always going to be higher up (the first encounter
+in the levels is the oldest since every level is sorted in the
+SSTables)</p>
+<blockquote>
+<p>Expensive to see if a key exists</p>
+</blockquote>
+<p>Idea is to maintain a bloom filter or min max to keep track of
+whether the key exists, Deletion you make a tombstone that flows below
+and then you can tell whether the thing exists or not</p>
+<p>Log structured storage is very common now. (Cassandra is coming next
+class for talk) Compaction is expensive when the SSTables are growing
+too large on a level. &gt; After merging the original SSTables are
+deleted</p>
+<p>B + trees plays maintainenace cost front and the other ones like
+lSM’s pay for it later (when levels build up)</p>
+<p>The index storage has a B-Tree for all of the pages and the record is
+the value of an index. (do not know exactly how it is organzed)</p>
+</section>
+<section class="level3" id="tuple-storage">
+<h3>Tuple storage</h3>
+<p>Compact it and so that there is no misaligned calls to the system to
+load the memory. (makes it easier, add zeroes so that it becomes
+cleaner)</p>
+<p>Fixed precision arithmetic and more things are also there, that
+prevent arithmetic errors (financial – audits). The numeric types are to
+be dealt with as well. (internally stores a struct for the math behind
+the picture)</p>
+<blockquote>
+<p>Representing big things (big strings) and you use prefixes to
+evaluate there is a blob type that stores a pdf or something like that -
+oracle bfile data type micrsooft has a filestream datatype</p>
+</blockquote>
+<p>SQLite is a DBMS (knows consistency better – has a buffer pool), so
+they literally use DBMS instead of a file system lollll</p>
+</section>
+<section class="level3" id="system-catalogs-and-more-are-also-there">
+<h3>System catalogs and more are also there</h3>
+<p>Select typename, typelen from pg_type (to see the number if bytes it
+takes) Information schema is where the stats are stored mostly</p>
+</section>
+</article>
+<footer>
+<hr/>
+<!-- <div class="credits">
+<span><a href="http://github.com/adityaramesh/tufte-blog">Tufte-Blog</a> uses
+                    <a href="http://pandoc.org">Pandoc</a> along with
+                    <a href="http://github.com/edwardtufte/tufte-css">Tufte CSS,</a>
+                    <a href="http://mathjax.org">MathJax,</a> and
+                    <a href="http://disqus.com">Disqus.</a>
+</div> -->
+</footer>
+</body>
+</html>

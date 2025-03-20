@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>latches</title>
+<base href="https://kartiksrinivas007.github.io/" target="_self"/>
+<link href="css/reset.css" rel="stylesheet"/>
+<link href="css/tufte.css" rel="stylesheet"/>
+<link href="css/latex.css" rel="stylesheet"/>
+<link href="css/header_footer.css" rel="stylesheet"/>
+<link href="css/table.css" rel="stylesheet"/>
+<link href="css/tufte_pandoc_compat.css" rel="stylesheet"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+</head>
+<body>
+<header>
+<nav>
+<a href="contact.html">Contact</a>
+<a href="posts.html">Posts</a>
+<a href="index.html">Index</a>
+</nav>
+</header>
+<article>
+<section class="level2" id="apple-parking-lot">
+<h2>Apple parking lot</h2>
+<p>Instead of <code>pthread_mutex</code> and the other things, apple
+gives WTF::lock, which is much harder</p>
+<p>STL implementations may be a little slower on some different
+hardware, people write their own</p>
+<p>Using spin loops that the OS guy do not want you to use</p>
+<p>Spin locks are things where the thread keeps spinning, and doe snot
+go to sleep while waiting</p>
+<p>(helps because context switching is expensive)</p>
+<p>Compare and swap is an example, where a mutex is given and</p>
+<p><code>__sync_bool_and_compare(&amp;M, 20, 30);</code></p>
+<p>(this instruction will swap if and only if it is 20, if it is equal
+it will wait/ go the other way)</p>
+<p>This is an atomic instruction that must happen at the same time</p>
+</section>
+<section class="level2" id="approach-2">
+<h2>Approach # 2</h2>
+<p>It is to use an OS mutex (and this is kernel based) Userspace Latch
+(can the userspace latch resolve it over there)</p>
+<p>spin and wait in the userspace, an then grab the OS latch.</p>
+<p><code>m.lock()</code> we go and grab the OS’s latch (portable
+solution and not fast)</p>
+<section class="level3" id="approach-3-reader-writer-latches">
+<h3>Approach #3 Reader-Writer Latches</h3>
+<p>pthread mutex and the conditional variable is there internally that
+is used to prevent starvation of the read or write type of system</p>
+<p>Internally contains a read lock and a write lock</p>
+</section>
+<section class="level3" id="hash-table-latching">
+<h3>Hash table latching</h3>
+<p>For open addressing (hash tables) Hash table is made up of a bunch of
+pages and then you hash into it and then you make your way down as you
+go forward.</p>
+<p>Hold the latch on the root as little as possible AS LITTLE AS
+POSSIBLE, release whenever you do not need it, and do it all at
+once.</p>
+<p>In the worst case, what nodes will you touch? do you need the
+parent’s latch</p>
+<p>The reads only go down so they are fine</p>
+<p>Read latches take the forward and the child and then after going
+below, release parent and then try gaining your child, then go down? (to
+save the integrity of the traversal pointer)</p>
+<p>allocate on the right during the insertion</p>
+<p>Inserts and deletes are latching on the roots (google 5 billion tps)
+– latch for as little as possible</p>
+<p>Recognition structures the odds that I do an insert and delete and
+other stuff is going to be very little.</p>
+<p>Range Searches</p>
+<p>Lock couple your way down and lock couple your way wile going forward
+also</p>
+<p>Protect the root_page_id, it is important!! Protect the pointer that
+points to the root</p>
+</section>
+</section>
+</article>
+<footer>
+<hr/>
+<!-- <div class="credits">
+<span><a href="http://github.com/adityaramesh/tufte-blog">Tufte-Blog</a> uses
+                    <a href="http://pandoc.org">Pandoc</a> along with
+                    <a href="http://github.com/edwardtufte/tufte-css">Tufte CSS,</a>
+                    <a href="http://mathjax.org">MathJax,</a> and
+                    <a href="http://disqus.com">Disqus.</a>
+</div> -->
+</footer>
+</body>
+</html>
