@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="Kartik Srinivas" name="author"/>
+<title>ARIES</title>
+<base href="file:///Users/kartik/Website/tufte-blog/output/" target="_self"/>
+<link href="css/reset.css" rel="stylesheet"/>
+<link href="css/tufte.css" rel="stylesheet"/>
+<link href="css/latex.css" rel="stylesheet"/>
+<link href="css/header_footer.css" rel="stylesheet"/>
+<link href="css/table.css" rel="stylesheet"/>
+<link href="css/tufte_pandoc_compat.css" rel="stylesheet"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+</head>
+<body>
+<header>
+<nav>
+<a href="contact.html">Contact</a>
+<a href="posts.html">Posts</a>
+<a href="index.html">Index</a>
+</nav>
+</header>
+<article>
+<section class="level3" id="aries">
+<h3>ARIES</h3>
+<p>This post is a short summary of the ARIES recovery algorithm with
+Fuzzy checkpoints, most of the explanations on this algorithm are
+tedious and hard to understand with a lot of notation, so I am
+summarizing it in a short and sweet way here</p>
+<p>Objective: Retrieve Database state after a crash. Desired State has
+the following properties:</p>
+<ul>
+<li>A committed transaction needs to be durable</li>
+<li>An aborted transaction needs all its changes undone</li>
+<li>A transaction that was running needs to be aborted on crash</li>
+</ul>
+<p>You must be wondering why 1 and 2 are even needed. That is because of
+‘STEAL + NO FORCE’ policy, where we give total freedom to the Buffer
+pool to evict any page whenever it wants at whatever time (for the
+purpose of a higher throughput) So even a commit or an abort does not
+mean that pages are written/removed from disk.</p>
+<p>Okay, so when are we safe to flush changes of a dirty page to
+disk?</p>
+<p>Of course when the log of the change has already been written (if
+this did not happen, then it would be impossible to recover from a
+change that was just flushed to disk). When you see a transaction
+commit, all the changes(logs) associated with that transaction are
+flushed to disk.</p>
+<p>So it makes sense to keep track of the latest log that has been
+written to disk for a particular page. That is denoted as
+<code>pageLSN</code>.<br/>
+Where is the Log of the latest flushed change/log to any page? That is
+denoted as <code>flushedLSN</code>. What is the earliest un-recorded
+change to a disk to a page in memory (the earliest change that has not
+been recorded on disk)? That is called <code>recLSN</code>.</p>
+</section>
+<section class="level3" id="analysis-phase">
+<h3>Analysis Phase</h3>
+<p>The goal of this phase is to determine:</p>
+<p>Which transactions were active at the time of the crash (to later
+undo them), Which pages in memory were dirty (so we know which ones need
+to be redone), The most recent checkpoint.</p>
+<p>Starting from the last fuzzy checkpoint, we scan forward in the log,
+updating information like the Transaction Table and Dirty Page Table. At
+the end of this phase, we know the state of the system just before the
+crash, i.e. we now now what pages may be dirty and what transactions
+need to be undone/redone</p>
+</section>
+<section class="level3" id="redo-phase">
+<h3>Redo Phase</h3>
+<p>We redo only changes only for committed transactions. Here, we replay
+log records to ensure that all effects of committed transactions are
+reflected in the database. But we don’t start from the beginning of the
+log—we start from the smallest recLSN in the Dirty Page Table (since
+that is the earliest un-recorded change to a page that is dirty and
+might need to be redone) For every log record after that, we only redo
+it if:</p>
+<ul>
+<li>The page it affects is dirty, and</li>
+<li>The LSN of the log record ≥ the page’s pageLSN (i.e. this change has
+not already been flushed to disk)</li>
+</ul>
+<p>This is efficient because we skip unnecessary replays and only
+reapply the changes that might not have made it to disk before the
+crash.</p>
+</section>
+<section class="level3" id="undo-phase">
+<h3>Undo Phase</h3>
+<p>We undo changes for uncommitted or aborted transactions. Using the
+Transaction Table and the log’s backward chaining via prevLSN, we
+generate Compensation Log Records (CLRs) as we roll back each change.
+These CLRs are important for supporting idempotent recovery—if there’s a
+crash during recovery, we can just redo the CLRs safely.</p>
+</section>
+</article>
+<footer>
+<hr/>
+<!-- <div class="credits">
+<span><a href="http://github.com/adityaramesh/tufte-blog">Tufte-Blog</a> uses
+                    <a href="http://pandoc.org">Pandoc</a> along with
+                    <a href="http://github.com/edwardtufte/tufte-css">Tufte CSS,</a>
+                    <a href="http://mathjax.org">MathJax,</a> and
+                    <a href="http://disqus.com">Disqus.</a>
+</div> -->
+</footer>
+</body>
+</html>

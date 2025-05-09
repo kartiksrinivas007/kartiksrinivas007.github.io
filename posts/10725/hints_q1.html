@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="K Srinivas" name="author"/>
+<title>Hints Q1</title>
+<base href="file:///Users/kartik/Website/tufte-blog/output/" target="_self"/>
+<link href="css/reset.css" rel="stylesheet"/>
+<link href="css/tufte.css" rel="stylesheet"/>
+<link href="css/latex.css" rel="stylesheet"/>
+<link href="css/header_footer.css" rel="stylesheet"/>
+<link href="css/table.css" rel="stylesheet"/>
+<link href="css/tufte_pandoc_compat.css" rel="stylesheet"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js?config=TeX-AMS_HTML-full" type="text/javascript"></script>
+</head>
+<body>
+<header>
+<nav>
+<a href="contact.html">Contact</a>
+<a href="posts.html">Posts</a>
+<a href="index.html">Index</a>
+</nav>
+</header>
+<article>
+<p>Q. What is this problem about?</p>
+<p>A. Check whether an arbitrary polynomial is always positive or
+not.</p>
+<p>Q. What is <span class="math inline">\(x_{\alpha}\)</span> with <span class="math inline">\(\alpha = (\alpha_1, \alpha_2 \ldots
+\alpha_d)\)</span>?</p>
+<p>A. <span class="math inline">\(x_{\alpha}\)</span> is literally just
+a type of moment of a distribution <span class="math inline">\(P\)</span>. Sample some random vector <span class="math inline">\(X\)</span> over <span class="math inline">\(P\)</span>, pick the <span class="math inline">\(d\)</span> entries of <span class="math inline">\(X\)</span>, raise each entry to its corresponding
+power <span class="math inline">\(\alpha_i\)</span> and multiply them
+all together to obtain <span class="math inline">\(\prod
+X_i^{\alpha_i}\)</span>. This is a scalar random value for each random
+<span class="math inline">\(X \sim P\)</span>. The expected value of
+this scalar random variable is denoted as <span class="math inline">\(x_{\alpha}\)</span>. In this post, I call such
+<span class="math inline">\(x_{\alpha}\)</span> “general moments”.</p>
+<section class="level3" id="hints-for-part-1">
+<h3>Hints for Part 1</h3>
+<p>Q. What is p?</p>
+<p>A. <span class="math inline">\(p\)</span> is just a polynomial over
+<span class="math inline">\(d\)</span> variables. An example with max
+degree <span class="math inline">\(t = 2\)</span> and <span class="math inline">\(d = 2\)</span> variables <span class="math inline">\(x_1, x_2\)</span> would be of the form <span class="math display">\[
+    p(x) = \sum_{\alpha} \lambda_{\alpha} x_{\alpha} = \lambda_1x_1^2 +
+\lambda_2x_2^2 + \lambda_3 x_1x_2 + \lambda_4x_1 + \lambda_5x_2 +
+\lambda_6  = \lambda^T J(x)
+\]</span> Think of <span class="math inline">\(x_2^2\)</span> to be
+<span class="math inline">\(x_1^0x_2^2\)</span> = <span class="math inline">\(x_{(0, 2)}\)</span> and <span class="math inline">\(\lambda_2 = \lambda_{(2, 0)}\)</span></p>
+<p><span class="math inline">\(J(x)\)</span> being a vector carrying
+terms of the form <span class="math inline">\(\prod
+x_i^{\alpha_i}\)</span>.</p>
+<p>Here are two interesting questions to ask that might help you:-</p>
+<ul>
+<li>If p(x) is <em>always positive(for example, it may be the square of
+some other polynomial of degree <span class="math inline">\(t/2\)</span>)</em>, what would happen when I
+sample any random vector <span class="math inline">\(X \sim P\)</span>
+and plug it into the polynomial p to obtain P(X)?, what does that tell
+me about <span class="math inline">\(\mathbb{E}[p(X)]\)</span>?. What is
+each entry of <span class="math inline">\(J(X)\)</span>?</li>
+</ul>
+</section>
+<section class="level3" id="hints-for-part-2">
+<h3>Hints for Part 2</h3>
+<p>In this problem we assume that the polynomial <span class="math inline">\(q = \sum \lambda_{\alpha} \prod
+x_i^{\alpha_i}\)</span> is a square of some other polynomial <span class="math inline">\(p(x)\)</span> that is of degree <span class="math inline">\(t\)</span>. Suppose, I pick some <em>arbitrary
+distribution <span class="math inline">\(P\)</span></em>, sample some
+<span class="math inline">\(X\)</span> from it and then plug it into a
+polynomial <span class="math display">\[q(X) = p(X)^2\]</span> In part
+one you already showed that $ <em>{} x</em>{}$ &gt; 0, if <span class="math inline">\(\lambda\)</span> is the set of coefficients that
+builds <span class="math inline">\(q\)</span> (ie. the “monomial
+basis”).
+<!-- So, inorder to check if a polynomial $q$ is of the form $p^2$, I am now forced to go and pick all possible distributions $P$, compute $x_{\alpha}$ and then evaluate $\sum \lambda_{\alpha} x_{\alpha}$ and check if it is positive. --></p>
+<p>Heres the main idea – <em>instead of looking at every distribution P,
+reparametrize, and now look at all possible general moments <span class="math inline">\(x_{\alpha}\)</span></em> Different choices of
+<span class="math inline">\(P\)</span> yield different “general moments”
+<span class="math inline">\(x_{\alpha}\)</span>.</p>
+<p>So instead of imposing the condition that you obtained in part 1 for
+every <span class="math inline">\(P\)</span> and <span class="math inline">\(q\)</span>, impose it for all possible values of
+<span class="math inline">\(x_{\alpha}\)</span>, and all choices of the
+polynomial <span class="math inline">\(q  = p(x)^2\)</span> (the latter
+means all choices of <span class="math inline">\(\lambda\)</span>).</p>
+<p>The only thing you have to do in this problem is to rewrite the
+constraint,</p>
+<ul>
+<li>How many entries in <span class="math inline">\(\lambda\)</span>
+would you have with general degree <span class="math inline">\(t\)</span> and <span class="math inline">\(d\)</span> variable polynomial <span class="math inline">\(p(x_1, x_2 \ldots x_d)\)</span>?</li>
+</ul>
+</section>
+</article>
+<footer>
+<hr/>
+<!-- <div class="credits">
+<span><a href="http://github.com/adityaramesh/tufte-blog">Tufte-Blog</a> uses
+                    <a href="http://pandoc.org">Pandoc</a> along with
+                    <a href="http://github.com/edwardtufte/tufte-css">Tufte CSS,</a>
+                    <a href="http://mathjax.org">MathJax,</a> and
+                    <a href="http://disqus.com">Disqus.</a>
+</div> -->
+</footer>
+</body>
+</html>

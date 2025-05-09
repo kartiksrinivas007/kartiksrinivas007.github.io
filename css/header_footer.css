@@ -20,8 +20,8 @@ body > article {
 
 header > nav {
     padding: 3rem 3rem 0 0;
-    font-size: 1.3rem;
-    font-family: "Courier New";
+    font-size: 1.6rem;
+    font-family: monospace;
 }
 
 @media (max-width: 760px) {
