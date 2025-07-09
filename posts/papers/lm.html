@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>lm</title>
+<base href="https://kartiksrinivas007.github.io/" target="_self"/>
+<link href="css/reset.css" rel="stylesheet"/>
+<link href="css/tufte.css" rel="stylesheet"/>
+<link href="css/latex.css" rel="stylesheet"/>
+<link href="css/header_footer.css" rel="stylesheet"/>
+<link href="css/table.css" rel="stylesheet"/>
+<link href="css/tufte_pandoc_compat.css" rel="stylesheet"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js?config=TeX-AMS_HTML-full" type="text/javascript"></script>
+</head>
+<body>
+<header>
+<nav>
+<a href="contact.html">Contact</a>
+<a href="posts.html">Posts</a>
+<a href="index.html">Index</a>
+</nav>
+</header>
+<article>
+<section class="level2" id="paper-review-language-models-are-few-shot-learners">
+<h2>Paper Review: Language Models are Few shot learners</h2>
+<p>The main idea of this paper is to say that task specific finetuning
+is unnecessary when we scale things up (both the model and the data) and
+test on a dataset that has not been seen before. The improvement is
+task-agnostic (i.e. the “general” intelligence of the model
+increases).</p>
+<p>Here are some interesting statements in the paper</p>
+<ul>
+<li>Second, the potential to exploit spurious correlations in training
+data fundamentally grows with the expressiveness of the model and the
+narrowness of the training distribution.</li>
+<li>Larger models make better use of in-context information (is the
+claim)</li>
+<li>Recent work attempts to do this via what we call “in-context
+learning”, using the text input of a pretrained language model as a form
+of task specification: the model is conditioned on a natural language
+instruction and/or a few demonstrations of the task and is then expected
+to complete further instances of the task simply by predicting what
+comes next</li>
+</ul>
+</section>
+<section class="level2" id="model-training">
+<h2>Model Training</h2>
+<ul>
+<li>We use the same model and architecture as GPT-2 [RWC+19],
+including the modified initialization, pre-normalization, and reversible
+tokenization described therein, with the exception that we use
+alternating dense and locally banded sparse attention patterns in the
+layers of the transformer, similar to the Sparse Transformer
+[CGRS19].</li>
+<li>We partition the model across GPUs along both the depth and width
+dimension in order to minimize data-transfer between nodes. The precise
+architectural parameters for each model are chosen based on
+computational efficiency and load-balancing in the layout of models
+across GPU’s.</li>
+<li>To create our training data, we (1) downloaded and filtered a
+version of CommonCrawl1 [RSR+19] based on similarity to a range of
+high-quality reference corpora, (2) performed fuzzy deduplication at the
+document level, within and across datasets, to prevent redundancy and
+preserve the integrity of our held-out validation set as an accurate
+measure of overfitting, and (3) added known high-quality reference
+corpora to the training mix to augment CommonCrawl and increase its
+diversity</li>
+<li>As found in [KMH+20, MKAT18], larger models can typically use a
+larger batch size, but require a smaller learning rate. We measure the
+gradient noise scale during training and use it to guide our choice of
+batch size [MKAT18]</li>
+<li>to train larger models without running out of memory, we use a
+mixture of model parallelism within each matrix multiply and model
+parallelism across the layers of the network. All models were trained on
+V100 GPU’s on part of a high-bandwidth cluster. Details of the training
+process and hyperparameter settings are described in the
+appendix.</li>
+</ul>
+<p>On tasks with free-form completion, we use beam search with the same
+parameters as [RSR+19]: a beam width of 4 and a length penalty of <span class="math inline">\(\alpha = 0.6\)</span></p>
+</section>
+</article>
+<footer>
+<hr/>
+<!-- <div class="credits">
+<span><a href="http://github.com/adityaramesh/tufte-blog">Tufte-Blog</a> uses
+                    <a href="http://pandoc.org">Pandoc</a> along with
+                    <a href="http://github.com/edwardtufte/tufte-css">Tufte CSS,</a>
+                    <a href="http://mathjax.org">MathJax,</a> and
+                    <a href="http://disqus.com">Disqus.</a>
+</div> -->
+</footer>
+</body>
+</html>
