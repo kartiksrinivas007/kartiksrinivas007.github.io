@@ -106,17 +106,18 @@
 
 
 
-/* Tufte CSS styles */
+/* Tufte CSS styles  Palatino, "Palatino Linotype", "Palatino LT STD", "Book Antiqua", Georgia, serif;*/
 html { font-size: 12px;}
 
 body { width: 87.5%;
        margin-left: auto;
        margin-right: auto;
        padding-left: 12.5%;
-       font-family:  "Charter", Palatino, "Palatino Linotype", "Palatino LT STD", "Book Antiqua", Georgia, serif;
+       /* font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Helvetica, Arial, sans-serif; */
+       font-family: JetBrains Mono;
        font-weight: 50;
-       background-color: #fff;
-       color: #000;
+       background-color: #0d1117;
+       color: #c9d1d9;
        max-width: 1400px;
        counter-reset: sidenote-counter; }
 
@@ -144,7 +145,7 @@ hr { display: block;
      height: 1px;
      width: 55%;
      border: 0;
-     border-top: 1px solid #000;
+     border-top: 1px solid #c9d1d9;
      margin: 1em 0;
      padding: 0; }
 
@@ -227,9 +228,9 @@ figure.fullwidth figcaption { margin-right: 24%; }
 
 /* */
 /*a:link { text-decoration: none; color: #027db9}*/
-a:link { text-decoration: none; color: #00f}
+a:link { text-decoration: none; color: #58a6ff}
 
-a:link, a:visited { color: #00f; }
+a:link, a:visited { color: #58a6ff; }
      /*
          background: -webkit-linear-gradient(#fffff8, #fffff8), -webkit-linear-gradient(#fffff8, #fffff8), -webkit-linear-gradient(#333, #333);
          background: linear-gradient(#fffff8, #fffff8), linear-gradient(#fffff8, #fffff8), linear-gradient(#333, #333);
@@ -252,7 +253,7 @@ a:link::-moz-selection { text-shadow: 0.03em 0 #b4d5fe, -0.03em 0 #b4d5fe, 0 0.0
 
 a {
   text-decoration: none;
-  color: #00f;
+  color: #58a6ff;
   position: relative;
 }
 
@@ -263,7 +264,7 @@ a::after {
   bottom: -2px;
   width: 0;
   height: 2px;
-  background-color: #00f;
+  background-color: #58a6ff;
   transition: width 0.3s ease-in-out;
 }
 

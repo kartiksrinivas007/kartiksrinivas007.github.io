@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>notes</title>
+<base href="https://kartiksrinivas007.github.io/" target="_self"/>
+<link href="css/reset.css" rel="stylesheet"/>
+<link href="css/tufte.css" rel="stylesheet"/>
+<link href="css/latex.css" rel="stylesheet"/>
+<link href="css/header_footer.css" rel="stylesheet"/>
+<link href="css/table.css" rel="stylesheet"/>
+<link href="css/tufte_pandoc_compat.css" rel="stylesheet"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js?config=TeX-AMS_HTML-full" type="text/javascript"></script>
+</head>
+<body>
+<header>
+<nav>
+<a href="contact.html">Contact</a>
+<a href="posts.html">Posts</a>
+<a href="index.html">Index</a>
+</nav>
+</header>
+<article>
+<section class="level2" id="mamba-2">
+<h2>Mamba-2</h2>
+<hr/>
+<p>This is a short summary of Mamba-2 and triton kernels that are
+written in the open source implementation <a href="https://github.com/state-spaces/mamba">here</a></p>
+<section class="level3" id="mamba-block">
+<h3>Mamba Block</h3>
+<p>Let us first study the structure of a Mamba-block. A Mamba block
+contains an input <span class="math inline">\(u \in \mathbb{R}^{B \times
+T \times D}\)</span>.</p>
+<ul>
+<li>The <span class="math inline">\(A\)</span> is the same per-batch,
+it is only different per-head and is stored in log format and then
+exponentiated later.</li>
+<li>This input is first up-projected into a higher dimension and then
+split across the dimensions to make a gating value <span class="math inline">\(z\)</span> (of shape (B, L, d_inner) and the part
+of the input that will determine the <span class="math inline">\(x, B,
+C, \Delta\)</span>.</li>
+<li>The input is then split into 2 parts one for <span class="math inline">\(\Delta\)</span> and the other for <span class="math inline">\(x, B, C\)</span>. The shape of <span class="math inline">\(\verb|xBCdt|\)</span> is (B, L, d_inner +
+d_state*2 + num_heads). It is split via <code>torch.split</code>. <span class="math inline">\(\Delta\)</span> is processed via <span class="math inline">\(\verb|dt  = F.softplus(dt + bias)|\)</span>. The
+shape of <span class="math inline">\(\Delta\)</span> is (B, L,
+num_heads).</li>
+<li>The <span class="math inline">\(\verb|xBC|\)</span> input is then
+sent through sequence mixed, per channel 1d convolution, the output has
+the same shape as the input but mixed across the sequence dimension, and
+is also passed through an activation function after that.</li>
+<li>This is then split into <span class="math inline">\(X, B,
+C\)</span> with shape (B, L, d_inner = h*p) =&gt; (B, L, num_heads,
+head_dim), (B, L, d_state), (B, L, d_state). Where <span class="math inline">\(h\)</span> is the number of heads and <span class="math inline">\(p\)</span> is the head dimension. This is passed
+into the mamba block, and then the output is <span class="math inline">\(y\)</span> with shape (B, L, num_heads, head_dim)
+which is reshaped to (B, L, d_inner) and element wise multiplied with
+the gate <span class="math inline">\(z\)</span>.</li>
+<li>Apply the RMSNorm gated normalization and then out_project to
+final output to the same dimension that you started with <span class="math inline">\(D\)</span></li>
+</ul>
+<p>If there is tensor parallelism the shapes of the B and C in this
+computation can alwasy be seen as (B, L, num_groups*d_state), and then
+they are reshaped to (B, L, num_groups, d_state) at the beginning of the
+mamba-scan.</p>
+<p><img src="posts/10620/images/mamba-arch.png" style="display: block; margin: 0 auto"/></p>
+<p>Notice this means that the inputs <span class="math inline">\(B, C,
+\Delta\)</span> are actually determined completely by the input <span class="math inline">\(x_t\)</span> and change during training per
+sequence, but this is not the case for the learnable parameter <span class="math inline">\(A\)</span>. <span class="math inline">\(B,
+C\)</span> are <em>pieces</em> of the projected input, where as <span class="math inline">\(A\)</span> is a learnable parameter that is fixed
+once training happens. This does not mean that the SSM parameters are
+independent of the input, since these <span class="math inline">\(B, C,
+A\)</span> are discretized with <span class="math inline">\(\Delta\)</span> which is also a pure function of
+the <span class="math inline">\(x_t\)</span>.</p>
+</section>
+<section class="level3" id="mamba-scan-non-triton">
+<h3>Mamba Scan (Non-Triton)</h3>
+<p>The recurrence in selective state space models is equivalent to</p>
+<p><span class="math display">\[
+    y_t = \bar{C}_t^T \underbrace{\sum_{s = 0}^{s = t}
+\bar{A}_{t:s}\bar{B}_sx_s}_{h_t}
+\]</span></p>
+<p>This can be turned into a matmul easily to obtain</p>
+<p><span class="math display">\[
+Y = MX \ \ \ \ \ M_{ji} = C_j^T A_{j:i} B_i
+\]</span> <span class="math inline">\(M\)</span> is called a
+semi-separable matrix. Computing the matmul naively is <span class="math inline">\(O(T^2)\)</span>, although the mamba-scan is <span class="math inline">\(O(T)\)</span>, but matmul is more flop efficient
+than a scan :-).</p>
+<p>The specific structure of <span class="math inline">\(M\)</span>
+allows us to break the computation into doing both scans and matmuls.
+This is by noticing that the diagonal blocks of <span class="math inline">\(M\)</span> behave recursively like <span class="math inline">\(M\)</span> in the first place (the cross-diagonal
+blocks do not behave this way because the top left corner still contains
+factors of <span class="math inline">\(A\)</span>, where as for
+diagonals <span class="math inline">\(A_{j:j} = 1\)</span> )</p>
+<p>We use block matrix multiply rules frugally.</p>
+<p><span class="math display">\[
+    \begin{bmatrix}
+    B &amp; A \\
+    C &amp; D \\
+    \end{bmatrix}
+    \times
+    [x  \ y]^T = [Bx + Ay , Cx + Dy]
+\]</span></p>
+<p>This means we can first multiply diagonal block <span class="math inline">\(M_i\)</span> with the chunk <span class="math inline">\(x_i\)</span> and worry about the off diagonal
+block multiplications later. The steps are 1. Compute the output of
+chunk_i assuming no other inputs <span class="math inline">\(x_{0:
+(i-1)Q}\)</span> is 0 2. Compute final hidden state of chunk_i assuming
+hidden input to chunk_i <span class="math inline">\(h_i\)</span> = 0 3.
+Compute real hidden input to chunk_i by passing around A factors that
+connect the hidden states across chunks 4. Compute the output of chunks
+with respect to the updated and real input hidden states (assuming
+present input <span class="math inline">\(x_{iQ: (i+1)Q} =
+0\)</span>)</p>
+</section>
+<section class="level3" id="small-note-on-shapes-and-sizes">
+<h3>Small Note on shapes and sizes</h3>
+<p>The interpretation of <span class="math inline">\(L * (CB^T)\)</span>
+is different from the interpretation of the recursion, the recursion is
+a cute way to represent per-timestep computations in the SSM that
+reduces complexity.</p>
+<p>In the matmul representation, think of each element as a scalar with
+muls of the form <span class="math inline">\(B_i = (N, 1), C_j = (N,
+1)\)</span> and A as scalar. For the chunk wise algorithm on
+diagonals/cross diagonals think of the <span class="math inline">\(B
+,A\)</span> section to be of shape <span class="math inline">\((N \times
+Q)\)</span> and input of <span class="math inline">\(Q \times P\)</span>
+and then the C part to be $ Q N $ so that the multiplications inside a
+block (Between C and B) yields an <span class="math inline">\(Q \times
+Q\)</span> matrix (mul over state dimension)</p>
+</section>
+<section class="level3" id="step-1-intra-chunk-recurrence">
+<h3>Step 1: Intra-chunk recurrence</h3>
+<p>The way to do this is to note that the diagonal block is also of the
+from <span class="math inline">\(L \times CB^T\)</span> except that it
+is on a smaller scale (<span class="math inline">\(Q \times Q\)</span>).
+We can just write down the einsum for this <span class="math inline">\(Q
+\times Q\)</span> computation and do it in parallel for every block</p>
+<p>First step is to form a 1-SS matrix on a per-chunk basis, to do that
+we do use <span class="math inline">\(\verb|segsum|\)</span></p>
+</section>
+<section class="level3" id="mamba-scan-with-triton">
+<h3>Mamba Scan (with Triton)</h3>
+</section>
+</section>
+</article>
+<footer>
+<hr/>
+<!-- <div class="credits">
+<span><a href="http://github.com/adityaramesh/tufte-blog">Tufte-Blog</a> uses
+                    <a href="http://pandoc.org">Pandoc</a> along with
+                    <a href="http://github.com/edwardtufte/tufte-css">Tufte CSS,</a>
+                    <a href="http://mathjax.org">MathJax,</a> and
+                    <a href="http://disqus.com">Disqus.</a>
+</div> -->
+</footer>
+</body>
+</html>
