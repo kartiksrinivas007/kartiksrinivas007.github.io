@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto" data-theme="auto">
+
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="noindex, nofollow">
+<title>Mamba Notes | Kartik&#39;s Blog</title>
+<meta name="keywords" content="random, thoughts, coffee">
+<meta name="description" content="Mamba - Notes">
+<meta name="author" content="Kartik">
+<link rel="canonical" href="http://localhost:1313/posts/random-observation/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.343cc480b9ffc8f04ccbe5e968ad674880cab773ec19905e93033065c1e7a804.css" integrity="sha256-NDzEgLn/yPBMy&#43;XpaK1nSIDKt3PsGZBekwMwZcHnqAQ=" rel="preload stylesheet" as="style">
+<link rel="icon" href="http://localhost:1313/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://localhost:1313/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://localhost:1313/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://localhost:1313/apple-touch-icon.png">
+<link rel="mask-icon" href="http://localhost:1313/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="en" href="http://localhost:1313/posts/random-observation/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --code-block-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+                color-scheme: dark;
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .toc {
+                background: var(--entry);
+            }
+        }
+
+        @media (prefers-color-scheme: light) {
+            .list::-webkit-scrollbar-thumb {
+                border-color: var(--code-bg);
+            }
+        }
+
+    </style>
+</noscript>
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.querySelector("html").dataset.theme = 'dark';
+    } else if (localStorage.getItem("pref-theme") === "light") {
+       document.querySelector("html").dataset.theme = 'light';
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.querySelector("html").dataset.theme = 'dark';
+    } else {
+        document.querySelector("html").dataset.theme = 'light';
+    }
+
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@latest/dist/katex.min.css">
+
+
+<style>
+  :root {
+    --site-sans: 'IBM Plex Sans', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+  }
+   
+  body, .main, .post-content {
+    font-family: var(--site-sans);
+  }
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--site-sans);
+  }
+   
+  pre, code, kbd, samp {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, 'Roboto Mono', 'Courier New', monospace;
+  }
+
+   
+  .katex, .katex * {
+    font-family: KaTeX_Main, KaTeX_Size1, KaTeX_Size2, KaTeX_Size3, KaTeX_Size4, KaTeX_Fraktur, KaTeX_SansSerif, 'Times New Roman', serif !important;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+</style>
+
+</head>
+<body id="top">
+    <header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="http://localhost:1313/" accesskey="h" title="Kartik&#39;s Blog (Alt + H)">Kartik&#39;s Blog</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)" aria-label="Toggle theme">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="http://localhost:1313/" title="Home">
+                    <span>Home</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/posts/" title="Posts">
+                    <span>Posts</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title entry-hint-parent">
+      Mamba Notes
+    </h1>
+    <div class="post-description">
+      Mamba - Notes
+    </div>
+    <div class="post-meta"><span title='2025-10-30 10:00:00 -0500 -0500'>October 30, 2025</span>&nbsp;·&nbsp;<span>Kartik</span>
+
+</div>
+  </header> 
+  <div class="post-content"><p>This post describes the triton implementation of the backward pass of the <a href="https://goombalab.github.io/blog/2024/mamba2-part3-algorithm/">Mamba-2</a> Chunking sequence layer.</p>
+<p>We use adjoint notation, i.e \(\bar{A} \) means  \(\frac{\partial L} {\partial {A}} \).The only important result to keep in mind here is how adjoints flow over matmuls, and that broadcasting calls for sum over the partial gradients over the dimension that was broadcasted on in the first place</p>
+<p>$$ AX = S \implies \bar{S} X^T = \bar{A} \ \ \ \rightarrow  \ \  A^T \bar{S} = \bar{X}$$</p>
+<h3 id="kernel-1-chunk_scan_bwd_dstates">Kernel 1 <code>chunk_scan_bwd_dstates</code><a hidden class="anchor" aria-hidden="true" href="#kernel-1-chunk_scan_bwd_dstates">#</a></h3>
+<p><code>chunk_scan_fwd</code> kernel, matmul over <code>d_state</code></p>
+<p>$$(C \odot A&rsquo;) \times F + \ldots = O$$</p>
+<p><code>chunk_scan_bwd_dstates</code> kernel matmul over <code>chunk_size</code></p>
+<p>$$(A&rsquo; \odot C^T) \times \bar{O} = \bar{F}$$</p>
+<p>With \(A&rsquo;C^T \) shape = <code>(d_state, Q)</code> and  \(\bar{O} \) shape = <code>(Q, h_dim)</code> and  \(\bar{F} \) shape = <code>(d_st, h_dim)</code>
+This is computed over a grid of shape <code>(batch, chunks, num_heads, ...)</code> and blocked over <code>(head_dim, d_state)</code>, with <a href="https://penny-xu.github.io/blog/tiled-matrix-multiplication">tiled matrix multiplication</a> over <code>chunk_size</code></p>
+<p>Further more, the same C and A&rsquo; are used, so the gradients need to be summed over the number of heads if we are looking at those factors.</p>
+<p>In the EMA case, we do not need to do the following</p>
+<ol>
+<li>We do not need to load a <code>C</code></li>
+<li>We need to load <code>A</code> -&gt; Can we directly store gradients of <code>A_cs</code>?</li>
+<li>We do need the <code>dstates</code></li>
+<li>We can also block over <code>token_dim</code></li>
+</ol>
+<h3 id="kernel-2-_state_passing_bwd">Kernel 2 <code>_state_passing_bwd</code><a hidden class="anchor" aria-hidden="true" href="#kernel-2-_state_passing_bwd">#</a></h3>
+<p>Forward pass</p>
+<p>$$F_c = A_{c - 1} F_{c - 1} + s_{c  - 1}$$</p>
+<p>Backward pass</p>
+<p>$$
+\begin{equation*}
+\overline{s_{c - 1}} = \overline{F_{c}}   = \overline{F}_{c} + A_{c-1} \overline{F}_{c + 1}
+\end{equation*}
+$$</p>
+<p>$$
+\begin{equation*}
+\overline{A_{c - 1}}   = \langle F_{c - 1} \overline{F}_c \rangle
+\end{equation*}
+$$</p>
+<p>Note that \(A_{c -1} = \exp(A_{chunk})\) &ndash; so one more step is needed (multiply again as \(\partial e^x  = e^x\))
+The shape of each tensor is <code>(head_dim * d_state)</code>, but the A factor is simply a scalar.
+Since A is <strong>broadcasted</strong> and the joint product dim is blocked with <code>block_size</code> we need to store the sum (or inner product) separately for each of the programs that are blocking and then add it up in the end, the grid is <code>(batch, ..)</code></p>
+<p>For EMA</p>
+<ol>
+<li>We might need to also block over the batch dimension</li>
+<li>We might need to also store dA in separate pieces per program and add them later</li>
+</ol>
+<h3 id="kernel-3-_chunk_state_bwd_db">Kernel 3 <code>_chunk_state_bwd_db</code><a hidden class="anchor" aria-hidden="true" href="#kernel-3-_chunk_state_bwd_db">#</a></h3>
+<p>Forward pass</p>
+<p>$$
+\begin{equation}
+(B^T \odot A) \times X = S
+\end{equation}
+$$</p>
+<p>Here the shapes are B = <code>(d_state, Q)</code> and X = <code>(Q, head_dim)</code> and S =
+<code>(d_state, head_dim)</code>. In the forward pass this is a tiled matrix multiplication over the chunk_size dimension.</p>
+<p>Backward Pass</p>
+<p>$$
+\begin{equation}
+(\bar{S} \times X^T) \odot A  = \bar{B}^T
+\end{equation}
+$$</p>
+<p>$$
+\begin{equation}
+(\bar{S} \times X^T) \odot B^T  = \bar{A}_{d \times Q}
+\end{equation}
+$$
+$$
+\begin{equation}
+\bar{A}_{Q} = \sum_d \bar{A}_{d \times Q}
+\end{equation}
+$$</p>
+<p>Note that since A is broadcasted, we need to add it over the <code>d-state</code> dimension to obtain the true adjoint of A.</p>
+<p>For EMA</p>
+<ol>
+<li>I need not compute the adjoint of B</li>
+<li>In our case, the inner product would be over <code>(1 , token_dim) @ (token_dim, chunk_size)</code>. This differs from their design because the <code>head_dim</code> is actually smaller for them once they make multiple heads.</li>
+<li>We do not need to iterate over multiple heads, we do need to do a tiled mm over <code>token_dim</code>, unlike them</li>
+</ol>
+<h3 id="kernel-4-_chunk_scan_bwd_dc">Kernel 4 <code>_chunk_scan_bwd_dC</code><a hidden class="anchor" aria-hidden="true" href="#kernel-4-_chunk_scan_bwd_dc">#</a></h3>
+<p>The complete equation for the forward of chunk_scan is</p>
+<p>$$
+(C \odot A&rsquo;) \times F +  ({CB}_{q \times q} \odot A) \times X = O
+$$</p>
+<p>The shape of O = <code>(chunk_size, head_dim)</code> and shape of A = <code>(chunk_size,)</code>, it is broadcasted differently for each piece of the computation.</p>
+<p>The backward section of C computed in this kernel is <strong>only</strong> from the first part of the equation, the second is handled in a <code>dCB</code> kernel.</p>
+<p>So, we need</p>
+<p>$$
+\bar{C} = (\bar{O} \times F^T) \odot A&rsquo;  + (\bar{O} \times X^T) \odot A \times B^T
+$$</p>
+<p>The gradients for A will also be something similar.</p>
+<p>$$
+\bar{A}&rsquo; = (\bar{O} \times F^T) \odot C
+$$</p>
+<p>The backward part of A would have two flows, one from this and one from Kernel 6, we then need to reconcile them later because the orientation of the factors is different.</p>
+<p>What can we do for EMA?</p>
+<ol>
+<li>This kernel, yet again needs a tiled matrix multiplication over <code>token_dim</code>, since the <code>head_dim</code> is assumed to be small and can be done together.</li>
+</ol>
+<h3 id="kernel-5-_chunk_scan_chunk_state_bwd_dx">Kernel 5 <code>_chunk_scan_chunk_state_bwd_dx</code><a hidden class="anchor" aria-hidden="true" href="#kernel-5-_chunk_scan_chunk_state_bwd_dx">#</a></h3>
+<p>This does the backward for X both through chunk scan and the chunk state backward functions.</p>
+<p>The Forward equation for the state is</p>
+<p>$$
+(B^T \odot A) \times X = S
+$$</p>
+<p>And for scan</p>
+<p>$$
+\ldots + (CB \odot A) X = O
+$$</p>
+<p>So the net backward gradient flow is
+$$
+(B^T \odot A) \bar{S} + (CB \odot A) \bar{O} = \bar{X}
+$$</p>
+<p>This is also computed via tiled matrix multiplication over the chunk_size dimension.</p>
+<h3 id="kernel-6-_chunk_scan_bwd_da_cs">Kernel 6 <code>_chunk_scan_bwd_dA_cs</code><a hidden class="anchor" aria-hidden="true" href="#kernel-6-_chunk_scan_bwd_da_cs">#</a></h3>
+<p>This does the backward for A both through chunk scan for the CB component only</p>
+<p>The Forward equation for the output chunk_scan_fwd is</p>
+<p>$$
+&hellip;. + (CB \odot A) \times X = O
+$$</p>
+<p>Backward yields</p>
+<p>$$
+\ldots + \sum_q (\bar{O} \times X^T) \odot CB = \bar{A}
+$$</p>
+<p>This is also computed via tiled matrix multiplication over the chunk_size dimension.</p>
+<h3 id="tracking-the-gradients-of-a-in-each-kernel">Tracking the gradients of A in each kernel<a hidden class="anchor" aria-hidden="true" href="#tracking-the-gradients-of-a-in-each-kernel">#</a></h3>
+<p>The A factor is present in many kernels, let&rsquo;s track the net gradient of &ldquo;A&rdquo; from each kernel and add it up.</p>
+<p>$$
+A&rsquo; = exp(A_c  - a)
+$$</p>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="http://localhost:1313/tags/random/">Random</a></li>
+      <li><a href="http://localhost:1313/tags/thoughts/">Thoughts</a></li>
+      <li><a href="http://localhost:1313/tags/coffee/">Coffee</a></li>
+    </ul>
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+        <span>&copy; 2025 <a href="http://localhost:1313/">Kartik&#39;s Blog</a></span> · 
+
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script defer src="https://cdn.jsdelivr.net/npm/katex@latest/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@latest/dist/contrib/auto-render.min.js"></script>
+
+
+<script>
+  
+  document.addEventListener('DOMContentLoaded', function () {
+    if (typeof renderMathInElement === 'function') {
+      try {
+        renderMathInElement(document.body, {
+          
+          delimiters: [
+            {left: '$$', right: '$$', display: true},
+            {left: '\\(', right: '\\)', display: false}
+          ],
+          
+          ignoredTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+          
+          throwOnError: false,
+          errorColor: '#cc0000'
+        });
+      } catch (e) {
+        console.warn('KaTeX auto-render failed:', e);
+      }
+    }
+  });
+</script>
+
+
+<script>
+    let menu = document.getElementById('menu');
+    if (menu) {
+        
+        const scrollPosition = localStorage.getItem("menu-scroll-position");
+        if (scrollPosition) {
+            menu.scrollLeft = parseInt(scrollPosition, 10);
+        }
+        
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        const html = document.querySelector("html");
+        if (html.dataset.theme === "dark") {
+            html.dataset.theme = 'light';
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            html.dataset.theme = 'dark';
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>

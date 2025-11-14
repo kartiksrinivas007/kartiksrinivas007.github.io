@@ -1,0 +1,31 @@
+{{- /* Custom footer additions: KaTeX CSS/JS + auto-render for LaTeX */ -}}
+
+<!-- KaTeX JS and auto-render plugin (CSS loaded in head) -->
+<!-- Using @latest so the newest KaTeX release is used. Replace with a pinned version (e.g. @0.16.8) for reproducible builds. -->
+<script defer src="https://cdn.jsdelivr.net/npm/katex@latest/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@latest/dist/contrib/auto-render.min.js"></script>
+
+<!-- Initialize KaTeX auto-render when scripts load -->
+<script>
+  // Wait for DOMContentLoaded in case footer loads before body is ready
+  document.addEventListener('DOMContentLoaded', function () {
+    if (typeof renderMathInElement === 'function') {
+      try {
+        renderMathInElement(document.body, {
+          // Delimiters: $$...$$ for display math, \(...\) for inline math
+          delimiters: [
+            {left: '$$', right: '$$', display: true},
+            {left: '\\(', right: '\\)', display: false}
+          ],
+          // Do not render inside these tags
+          ignoredTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+          // Prefer not to throw on LaTeX errors in content; show a red error box instead
+          throwOnError: false,
+          errorColor: '#cc0000'
+        });
+      } catch (e) {
+        console.warn('KaTeX auto-render failed:', e);
+      }
+    }
+  });
+</script>

@@ -1,0 +1,42 @@
+baseURL: https://example.org/
+languageCode: en-us
+title: "Kartik's Blog"
+theme: ["PaperMod"]
+
+# Top-level author block (used by many themes including PaperMod)
+
+
+# PaperMod params: subtitle/profile/avatar/social — adjust as you like.
+params:
+  author:
+    name: "Kartik"
+  # homepage: "https://your-homepage-or-github"
+  subtitle: "Grad student at Carnegie Mellon University"
+  # Relative path from the site root to an avatar image (optional)
+  avatar: "images/avatar.jpg"
+  # Enable profile mode on the homepage
+  profileMode:
+    enabled: false
+  # Social links: edit or remove entries you don't want
+  social:
+    - name: "github"
+      url: "https://github.com/your-username"
+    - name: "linkedin"
+      url: "https://www.linkedin.com/in/your-profile"
+    - name: "email"
+      url: "mailto:your-email@example.com"
+  # Home-Info params: enable a home-info block on the homepage
+  homeInfoParams:
+    # Title: "Kartik"
+    # Content: "Hi — I'm Kartik, a graduate student at Carnegie Mellon University. Welcome to my site. I'll use this space for notes, projects, and posts related to my work and interests."
+    AlignSocialIconsTo: "center"
+
+# Site menus (top-level) — header will show these entries
+menus:
+  main:
+    - name: "Home"
+      url: "/"
+      weight: 1
+    - name: "Posts"
+      url: "/posts/"
+      weight: 10

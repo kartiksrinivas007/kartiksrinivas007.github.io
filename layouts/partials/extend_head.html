@@ -1,0 +1,35 @@
+{{- /* Custom head additions: Google Fonts (IBM Plex Sans) and small CSS override */ -}}
+
+<!-- Preconnect and load IBM Plex Sans from Google Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+<!-- KaTeX CSS moved to head so its font-face rules load before site CSS -->
+<!-- Using @latest so the newest KaTeX release is used. Replace with a pinned version (e.g. @0.16.8) for reproducible builds. -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@latest/dist/katex.min.css">
+
+<!-- Small inline CSS to apply the font across the site, but avoid clobbering KaTeX and code fonts -->
+<style>
+  :root {
+    --site-sans: 'IBM Plex Sans', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+  }
+  /* Apply site sans to the main content and headings only. Avoid overly broad selectors. */
+  body, .main, .post-content {
+    font-family: var(--site-sans);
+  }
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--site-sans);
+  }
+  /* Keep code blocks monospace */
+  pre, code, kbd, samp {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, 'Roboto Mono', 'Courier New', monospace;
+  }
+
+  /* Ensure KaTeX elements use KaTeX's fonts (KaTeX defines KaTeX_Main, etc.). Use !important to override gentler rules. */
+  .katex, .katex * {
+    font-family: KaTeX_Main, KaTeX_Size1, KaTeX_Size2, KaTeX_Size3, KaTeX_Size4, KaTeX_Fraktur, KaTeX_SansSerif, 'Times New Roman', serif !important;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+</style>
