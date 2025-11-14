@@ -282,9 +282,6 @@ $$</p>
 <p>This is also computed via tiled matrix multiplication over the chunk_size dimension.</p>
 <h3 id="tracking-the-gradients-of-a-in-each-kernel">Tracking the gradients of A in each kernel<a hidden class="anchor" aria-hidden="true" href="#tracking-the-gradients-of-a-in-each-kernel">#</a></h3>
 <p>The A factor is present in many kernels, let&rsquo;s track the net gradient of &ldquo;A&rdquo; from each kernel and add it up.</p>
-<p>$$
-A&rsquo; = exp(A_c  - a)
-$$</p>
 
 
   </div>
