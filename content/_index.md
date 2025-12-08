@@ -9,5 +9,13 @@ type: "page"
 
 Hi — I'm Kartik.
 
-I'm a grad student studying computers and math.
+I'm a grad student studying computers and math at [CMU MLD](https://www.ml.cmu.edu/). I enjoy working on practical problems -- which means I enjoy nasty heuristics, wrangling with datasets, and debugging model behaviors.
 
+I presently work on developing triton-kernels at [Goomba Lab](https://goombalab.github.io/).
+
+I have also interned on the planner team at [Waymo](https://waymo.com/) where I worked with large autoregressive planning models.
+
+
+
+
+If you want to know [more](/more/)
