@@ -15,7 +15,6 @@ I presently work on developing triton-kernels at [Goomba Lab](https://goombalab.
 
 I have also interned on the planner team at [Waymo](https://waymo.com/) where I worked with large autoregressive planning models.
 
-
-
+I also work on research around safety and unlearning — you can find a few of my papers on the [publications](/publications/) page.
 
 If you want to know [more](/more/)

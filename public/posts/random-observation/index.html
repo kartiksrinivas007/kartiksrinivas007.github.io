@@ -140,6 +140,16 @@
                 </a>
             </li>
             <li>
+                <a href="http://localhost:1313/more/" title="More">
+                    <span>More</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/publications/" title="Publications">
+                    <span>Publications</span>
+                </a>
+            </li>
+            <li>
                 <a href="http://localhost:1313/posts/" title="Posts">
                     <span>Posts</span>
                 </a>
@@ -162,7 +172,8 @@
 
 </div>
   </header> 
-  <div class="post-content"><p>This post describes the triton implementation of the backward pass of the <a href="https://goombalab.github.io/blog/2024/mamba2-part3-algorithm/">Mamba-2</a> Chunking sequence layer.</p>
+  <div class="post-content"><p><strong>Note:</strong> This is a rough, work-in-progress post — things may change or be incomplete.</p>
+<p>This post describes the triton implementation of the backward pass of the <a href="https://goombalab.github.io/blog/2024/mamba2-part3-algorithm/">Mamba-2</a> Chunking sequence layer.</p>
 <p>We use adjoint notation, i.e \(\bar{A} \) means  \(\frac{\partial L} {\partial {A}} \).The only important result to keep in mind here is how adjoints flow over matmuls, and that broadcasting calls for sum over the partial gradients over the dimension that was broadcasted on in the first place</p>
 <p>$$ AX = S \implies \bar{S} X^T = \bar{A} \ \ \ \rightarrow  \ \  A^T \bar{S} = \bar{X}$$</p>
 <h3 id="kernel-1-chunk_scan_bwd_dstates">Kernel 1 <code>chunk_scan_bwd_dstates</code><a hidden class="anchor" aria-hidden="true" href="#kernel-1-chunk_scan_bwd_dstates">#</a></h3>

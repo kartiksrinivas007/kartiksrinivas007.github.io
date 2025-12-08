@@ -8,6 +8,8 @@ categories: ["misc"]
 description: "Mamba - Notes"
 ---
 
+**Note:** This is a rough, work-in-progress post — things may change or be incomplete.
+
 This post describes the triton implementation of the backward pass of the [Mamba-2](https://goombalab.github.io/blog/2024/mamba2-part3-algorithm/) Chunking sequence layer.
 
 We use adjoint notation, i.e \\(\bar{A} \\) means  \\(\frac{\partial L} {\partial {A}} \\).The only important result to keep in mind here is how adjoints flow over matmuls, and that broadcasting calls for sum over the partial gradients over the dimension that was broadcasted on in the first place
@@ -116,94 +118,4 @@ For EMA
 ### Kernel 4 `_chunk_scan_bwd_dC`
 
 The complete equation for the forward of chunk_scan is
-
-$$
-    (C \odot A') \times F +  ({CB}\_{q \times q} \odot A) \times X = O 
-$$
-
-The shape of O = `(chunk_size, head_dim)` and shape of A = `(chunk_size,)`, it is broadcasted differently for each piece of the computation.
-
-The backward section of C computed in this kernel is **only** from the first part of the equation, the second is handled in a `dCB` kernel.
-
-So, we need 
-
-$$
-\bar{C} = (\bar{O} \times F^T) \odot A'  + (\bar{O} \times X^T) \odot A \times B^T
-$$
-
-The gradients for A will also be something similar.
-
-
-$$
-\bar{A}' = (\bar{O} \times F^T) \odot C 
-$$
-
-The backward part of A would have two flows, one from this and one from Kernel 6, we then need to reconcile them later because the orientation of the factors is different.
-
-What can we do for EMA?
-
-1. This kernel, yet again needs a tiled matrix multiplication over `token_dim`, since the `head_dim` is assumed to be small and can be done together.
-
-
-### Kernel 5 `_chunk_scan_chunk_state_bwd_dx`
-
-This does the backward for X both through chunk scan and the chunk state backward functions.
-
-The Forward equation for the state is 
-
-$$
-    (B^T \odot A) \times X = S 
-$$
-
-And for scan 
-
-$$
-    \ldots + (CB \odot A) X = O
-$$
-
-So the net backward gradient flow is 
-$$
-    (B^T \odot A) \bar{S} + (CB \odot A) \bar{O} = \bar{X}
-$$
-
-This is also computed via tiled matrix multiplication over the chunk_size dimension.
-
-### Kernel 6 `_chunk_scan_bwd_dA_cs`
-
-This does the backward for A both through chunk scan for the CB component only
-
-The Forward equation for the output chunk_scan_fwd is 
-
-$$
-    .... + (CB \odot A) \times X = O
-$$
-
-Backward yields
-
-$$
-    \ldots + \sum_q (\bar{O} \times X^T) \odot CB = \bar{A}
-$$
-
-This is also computed via tiled matrix multiplication over the chunk_size dimension.
-
-
-
-
-### Tracking the gradients of A in each kernel
-
-The A factor is present in many kernels, let's track the net gradient of "A" from each kernel and add it up.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 

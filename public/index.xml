@@ -10,9 +10,9 @@
     <atom:link href="http://localhost:1313/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Mamba Notes</title>
-      <link>http://localhost:1313/posts/random-observation/</link>
+      <link>http://localhost:1313/posts/mamba/</link>
       <pubDate>Thu, 30 Oct 2025 10:00:00 -0500</pubDate>
-      <guid>http://localhost:1313/posts/random-observation/</guid>
+      <guid>http://localhost:1313/posts/mamba/</guid>
       <description>Mamba - Notes</description>
     </item>
     <item>
@@ -21,6 +21,13 @@
       <pubDate>Thu, 30 Oct 2025 00:00:00 +0000</pubDate>
       <guid>http://localhost:1313/more/</guid>
       <description>More about Kartik, interests, and background.</description>
+    </item>
+    <item>
+      <title>Publications</title>
+      <link>http://localhost:1313/publications/</link>
+      <pubDate>Thu, 30 Oct 2025 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/publications/</guid>
+      <description>Selected research publications.</description>
     </item>
   </channel>
 </rss>

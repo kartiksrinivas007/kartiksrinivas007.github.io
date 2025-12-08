@@ -8,7 +8,7 @@ type: "page"
 
 Thanks for checking out my site.
 
-I'm a master's student studying computers and math at [CMU MLD](https://www.ml.cmu.edu/). I enjoy working on practical problems -- which means I enjoy nasty heuristics, wrangling with datasets, and debugging model behaviors.
+I'm a master's student studying computers and math at [CMU MLD](https://www.ml.cmu.edu/). I enjoy working on practical problems -- which means I enjoy nasty heuristics, wrangling with datasets, and debugging model behaviors. I also work on research around safety and unlearning; you can find a few of my papers on the [publications](/publications/) page.
 
 I presently work on developing triton-kernels at [Goomba Lab](https://goombalab.github.io/).
 

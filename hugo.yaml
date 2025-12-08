@@ -37,6 +37,12 @@ menus:
     - name: "Home"
       url: "/"
       weight: 1
+    - name: "More"
+      url: "/more/"
+      weight: 5
+    - name: "Publications"
+      url: "/publications/"
+      weight: 7
     - name: "Posts"
       url: "/posts/"
       weight: 10

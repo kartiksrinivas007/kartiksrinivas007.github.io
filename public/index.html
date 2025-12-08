@@ -142,6 +142,16 @@
                 </a>
             </li>
             <li>
+                <a href="http://localhost:1313/more/" title="More">
+                    <span>More</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/publications/" title="Publications">
+                    <span>Publications</span>
+                </a>
+            </li>
+            <li>
                 <a href="http://localhost:1313/posts/" title="Posts">
                     <span>Posts</span>
                 </a>
@@ -154,6 +164,7 @@
 <p>I&rsquo;m a grad student studying computers and math at <a href="https://www.ml.cmu.edu/">CMU MLD</a>. I enjoy working on practical problems &ndash; which means I enjoy nasty heuristics, wrangling with datasets, and debugging model behaviors.</p>
 <p>I presently work on developing triton-kernels at <a href="https://goombalab.github.io/">Goomba Lab</a>.</p>
 <p>I have also interned on the planner team at <a href="https://waymo.com/">Waymo</a> where I worked with large autoregressive planning models.</p>
+<p>I also work on research around safety and unlearning — you can find a few of my papers on the <a href="/publications/">publications</a> page.</p>
 <p>If you want to know <a href="/more/">more</a></p>
 
 
@@ -178,13 +189,13 @@
     </h2>
   </header>
   <div class="entry-content">
-    <p>This post describes the triton implementation of the backward pass of the Mamba-2 Chunking sequence layer.
+    <p>Note: This is a rough, work-in-progress post — things may change or be incomplete.
+This post describes the triton implementation of the backward pass of the Mamba-2 Chunking sequence layer.
 We use adjoint notation, i.e \(\bar{A} \) means \(\frac{\partial L} {\partial {A}} \).The only important result to keep in mind here is how adjoints flow over matmuls, and that broadcasting calls for sum over the partial gradients over the dimension that was broadcasted on in the first place
-$$ AX = S \implies \bar{S} X^T = \bar{A} \ \ \ \rightarrow \ \ A^T \bar{S} = \bar{X}$$
 ...</p>
   </div>
   <footer class="entry-footer"><span title='2025-10-30 10:00:00 -0500 -0500'>October 30, 2025</span>&nbsp;·&nbsp;<span>Kartik</span></footer>
-  <a class="entry-link" aria-label="post link to Mamba Notes" href="http://localhost:1313/posts/random-observation/"></a>
+  <a class="entry-link" aria-label="post link to Mamba Notes" href="http://localhost:1313/posts/mamba/"></a>
 </article>
     </main>
     
