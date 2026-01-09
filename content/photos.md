@@ -1,6 +1,6 @@
 ---
 title: "Photos"
-date: 2025-10-30
+date: 2025-12-30
 draft: false
 description: "A few photos I've taken"
 type: "page"
