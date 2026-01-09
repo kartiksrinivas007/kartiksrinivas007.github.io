@@ -2,31 +2,40 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>http://localhost:1313/categories/</loc>
-    <lastmod>2025-10-30T10:00:00-05:00</lastmod>
+    <loc>http://localhost:1313/photo/img-2446/</loc>
+    <lastmod>2025-10-30T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/tags/coffee/</loc>
-    <lastmod>2025-10-30T10:00:00-05:00</lastmod>
+    <loc>http://localhost:1313/photo/img-3226/</loc>
+    <lastmod>2025-10-30T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/posts/mamba/</loc>
-    <lastmod>2025-10-30T10:00:00-05:00</lastmod>
-  </url><url>
-    <loc>http://localhost:1313/categories/misc/</loc>
-    <lastmod>2025-10-30T10:00:00-05:00</lastmod>
-  </url><url>
-    <loc>http://localhost:1313/tags/random/</loc>
-    <lastmod>2025-10-30T10:00:00-05:00</lastmod>
-  </url><url>
-    <loc>http://localhost:1313/tags/</loc>
-    <lastmod>2025-10-30T10:00:00-05:00</lastmod>
-  </url><url>
-    <loc>http://localhost:1313/tags/thoughts/</loc>
-    <lastmod>2025-10-30T10:00:00-05:00</lastmod>
+    <loc>http://localhost:1313/photo/img-3113/</loc>
+    <lastmod>2025-10-30T00:00:00+00:00</lastmod>
   </url><url>
     <loc>http://localhost:1313/</loc>
     <lastmod>2025-10-30T00:00:00+00:00</lastmod>
   </url><url>
+    <loc>http://localhost:1313/photo/img-3287/</loc>
+    <lastmod>2025-10-30T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/photo/img-2421/</loc>
+    <lastmod>2025-10-30T00:00:00+00:00</lastmod>
+  </url><url>
     <loc>http://localhost:1313/more/</loc>
+    <lastmod>2025-10-30T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/photo/img-2108/</loc>
+    <lastmod>2025-10-30T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/photo/img-2800/</loc>
+    <lastmod>2025-10-30T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/photo/</loc>
+    <lastmod>2025-10-30T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/photos/</loc>
+    <lastmod>2025-10-30T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/photo/img-2831/</loc>
     <lastmod>2025-10-30T00:00:00+00:00</lastmod>
   </url><url>
     <loc>http://localhost:1313/posts/</loc>
@@ -34,5 +43,24 @@
   </url><url>
     <loc>http://localhost:1313/publications/</loc>
     <lastmod>2025-10-30T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/photo/img-2908/</loc>
+    <lastmod>2025-10-30T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/photo/img-3347/</loc>
+    <lastmod>2025-10-30T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/teaching/</loc>
+    <lastmod>2025-10-30T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/photo/img-3602/</loc>
+    <lastmod>2025-10-30T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/photo/img-3442/</loc>
+    <lastmod>2025-10-30T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/categories/</loc>
+  </url><url>
+    <loc>http://localhost:1313/tags/</loc>
   </url>
 </urlset>

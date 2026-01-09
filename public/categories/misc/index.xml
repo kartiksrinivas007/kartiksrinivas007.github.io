@@ -6,8 +6,22 @@
     <description>Recent content in Misc on Kartik&#39;s Blog</description>
     <generator>Hugo -- 0.152.2</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 30 Oct 2025 10:00:00 -0500</lastBuildDate>
+    <lastBuildDate>Tue, 23 Dec 2025 10:00:00 -0500</lastBuildDate>
     <atom:link href="http://localhost:1313/categories/misc/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Karpathy Summary</title>
+      <link>http://localhost:1313/posts/karpathy/</link>
+      <pubDate>Tue, 23 Dec 2025 10:00:00 -0500</pubDate>
+      <guid>http://localhost:1313/posts/karpathy/</guid>
+      <description>Andrej Karpathy blog summary</description>
+    </item>
+    <item>
+      <title>Looking back at CMU MSML</title>
+      <link>http://localhost:1313/posts/cmu-msml/</link>
+      <pubDate>Tue, 23 Dec 2025 10:00:00 -0500</pubDate>
+      <guid>http://localhost:1313/posts/cmu-msml/</guid>
+      <description>Looking Back at CMU MSML</description>
+    </item>
     <item>
       <title>Mamba Notes</title>
       <link>http://localhost:1313/posts/mamba/</link>

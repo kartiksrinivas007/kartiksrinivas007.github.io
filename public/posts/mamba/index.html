@@ -164,6 +164,12 @@
     
     <h1 class="post-title entry-hint-parent">
       Mamba Notes
+      <span class="entry-hint" title="Draft">
+        <svg xmlns="http://www.w3.org/2000/svg" height="35" viewBox="0 -960 960 960" fill="currentColor">
+          <path
+            d="M160-410v-60h300v60H160Zm0-165v-60h470v60H160Zm0-165v-60h470v60H160Zm360 580v-123l221-220q9-9 20-13t22-4q12 0 23 4.5t20 13.5l37 37q9 9 13 20t4 22q0 11-4.5 22.5T862.09-380L643-160H520Zm300-263-37-37 37 37ZM580-220h38l121-122-18-19-19-18-122 121v38Zm141-141-19-18 37 37-18-19Z" />
+        </svg>
+      </span>
     </h1>
     <div class="post-description">
       Mamba - Notes
@@ -247,6 +253,52 @@ $$</p>
 </ol>
 <h3 id="kernel-4-_chunk_scan_bwd_dc">Kernel 4 <code>_chunk_scan_bwd_dC</code><a hidden class="anchor" aria-hidden="true" href="#kernel-4-_chunk_scan_bwd_dc">#</a></h3>
 <p>The complete equation for the forward of chunk_scan is</p>
+<p>$$
+(C \odot A&rsquo;) \times F +  ({CB}_{q \times q} \odot A) \times X = O
+$$</p>
+<p>The shape of O = <code>(chunk_size, head_dim)</code> and shape of A = <code>(chunk_size,)</code>, it is broadcasted differently for each piece of the computation.</p>
+<p>The backward section of C computed in this kernel is <strong>only</strong> from the first part of the equation, the second is handled in a <code>dCB</code> kernel.</p>
+<p>So, we need</p>
+<p>$$
+\bar{C} = (\bar{O} \times F^T) \odot A&rsquo;  + (\bar{O} \times X^T) \odot A \times B^T
+$$</p>
+<p>The gradients for A will also be something similar.</p>
+<p>$$
+\bar{A}&rsquo; = (\bar{O} \times F^T) \odot C
+$$</p>
+<p>The backward part of A would have two flows, one from this and one from Kernel 6, we then need to reconcile them later because the orientation of the factors is different.</p>
+<p>What can we do for EMA?</p>
+<ol>
+<li>This kernel, yet again needs a tiled matrix multiplication over <code>token_dim</code>, since the <code>head_dim</code> is assumed to be small and can be done together.</li>
+</ol>
+<h3 id="kernel-5-_chunk_scan_chunk_state_bwd_dx">Kernel 5 <code>_chunk_scan_chunk_state_bwd_dx</code><a hidden class="anchor" aria-hidden="true" href="#kernel-5-_chunk_scan_chunk_state_bwd_dx">#</a></h3>
+<p>This does the backward for X both through chunk scan and the chunk state backward functions.</p>
+<p>The Forward equation for the state is</p>
+<p>$$
+(B^T \odot A) \times X = S
+$$</p>
+<p>And for scan</p>
+<p>$$
+\ldots + (CB \odot A) X = O
+$$</p>
+<p>So the net backward gradient flow is
+$$
+(B^T \odot A) \bar{S} + (CB \odot A) \bar{O} = \bar{X}
+$$</p>
+<p>This is also computed via tiled matrix multiplication over the chunk_size dimension.</p>
+<h3 id="kernel-6-_chunk_scan_bwd_da_cs">Kernel 6 <code>_chunk_scan_bwd_dA_cs</code><a hidden class="anchor" aria-hidden="true" href="#kernel-6-_chunk_scan_bwd_da_cs">#</a></h3>
+<p>This does the backward for A both through chunk scan for the CB component only</p>
+<p>The Forward equation for the output chunk_scan_fwd is</p>
+<p>$$
+&hellip;. + (CB \odot A) \times X = O
+$$</p>
+<p>Backward yields</p>
+<p>$$
+\ldots + \sum_q (\bar{O} \times X^T) \odot CB = \bar{A}
+$$</p>
+<p>This is also computed via tiled matrix multiplication over the chunk_size dimension.</p>
+<h3 id="tracking-the-gradients-of-a-in-each-kernel">Tracking the gradients of A in each kernel<a hidden class="anchor" aria-hidden="true" href="#tracking-the-gradients-of-a-in-each-kernel">#</a></h3>
+<p>The A factor is present in many kernels, let&rsquo;s track the net gradient of &ldquo;A&rdquo; from each kernel and add it up.</p>
 
 
   </div>
@@ -262,7 +314,7 @@ $$</p>
     </main>
     
 <footer class="footer">
-        <span>&copy; 2025 <a href="http://localhost:1313/">Kartik&#39;s Blog</a></span> · 
+        <span>&copy; 2026 <a href="http://localhost:1313/">Kartik&#39;s Blog</a></span> · 
 
     <span>
         Powered by

@@ -37,12 +37,18 @@ menus:
     - name: "Home"
       url: "/"
       weight: 1
-    - name: "More"
-      url: "/more/"
+    - name: "Teaching"
+      url: "/teaching/"
       weight: 5
     - name: "Publications"
       url: "/publications/"
       weight: 7
-    - name: "Posts"
-      url: "/posts/"
-      weight: 10
+    - name: "Photos"
+      url: "/photos/"
+      weight: 9
+
+# Allow raw HTML in Markdown (needed for the Photos grid markup)
+markup:
+  goldmark:
+    renderer:
+      unsafe: true

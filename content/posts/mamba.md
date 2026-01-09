@@ -1,7 +1,7 @@
 ---
 title: "Mamba Notes"
 date: 2025-10-30T10:00:00-05:00
-draft: false
+draft: true
 author: "Kartik"
 tags: ["random","thoughts","coffee"]
 categories: ["misc"]
