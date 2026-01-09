@@ -1,1 +1,33 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>Thoughts on Kartik's Blog</title><link>https://kartiksrinivas007.github.io/tags/thoughts/</link><description>Recent content in Thoughts on Kartik's Blog</description><generator>Hugo -- 0.153.0</generator><language>en-us</language><lastBuildDate>Thu, 30 Oct 2025 10:00:00 -0500</lastBuildDate><atom:link href="https://kartiksrinivas007.github.io/tags/thoughts/index.xml" rel="self" type="application/rss+xml"/><item><title>Mamba Notes</title><link>https://kartiksrinivas007.github.io/posts/mamba/</link><pubDate>Thu, 30 Oct 2025 10:00:00 -0500</pubDate><guid>https://kartiksrinivas007.github.io/posts/mamba/</guid><description>Mamba - Notes</description></item></channel></rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Thoughts on Kartik&#39;s Blog</title>
+    <link>http://localhost:1313/tags/thoughts/</link>
+    <description>Recent content in Thoughts on Kartik&#39;s Blog</description>
+    <generator>Hugo -- 0.152.2</generator>
+    <language>en-us</language>
+    <lastBuildDate>Tue, 23 Dec 2025 10:00:00 -0500</lastBuildDate>
+    <atom:link href="http://localhost:1313/tags/thoughts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Karpathy Summary</title>
+      <link>http://localhost:1313/posts/karpathy/</link>
+      <pubDate>Tue, 23 Dec 2025 10:00:00 -0500</pubDate>
+      <guid>http://localhost:1313/posts/karpathy/</guid>
+      <description>Andrej Karpathy blog summary</description>
+    </item>
+    <item>
+      <title>Looking back at CMU MSML</title>
+      <link>http://localhost:1313/posts/cmu-msml/</link>
+      <pubDate>Tue, 23 Dec 2025 10:00:00 -0500</pubDate>
+      <guid>http://localhost:1313/posts/cmu-msml/</guid>
+      <description>Looking Back at CMU MSML</description>
+    </item>
+    <item>
+      <title>Mamba Notes</title>
+      <link>http://localhost:1313/posts/mamba/</link>
+      <pubDate>Thu, 30 Oct 2025 10:00:00 -0500</pubDate>
+      <guid>http://localhost:1313/posts/mamba/</guid>
+      <description>Mamba - Notes</description>
+    </item>
+  </channel>
+</rss>
