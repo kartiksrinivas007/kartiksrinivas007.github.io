@@ -1,16 +1,47 @@
 ---
-title: "Mamba Notes"
+title: "Mamba-2 Kernels"
 date: 2025-10-30T10:00:00-05:00
 draft: true
 author: "Kartik"
 tags: ["random","thoughts","coffee"]
 categories: ["misc"]
-description: "Mamba - Notes"
+description: "The Mamba-2 Kernels"
 ---
+
 
 **Note:** This is a rough, work-in-progress post — things may change or be incomplete.
 
-This post describes the triton implementation of the backward pass of the [Mamba-2](https://goombalab.github.io/blog/2024/mamba2-part3-algorithm/) Chunking sequence layer.
+This post describes the triton implementation of the [Mamba-2](https://goombalab.github.io/blog/2024/mamba2-part3-algorithm/) Chunking sequence layer from the perspective of an exponential moving average (EMA).
+
+## Forward Pass
+
+### Kernel 2 `mamba_chunk_state_fwd`
+
+This Kernel computes the final state within a chunk assuming that the starting hidden state is all zeros.
+The final state simply a weighted average of the positive amplification (B) and the decay to the final position (A) multiplied with the state.
+
+The kernels behavior with seq_idx stitching -- simply compute the final state for a chunk according to what matches the final position in that particular chunk (`seq_idx_last == seq_idx_k` based scaling of the amplification terms, this will forget the final pieces of other sequences in the chunk). Ideally for final chunks like that, there should be 2 output states and not one
+
+
+But the intelligent observation is that, we *do not need* the final state of a partial ending sequence anyways, we only need its *start state*, so that we can perform a `chunk_scan`, discarding the final state of the final partial sequence is okay.
+
+> Is this problematic when the whole sequence is within a block? Will the other kernels handle this?
+
+
+### Kernel 3 `mamba_state_pass`
+
+This kernel passes states between chunks to obtain the correct starting state for each chunk (and also a final state), from which a scan will be performed to obtain correct final internal states.
+
+The behavior under stitching is simple
+
+If the `seq_idx` of the final position of the present chink does not match the `seq_idx` of the final position of the next chunk then do not pass states in between at all (zero out the states)
+
+
+
+
+
+
+## Backward Pass
 
 We use adjoint notation, i.e \\(\bar{A} \\) means  \\(\frac{\partial L} {\partial {A}} \\).The only important result to keep in mind here is how adjoints flow over matmuls, and that broadcasting calls for sum over the partial gradients over the dimension that was broadcasted on in the first place
 
