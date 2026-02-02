@@ -10,7 +10,7 @@
 <meta name="description" content="">
 <meta name="author" content="map[name:Kartik]">
 <link rel="canonical" href="http://localhost:1313/tags/cmu/">
-<link crossorigin="anonymous" href="/assets/css/stylesheet.343cc480b9ffc8f04ccbe5e968ad674880cab773ec19905e93033065c1e7a804.css" integrity="sha256-NDzEgLn/yPBMy&#43;XpaK1nSIDKt3PsGZBekwMwZcHnqAQ=" rel="preload stylesheet" as="style">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.1d19e5defdd96e4191e83589efd3f05d4ff4f893979bb288d2399f9cab1e2991.css" integrity="sha256-HRnl3v3ZbkGR6DWJ79PwXU/0&#43;JOXm7KI0jmfnKseKZE=" rel="preload stylesheet" as="style">
 <link rel="icon" href="http://localhost:1313/favicon.ico">
 <link rel="icon" type="image/png" sizes="16x16" href="http://localhost:1313/favicon-16x16.png">
 <link rel="icon" type="image/png" sizes="32x32" href="http://localhost:1313/favicon-32x32.png">
@@ -103,6 +103,50 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
+
+   
+  .post-single .post-content .photos-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 6px;
+    margin-top: 1rem;
+    margin-bottom: 2rem;
+  }
+
+  .post-single .post-content .photos-grid img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 6px;
+    background: #111;
+    transition: transform 0.18s ease-out, box-shadow 0.18s ease-out, opacity 0.18s ease-out;
+  }
+
+  .post-single .post-content .photos-grid img:hover {
+    transform: translateY(-2px) scale(1.01);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+    opacity: 0.96;
+  }
+
+   
+  .post-single:has(.photos-grid) {
+    max-width: min(1600px, 100vw);
+  }
+
+   
+  .post-single .photo-detail img {
+    display: block;
+    max-width: min(1200px, 100%);
+    margin: 0 auto 1.5rem auto;
+    border-radius: 8px;
+    background: #111;
+  }
+
+   
+  .home-info .entry-content a {
+    box-shadow: 0 1px 0 var(--primary);
+  }
 </style>
 
 </head>
@@ -141,13 +185,18 @@
                 </a>
             </li>
             <li>
-                <a href="http://localhost:1313/more/" title="More">
-                    <span>More</span>
+                <a href="http://localhost:1313/teaching/" title="Teaching">
+                    <span>Teaching</span>
                 </a>
             </li>
             <li>
                 <a href="http://localhost:1313/publications/" title="Publications">
                     <span>Publications</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/photos/" title="Photos">
+                    <span>Photos</span>
                 </a>
             </li>
             <li>
@@ -168,6 +217,12 @@
 <article class="post-entry tag-entry"> 
   <header class="entry-header">
     <h2 class="entry-hint-parent">Looking back at CMU MSML
+      <span class="entry-hint" title="Draft">
+        <svg xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" fill="currentColor">
+          <path
+            d="M160-410v-60h300v60H160Zm0-165v-60h470v60H160Zm0-165v-60h470v60H160Zm360 580v-123l221-220q9-9 20-13t22-4q12 0 23 4.5t20 13.5l37 37q9 9 13 20t4 22q0 11-4.5 22.5T862.09-380L643-160H520Zm300-263-37-37 37 37ZM580-220h38l121-122-18-19-19-18-122 121v38Zm141-141-19-18 37 37-18-19Z" />
+        </svg>
+      </span>
     </h2>
   </header>
   <div class="entry-content">
@@ -200,19 +255,15 @@ The completion of my 1.5 year master’s degree at CMU MLD calls for a reflectio
 
 
 <script>
-  
   document.addEventListener('DOMContentLoaded', function () {
     if (typeof renderMathInElement === 'function') {
       try {
         renderMathInElement(document.body, {
-          
           delimiters: [
             {left: '$$', right: '$$', display: true},
             {left: '\\(', right: '\\)', display: false}
           ],
-          
           ignoredTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
-          
           throwOnError: false,
           errorColor: '#cc0000'
         });
@@ -220,6 +271,353 @@ The completion of my 1.5 year master’s degree at CMU MLD calls for a reflectio
         console.warn('KaTeX auto-render failed:', e);
       }
     }
+  });
+</script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    if (window.mermaid) {
+      mermaid.initialize({
+        startOnLoad: true,
+        securityLevel: 'loose'
+      });
+    }
+
+    
+    var diagrams = document.querySelectorAll('.family-diagram');
+    diagrams.forEach(function (wrapper) {
+      var inner = wrapper.querySelector('.family-diagram-inner');
+      if (!inner) return;
+      var zoom = 1;
+
+      function applyZoom() {
+        inner.style.transform = 'scale(' + zoom + ')';
+      }
+
+      var zoomIn = wrapper.querySelector('.family-diagram-zoom-in');
+      var zoomOut = wrapper.querySelector('.family-diagram-zoom-out');
+      var zoomReset = wrapper.querySelector('.family-diagram-zoom-reset');
+
+      if (zoomIn) {
+        zoomIn.addEventListener('click', function () {
+          zoom = Math.min(zoom + 0.1, 2.5);
+          applyZoom();
+        });
+      }
+      if (zoomOut) {
+        zoomOut.addEventListener('click', function () {
+          zoom = Math.max(zoom - 0.1, 0.4);
+          applyZoom();
+        });
+      }
+      if (zoomReset) {
+        zoomReset.addEventListener('click', function () {
+          zoom = 1;
+          applyZoom();
+        });
+      }
+
+      applyZoom();
+    });
+
+    
+    var goatBlocks = document.querySelectorAll('pre code.language-goat');
+    goatBlocks.forEach(function (code) {
+      var pre = code.parentElement;
+      if (!pre || pre.parentElement.classList.contains('goat-diagram-inner')) {
+        return;
+      }
+
+      var wrapper = document.createElement('div');
+      wrapper.className = 'goat-diagram';
+
+      var controls = document.createElement('div');
+      controls.className = 'goat-diagram-controls';
+      controls.innerHTML = '' +
+        '<button type="button" class="goat-diagram-zoom-out" aria-label="Zoom out">−</button>' +
+        '<button type="button" class="goat-diagram-zoom-reset" aria-label="Reset zoom">100%</button>' +
+        '<button type="button" class="goat-diagram-zoom-in" aria-label="Zoom in">+</button>';
+
+      var inner = document.createElement('div');
+      inner.className = 'goat-diagram-inner';
+
+      var parent = pre.parentElement;
+      parent.insertBefore(wrapper, pre);
+      wrapper.appendChild(controls);
+      wrapper.appendChild(inner);
+      inner.appendChild(pre);
+    });
+
+    
+    var goatWrappers = document.querySelectorAll('.goat-diagram');
+    goatWrappers.forEach(function (wrapper) {
+      var inner = wrapper.querySelector('.goat-diagram-inner');
+      if (!inner) return;
+      var zoom = 1;
+
+      function applyZoom() {
+        inner.style.transform = 'scale(' + zoom + ')';
+      }
+
+      var zoomIn = wrapper.querySelector('.goat-diagram-zoom-in');
+      var zoomOut = wrapper.querySelector('.goat-diagram-zoom-out');
+      var zoomReset = wrapper.querySelector('.goat-diagram-zoom-reset');
+
+      if (zoomIn) {
+        zoomIn.addEventListener('click', function () {
+          zoom = Math.min(zoom + 0.1, 2.5);
+          applyZoom();
+        });
+      }
+      if (zoomOut) {
+        zoomOut.addEventListener('click', function () {
+          zoom = Math.max(zoom - 0.1, 0.4);
+          applyZoom();
+        });
+      }
+      if (zoomReset) {
+        zoomReset.addEventListener('click', function () {
+          zoom = 1;
+          applyZoom();
+        });
+      }
+
+      applyZoom();
+    });
+
+    
+    
+    
+    
+    
+    function setupFamilyHover(svg) {
+      if (!svg) return;
+
+      
+      var lockedEdges = [];
+      var lockedNodeIds = [];
+      var lockedCenterNodeId = null; 
+
+      
+      var diagramWrapper = svg.closest('.family-diagram');
+      var nodePopup = null;
+
+      function ensureNodePopup() {
+        if (!diagramWrapper) return null;
+        if (!nodePopup) {
+          nodePopup = document.createElement('div');
+          nodePopup.className = 'family-node-popup';
+          diagramWrapper.appendChild(nodePopup);
+        }
+        return nodePopup;
+      }
+
+      function applyLockedHighlights() {
+        lockedEdges.forEach(function (edge) {
+          edge.classList.add('family-highlight-edge');
+        });
+        lockedNodeIds.forEach(function (id) {
+          var wrapper = svg.querySelector('[data-node="true"][data-id="' + id + '"]');
+          if (!wrapper) return;
+          var nodeGroup = wrapper.querySelector('g.node') || wrapper;
+          nodeGroup.classList.add('family-highlight-node');
+        });
+      }
+
+      function clearHighlights() {
+        svg.querySelectorAll('.family-highlight-node').forEach(function (el) {
+          el.classList.remove('family-highlight-node');
+        });
+        svg.querySelectorAll('.family-highlight-edge').forEach(function (el) {
+          el.classList.remove('family-highlight-edge');
+        });
+        
+        applyLockedHighlights();
+      }
+
+      function highlightNodeById(nodeId) {
+        if (!nodeId) {
+          return;
+        }
+        var wrapper = svg.querySelector('[data-node="true"][data-id="' + nodeId + '"]');
+        if (!wrapper) return;
+        var nodeGroup = wrapper.querySelector('g.node') || wrapper;
+        nodeGroup.classList.add('family-highlight-node');
+      }
+
+      function lockEdge(edge, fromId, toId) {
+        
+        if (lockedEdges.length === 1 && lockedEdges[0] === edge) {
+          lockedEdges = [];
+          lockedNodeIds = [];
+          lockedCenterNodeId = null;
+        } else {
+          lockedEdges = [edge];
+          lockedNodeIds = [fromId, toId].filter(Boolean);
+          lockedCenterNodeId = null;
+        }
+        clearHighlights();
+      }
+
+      
+      function lockNodeSelection(nodeId) {
+        if (!nodeId) return;
+
+        
+        if (lockedCenterNodeId === nodeId) {
+          lockedCenterNodeId = null;
+          lockedEdges = [];
+          lockedNodeIds = [];
+          clearHighlights();
+          return;
+        }
+
+        var newLockedEdges = [];
+        var newLockedNodes = [nodeId];
+
+        var edges = svg.querySelectorAll('path.flowchart-link');
+        edges.forEach(function (edge) {
+          var cls = edge.getAttribute('class') || '';
+          var fromMatch = cls.match(/LS-([A-Z0-9]+)/);
+          var toMatch = cls.match(/LE-([A-Z0-9]+)/);
+          var fromId = fromMatch && fromMatch[1];
+          var toId = toMatch && toMatch[1];
+
+          
+          if (fromId === nodeId || toId === nodeId) {
+            edge.classList.add('family-highlight-edge');
+            newLockedEdges.push(edge);
+            if (fromId) newLockedNodes.push(fromId);
+            if (toId) newLockedNodes.push(toId);
+          }
+        });
+
+        lockedEdges = newLockedEdges;
+        lockedNodeIds = newLockedNodes.filter(Boolean);
+        lockedCenterNodeId = nodeId;
+        clearHighlights();
+      }
+
+      function showNodePopup(nodeEl) {
+        var href = nodeEl.getAttribute('xlink:href') || nodeEl.getAttribute('href');
+        if (!href) return;
+
+        var popup = ensureNodePopup();
+        if (!popup) return;
+
+        var labelEl = nodeEl.querySelector('.nodeLabel');
+        var label = labelEl ? labelEl.textContent.trim() : href;
+
+        popup.innerHTML = '';
+
+        var title = document.createElement('div');
+        title.className = 'family-node-popup-title';
+        title.textContent = label + "'s personal page";
+
+        var link = document.createElement('a');
+        link.href = href;
+        link.className = 'family-node-popup-link';
+        link.textContent = label;
+
+        popup.appendChild(title);
+        popup.appendChild(link);
+        popup.style.display = 'block';
+      }
+
+      
+      var nodeElements = svg.querySelectorAll('[data-node="true"]');
+      nodeElements.forEach(function (el) {
+        el.addEventListener('mouseenter', function () {
+          clearHighlights();
+          var nodeId = el.getAttribute('data-id');
+          highlightNodeById(nodeId);
+
+          var edges = svg.querySelectorAll('path.flowchart-link');
+          edges.forEach(function (edge) {
+            var cls = edge.getAttribute('class') || '';
+            if (!nodeId) return;
+            var fromMatch = cls.match(/LS-([A-Z0-9]+)/);
+            var toMatch = cls.match(/LE-([A-Z0-9]+)/);
+            var fromId = fromMatch && fromMatch[1];
+            var toId = toMatch && toMatch[1];
+
+            if (fromId === nodeId || toId === nodeId) {
+              edge.classList.add('family-highlight-edge');
+              highlightNodeById(fromId);
+              highlightNodeById(toId);
+            }
+          });
+        });
+
+        el.addEventListener('mouseleave', function () {
+          clearHighlights();
+        });
+
+        
+        
+        el.addEventListener('click', function (evt) {
+          var href = el.getAttribute('xlink:href') || el.getAttribute('href');
+          
+          if (!href) return;
+
+          evt.preventDefault();
+          evt.stopPropagation();
+
+          var nodeId = el.getAttribute('data-id');
+          clearHighlights();
+          lockNodeSelection(nodeId);
+          showNodePopup(el);
+        });
+      });
+
+      
+      var edgeElements = svg.querySelectorAll('path.flowchart-link');
+      edgeElements.forEach(function (edge) {
+        edge.addEventListener('mouseenter', function () {
+          clearHighlights();
+          var cls = edge.getAttribute('class') || '';
+          var fromMatch = cls.match(/LS-([A-Z0-9]+)/);
+          var toMatch = cls.match(/LE-([A-Z0-9]+)/);
+          var fromId = fromMatch && fromMatch[1];
+          var toId = toMatch && toMatch[1];
+
+          edge.classList.add('family-highlight-edge');
+          highlightNodeById(fromId);
+          highlightNodeById(toId);
+        });
+
+        edge.addEventListener('mouseleave', function () {
+          clearHighlights();
+        });
+
+        
+        edge.addEventListener('click', function (evt) {
+          evt.stopPropagation();
+          var cls = edge.getAttribute('class') || '';
+          var fromMatch = cls.match(/LS-([A-Z0-9]+)/);
+          var toMatch = cls.match(/LE-([A-Z0-9]+)/);
+          var fromId = fromMatch && fromMatch[1];
+          var toId = toMatch && toMatch[1];
+          lockEdge(edge, fromId, toId);
+        });
+      });
+    }
+
+    
+    (function attachFamilyHoverWithRetry() {
+      var svgs = document.querySelectorAll('.family-diagram svg:not([data-family-hover-ready])');
+      svgs.forEach(function (svg) {
+        svg.setAttribute('data-family-hover-ready', 'true');
+        setupFamilyHover(svg);
+      });
+
+      if (!svgs.length) {
+        
+        setTimeout(attachFamilyHoverWithRetry, 400);
+      }
+    })();
   });
 </script>
 

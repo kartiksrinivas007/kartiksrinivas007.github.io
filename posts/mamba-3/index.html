@@ -1,0 +1,780 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto" data-theme="auto">
+
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="noindex, nofollow">
+<title>Mamba-3 Kernels | Kartik&#39;s Blog</title>
+<meta name="keywords" content="mamba">
+<meta name="description" content="The Mamba-3 Kernels">
+<meta name="author" content="Kartik">
+<link rel="canonical" href="http://localhost:1313/posts/mamba-3/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.1d19e5defdd96e4191e83589efd3f05d4ff4f893979bb288d2399f9cab1e2991.css" integrity="sha256-HRnl3v3ZbkGR6DWJ79PwXU/0&#43;JOXm7KI0jmfnKseKZE=" rel="preload stylesheet" as="style">
+<link rel="icon" href="http://localhost:1313/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://localhost:1313/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://localhost:1313/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://localhost:1313/apple-touch-icon.png">
+<link rel="mask-icon" href="http://localhost:1313/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="en" href="http://localhost:1313/posts/mamba-3/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --code-block-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+                color-scheme: dark;
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .toc {
+                background: var(--entry);
+            }
+        }
+
+        @media (prefers-color-scheme: light) {
+            .list::-webkit-scrollbar-thumb {
+                border-color: var(--code-bg);
+            }
+        }
+
+    </style>
+</noscript>
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.querySelector("html").dataset.theme = 'dark';
+    } else if (localStorage.getItem("pref-theme") === "light") {
+       document.querySelector("html").dataset.theme = 'light';
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.querySelector("html").dataset.theme = 'dark';
+    } else {
+        document.querySelector("html").dataset.theme = 'light';
+    }
+
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@latest/dist/katex.min.css">
+
+
+<style>
+  :root {
+    --site-sans: 'IBM Plex Sans', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+  }
+   
+  body, .main, .post-content {
+    font-family: var(--site-sans);
+  }
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--site-sans);
+  }
+   
+  pre, code, kbd, samp {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, 'Roboto Mono', 'Courier New', monospace;
+  }
+
+   
+  .katex, .katex * {
+    font-family: KaTeX_Main, KaTeX_Size1, KaTeX_Size2, KaTeX_Size3, KaTeX_Size4, KaTeX_Fraktur, KaTeX_SansSerif, 'Times New Roman', serif !important;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+   
+  .post-single .post-content .photos-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 6px;
+    margin-top: 1rem;
+    margin-bottom: 2rem;
+  }
+
+  .post-single .post-content .photos-grid img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 6px;
+    background: #111;
+    transition: transform 0.18s ease-out, box-shadow 0.18s ease-out, opacity 0.18s ease-out;
+  }
+
+  .post-single .post-content .photos-grid img:hover {
+    transform: translateY(-2px) scale(1.01);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+    opacity: 0.96;
+  }
+
+   
+  .post-single:has(.photos-grid) {
+    max-width: min(1600px, 100vw);
+  }
+
+   
+  .post-single .photo-detail img {
+    display: block;
+    max-width: min(1200px, 100%);
+    margin: 0 auto 1.5rem auto;
+    border-radius: 8px;
+    background: #111;
+  }
+
+   
+  .home-info .entry-content a {
+    box-shadow: 0 1px 0 var(--primary);
+  }
+</style>
+
+</head>
+<body id="top">
+    <header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="http://localhost:1313/" accesskey="h" title="Kartik&#39;s Blog (Alt + H)">Kartik&#39;s Blog</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)" aria-label="Toggle theme">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="http://localhost:1313/" title="Home">
+                    <span>Home</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/teaching/" title="Teaching">
+                    <span>Teaching</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/publications/" title="Publications">
+                    <span>Publications</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/photos/" title="Photos">
+                    <span>Photos</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/posts/" title="Posts">
+                    <span>Posts</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title entry-hint-parent">
+      Mamba-3 Kernels
+      <span class="entry-hint" title="Draft">
+        <svg xmlns="http://www.w3.org/2000/svg" height="35" viewBox="0 -960 960 960" fill="currentColor">
+          <path
+            d="M160-410v-60h300v60H160Zm0-165v-60h470v60H160Zm0-165v-60h470v60H160Zm360 580v-123l221-220q9-9 20-13t22-4q12 0 23 4.5t20 13.5l37 37q9 9 13 20t4 22q0 11-4.5 22.5T862.09-380L643-160H520Zm300-263-37-37 37 37ZM580-220h38l121-122-18-19-19-18-122 121v38Zm141-141-19-18 37 37-18-19Z" />
+        </svg>
+      </span>
+    </h1>
+    <div class="post-description">
+      The Mamba-3 Kernels
+    </div>
+    <div class="post-meta"><span title='2025-10-30 10:00:00 -0500 -0500'>October 30, 2025</span>&nbsp;·&nbsp;<span>Kartik</span>
+
+</div>
+  </header> 
+  <div class="post-content"><p><strong>Note:</strong> This is a rough, work-in-progress post — things may change or be incomplete.</p>
+<h2 id="backward-pass">Backward pass<a hidden class="anchor" aria-hidden="true" href="#backward-pass">#</a></h2>
+<p>Main equations are</p>
+<p>$$
+\begin{equation}
+(L \odot CB^T) X_c + (C \times F_{c - 1}^T) \odot A_{cs} = O_c
+\end{equation}
+$$</p>
+<p>Where F is states of shape <code>(head_dim, d_state)</code></p>
+<p>To get the gradients of X_c, we must also use other equations, since <code>F_c</code> depends on <code>X_c</code> which inturn affects of <code>O_(c + 1)</code></p>
+<p>$$
+\begin{equation}
+F_{c} = S_{c} + F_{c - 1} \times A_{chunk-decay}(c)
+\end{equation}
+$$</p>
+<p>With <code>F_0</code> as all zeroes and the chunk indexes are from <code>1, 2... num_chunks</code></p>
+<p>$$
+\begin{equation}
+S_{c} = (X_c \odot A_{cs-rev})^T B
+\end{equation}
+$$</p>
+<p>So the gradients to <code>X_c</code> have two parts, one through the first term, and the other through <code>S_c</code>.
+The gradients are
+$$
+\bar{X_c} = (L^T \odot C^T B) \bar{O} +  B \bar{S_c}^T \odot A_{cs-rev}
+$$</p>
+<p>Note that \(\bar{S_c}  = \bar{F_{c}}\), so we need a variable that keeps track of the gradient of the final state chunks, this is <code>d_ssm_states_acc</code>.</p>
+<h3 id="obtaining-gradients-of-f_c">Obtaining gradients of <code>F_c</code><a hidden class="anchor" aria-hidden="true" href="#obtaining-gradients-of-f_c">#</a></h3>
+<p>The first part of the gradient of <code>F_{c - 1}</code> is through <code>O_c</code></p>
+<p>$$
+\bar{F_{c - 1}} = (\bar{O} \odot A_{cs})^T \times C
+$$</p>
+<p>The second part of the gradient is the indirect <code>effect</code> of <code>F_(c - 1)</code> on <code>F_c</code> from equation (2)</p>
+<p>$$
+\bar{F_{c - 1}} = \bar{F_c} \times A_{chunk-decay}(c)
+$$</p>
+<p>We add both of these gradient flows to get the full adjoint of <code>F_c</code> = <code>S_c</code>&rsquo;s adjoint as well.</p>
+<p>At any iteration, we maintain <code>d_ssm_states_acc</code> which is <code>F_c</code> since the kernel goes in reverse, at the end of the iteration, we update this accumulator to hold adjoint of <code>F_(c - 1)</code></p>
+<h3 id="tracking-the-gradients-of-a">Tracking the Gradients of A<a hidden class="anchor" aria-hidden="true" href="#tracking-the-gradients-of-a">#</a></h3>
+<p>The gradients of A are tricky, A comes in multiple areas, namely in</p>
+<ol>
+<li>In the production of the segsum mask, <code>L</code></li>
+<li>In <code>A_cs</code></li>
+<li>In <code>A_cs_rev</code></li>
+<li>In <code>A_chunk_decay</code></li>
+</ol>
+<p>Let us go point by point</p>
+<h4 id="point-1">Point 1<a hidden class="anchor" aria-hidden="true" href="#point-1">#</a></h4>
+<p>We need the segsum mask gradients in terms of the gradients of <code>A_cs</code></p>
+<p>$$
+\overline{L} = (\bar{O} X^T) \odot CB^T
+$$</p>
+<h4 id="point-2">Point 2<a hidden class="anchor" aria-hidden="true" href="#point-2">#</a></h4>
+<p>From Equation (1) we get</p>
+<p>$$
+\overline{A_{cs}} = \bar{O} \odot (C \times F_{c - 1}^T)
+$$</p>
+<p>This is line 564</p>
+<pre tabindex="0"><code>dM_rev_vector += tl.sum(QS * dO_reloaded, axis=1) * exp_da_cs  # (CHUNK_SIZE,)
+</code></pre><h4 id="point-3">Point 3<a hidden class="anchor" aria-hidden="true" href="#point-3">#</a></h4>
+<p>From Equation (3) we get</p>
+<p>$$
+B \overline{S_c}^T \odot X_c = B \overline{F_c}^T \odot X_c = \overline{A_{cs-rev}}
+$$</p>
+<p>This is <code>dM_vector</code> in the code, note that is this the gradient with respect to reverse cumsums</p>
+<h4 id="point-4">Point 4<a hidden class="anchor" aria-hidden="true" href="#point-4">#</a></h4>
+<p>$$
+\overline{A_{chunk-decay}}(c) = \sum \bar{F_c} \times F_{c - 1}
+$$</p>
+<p>Note that in the kernel <code>SSM_states</code> holds the &ldquo;beginning&rdquo; state for each chunk, so <code>F_(c - 1)</code>, which is the final state of chunk c - 1, is actually the starting state of the <code>c</code>&lsquo;th chunk.
+This is <code>dM_scalar</code> in the code.</p>
+<h3 id="the-final-gradient-accumulation">The Final Gradient accumulation<a hidden class="anchor" aria-hidden="true" href="#the-final-gradient-accumulation">#</a></h3>
+<p>In this step we decode this line</p>
+<pre tabindex="0"><code>   dM_rev_vector += (tl.sum(dM_rev_vector) + dM_scalar) + tl.cumsum(dM_vector - dM_rev_vector) - dM_vector
+</code></pre><p>We can do it in 2 steps after noting <code>cumsum(a - b) = cumsum(a) - cumsum(b)</code></p>
+<p>First part is to compute pure A gradients from <code>dM_vector</code> which is gradients with respect to <code>dA_cs_rev</code>. Let the gradients of <code>dA_cs_rev = dM_vector = g_i</code>, then the pure gradients are this map</p>
+<p>$$
+[a_2 + a_3 + a_4 , a_3 + a_4, a_4, 1] \longrightarrow [0, g_1, g_1 + g_2, g_1 + g_2 + g_3]
+$$</p>
+<p>This is precisely <code>tl.cumsum(dM_vector) - dM_vector</code></p>
+<p>Second part is to distribute the gradients of chunk decay <code>dM_scalar = g</code></p>
+<p>$$
+[a_1 + a_2 + a_3 + a_4] \longrightarrow  [g, g, g, g]
+$$</p>
+<p>The final step is to make gradients of <code>dA_cs</code></p>
+<p>$$
+[a_1, a_1 + a_2, a_1 + a_2 + a_3, a_1 + a_2 + a_3 + a_4] \longrightarrow [g_1, g_1 + g_2, g_1 + g_2 + g_3, g_1 + g_2 + g_3 + g_4]
+$$</p>
+<p>This is precisely the map <code>dM_rev_vector + tl.sum(dM_rev_vector) - tl.cumsum(dM_rev_vector)</code></p>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="http://localhost:1313/tags/mamba/">Mamba</a></li>
+    </ul>
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+        <span>&copy; 2026 <a href="http://localhost:1313/">Kartik&#39;s Blog</a></span> · 
+
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script defer src="https://cdn.jsdelivr.net/npm/katex@latest/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@latest/dist/contrib/auto-render.min.js"></script>
+
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    if (typeof renderMathInElement === 'function') {
+      try {
+        renderMathInElement(document.body, {
+          delimiters: [
+            {left: '$$', right: '$$', display: true},
+            {left: '\\(', right: '\\)', display: false}
+          ],
+          ignoredTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+          throwOnError: false,
+          errorColor: '#cc0000'
+        });
+      } catch (e) {
+        console.warn('KaTeX auto-render failed:', e);
+      }
+    }
+  });
+</script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    if (window.mermaid) {
+      mermaid.initialize({
+        startOnLoad: true,
+        securityLevel: 'loose'
+      });
+    }
+
+    
+    var diagrams = document.querySelectorAll('.family-diagram');
+    diagrams.forEach(function (wrapper) {
+      var inner = wrapper.querySelector('.family-diagram-inner');
+      if (!inner) return;
+      var zoom = 1;
+
+      function applyZoom() {
+        inner.style.transform = 'scale(' + zoom + ')';
+      }
+
+      var zoomIn = wrapper.querySelector('.family-diagram-zoom-in');
+      var zoomOut = wrapper.querySelector('.family-diagram-zoom-out');
+      var zoomReset = wrapper.querySelector('.family-diagram-zoom-reset');
+
+      if (zoomIn) {
+        zoomIn.addEventListener('click', function () {
+          zoom = Math.min(zoom + 0.1, 2.5);
+          applyZoom();
+        });
+      }
+      if (zoomOut) {
+        zoomOut.addEventListener('click', function () {
+          zoom = Math.max(zoom - 0.1, 0.4);
+          applyZoom();
+        });
+      }
+      if (zoomReset) {
+        zoomReset.addEventListener('click', function () {
+          zoom = 1;
+          applyZoom();
+        });
+      }
+
+      applyZoom();
+    });
+
+    
+    var goatBlocks = document.querySelectorAll('pre code.language-goat');
+    goatBlocks.forEach(function (code) {
+      var pre = code.parentElement;
+      if (!pre || pre.parentElement.classList.contains('goat-diagram-inner')) {
+        return;
+      }
+
+      var wrapper = document.createElement('div');
+      wrapper.className = 'goat-diagram';
+
+      var controls = document.createElement('div');
+      controls.className = 'goat-diagram-controls';
+      controls.innerHTML = '' +
+        '<button type="button" class="goat-diagram-zoom-out" aria-label="Zoom out">−</button>' +
+        '<button type="button" class="goat-diagram-zoom-reset" aria-label="Reset zoom">100%</button>' +
+        '<button type="button" class="goat-diagram-zoom-in" aria-label="Zoom in">+</button>';
+
+      var inner = document.createElement('div');
+      inner.className = 'goat-diagram-inner';
+
+      var parent = pre.parentElement;
+      parent.insertBefore(wrapper, pre);
+      wrapper.appendChild(controls);
+      wrapper.appendChild(inner);
+      inner.appendChild(pre);
+    });
+
+    
+    var goatWrappers = document.querySelectorAll('.goat-diagram');
+    goatWrappers.forEach(function (wrapper) {
+      var inner = wrapper.querySelector('.goat-diagram-inner');
+      if (!inner) return;
+      var zoom = 1;
+
+      function applyZoom() {
+        inner.style.transform = 'scale(' + zoom + ')';
+      }
+
+      var zoomIn = wrapper.querySelector('.goat-diagram-zoom-in');
+      var zoomOut = wrapper.querySelector('.goat-diagram-zoom-out');
+      var zoomReset = wrapper.querySelector('.goat-diagram-zoom-reset');
+
+      if (zoomIn) {
+        zoomIn.addEventListener('click', function () {
+          zoom = Math.min(zoom + 0.1, 2.5);
+          applyZoom();
+        });
+      }
+      if (zoomOut) {
+        zoomOut.addEventListener('click', function () {
+          zoom = Math.max(zoom - 0.1, 0.4);
+          applyZoom();
+        });
+      }
+      if (zoomReset) {
+        zoomReset.addEventListener('click', function () {
+          zoom = 1;
+          applyZoom();
+        });
+      }
+
+      applyZoom();
+    });
+
+    
+    
+    
+    
+    
+    function setupFamilyHover(svg) {
+      if (!svg) return;
+
+      
+      var lockedEdges = [];
+      var lockedNodeIds = [];
+      var lockedCenterNodeId = null; 
+
+      
+      var diagramWrapper = svg.closest('.family-diagram');
+      var nodePopup = null;
+
+      function ensureNodePopup() {
+        if (!diagramWrapper) return null;
+        if (!nodePopup) {
+          nodePopup = document.createElement('div');
+          nodePopup.className = 'family-node-popup';
+          diagramWrapper.appendChild(nodePopup);
+        }
+        return nodePopup;
+      }
+
+      function applyLockedHighlights() {
+        lockedEdges.forEach(function (edge) {
+          edge.classList.add('family-highlight-edge');
+        });
+        lockedNodeIds.forEach(function (id) {
+          var wrapper = svg.querySelector('[data-node="true"][data-id="' + id + '"]');
+          if (!wrapper) return;
+          var nodeGroup = wrapper.querySelector('g.node') || wrapper;
+          nodeGroup.classList.add('family-highlight-node');
+        });
+      }
+
+      function clearHighlights() {
+        svg.querySelectorAll('.family-highlight-node').forEach(function (el) {
+          el.classList.remove('family-highlight-node');
+        });
+        svg.querySelectorAll('.family-highlight-edge').forEach(function (el) {
+          el.classList.remove('family-highlight-edge');
+        });
+        
+        applyLockedHighlights();
+      }
+
+      function highlightNodeById(nodeId) {
+        if (!nodeId) {
+          return;
+        }
+        var wrapper = svg.querySelector('[data-node="true"][data-id="' + nodeId + '"]');
+        if (!wrapper) return;
+        var nodeGroup = wrapper.querySelector('g.node') || wrapper;
+        nodeGroup.classList.add('family-highlight-node');
+      }
+
+      function lockEdge(edge, fromId, toId) {
+        
+        if (lockedEdges.length === 1 && lockedEdges[0] === edge) {
+          lockedEdges = [];
+          lockedNodeIds = [];
+          lockedCenterNodeId = null;
+        } else {
+          lockedEdges = [edge];
+          lockedNodeIds = [fromId, toId].filter(Boolean);
+          lockedCenterNodeId = null;
+        }
+        clearHighlights();
+      }
+
+      
+      function lockNodeSelection(nodeId) {
+        if (!nodeId) return;
+
+        
+        if (lockedCenterNodeId === nodeId) {
+          lockedCenterNodeId = null;
+          lockedEdges = [];
+          lockedNodeIds = [];
+          clearHighlights();
+          return;
+        }
+
+        var newLockedEdges = [];
+        var newLockedNodes = [nodeId];
+
+        var edges = svg.querySelectorAll('path.flowchart-link');
+        edges.forEach(function (edge) {
+          var cls = edge.getAttribute('class') || '';
+          var fromMatch = cls.match(/LS-([A-Z0-9]+)/);
+          var toMatch = cls.match(/LE-([A-Z0-9]+)/);
+          var fromId = fromMatch && fromMatch[1];
+          var toId = toMatch && toMatch[1];
+
+          
+          if (fromId === nodeId || toId === nodeId) {
+            edge.classList.add('family-highlight-edge');
+            newLockedEdges.push(edge);
+            if (fromId) newLockedNodes.push(fromId);
+            if (toId) newLockedNodes.push(toId);
+          }
+        });
+
+        lockedEdges = newLockedEdges;
+        lockedNodeIds = newLockedNodes.filter(Boolean);
+        lockedCenterNodeId = nodeId;
+        clearHighlights();
+      }
+
+      function showNodePopup(nodeEl) {
+        var href = nodeEl.getAttribute('xlink:href') || nodeEl.getAttribute('href');
+        if (!href) return;
+
+        var popup = ensureNodePopup();
+        if (!popup) return;
+
+        var labelEl = nodeEl.querySelector('.nodeLabel');
+        var label = labelEl ? labelEl.textContent.trim() : href;
+
+        popup.innerHTML = '';
+
+        var title = document.createElement('div');
+        title.className = 'family-node-popup-title';
+        title.textContent = label + "'s personal page";
+
+        var link = document.createElement('a');
+        link.href = href;
+        link.className = 'family-node-popup-link';
+        link.textContent = label;
+
+        popup.appendChild(title);
+        popup.appendChild(link);
+        popup.style.display = 'block';
+      }
+
+      
+      var nodeElements = svg.querySelectorAll('[data-node="true"]');
+      nodeElements.forEach(function (el) {
+        el.addEventListener('mouseenter', function () {
+          clearHighlights();
+          var nodeId = el.getAttribute('data-id');
+          highlightNodeById(nodeId);
+
+          var edges = svg.querySelectorAll('path.flowchart-link');
+          edges.forEach(function (edge) {
+            var cls = edge.getAttribute('class') || '';
+            if (!nodeId) return;
+            var fromMatch = cls.match(/LS-([A-Z0-9]+)/);
+            var toMatch = cls.match(/LE-([A-Z0-9]+)/);
+            var fromId = fromMatch && fromMatch[1];
+            var toId = toMatch && toMatch[1];
+
+            if (fromId === nodeId || toId === nodeId) {
+              edge.classList.add('family-highlight-edge');
+              highlightNodeById(fromId);
+              highlightNodeById(toId);
+            }
+          });
+        });
+
+        el.addEventListener('mouseleave', function () {
+          clearHighlights();
+        });
+
+        
+        
+        el.addEventListener('click', function (evt) {
+          var href = el.getAttribute('xlink:href') || el.getAttribute('href');
+          
+          if (!href) return;
+
+          evt.preventDefault();
+          evt.stopPropagation();
+
+          var nodeId = el.getAttribute('data-id');
+          clearHighlights();
+          lockNodeSelection(nodeId);
+          showNodePopup(el);
+        });
+      });
+
+      
+      var edgeElements = svg.querySelectorAll('path.flowchart-link');
+      edgeElements.forEach(function (edge) {
+        edge.addEventListener('mouseenter', function () {
+          clearHighlights();
+          var cls = edge.getAttribute('class') || '';
+          var fromMatch = cls.match(/LS-([A-Z0-9]+)/);
+          var toMatch = cls.match(/LE-([A-Z0-9]+)/);
+          var fromId = fromMatch && fromMatch[1];
+          var toId = toMatch && toMatch[1];
+
+          edge.classList.add('family-highlight-edge');
+          highlightNodeById(fromId);
+          highlightNodeById(toId);
+        });
+
+        edge.addEventListener('mouseleave', function () {
+          clearHighlights();
+        });
+
+        
+        edge.addEventListener('click', function (evt) {
+          evt.stopPropagation();
+          var cls = edge.getAttribute('class') || '';
+          var fromMatch = cls.match(/LS-([A-Z0-9]+)/);
+          var toMatch = cls.match(/LE-([A-Z0-9]+)/);
+          var fromId = fromMatch && fromMatch[1];
+          var toId = toMatch && toMatch[1];
+          lockEdge(edge, fromId, toId);
+        });
+      });
+    }
+
+    
+    (function attachFamilyHoverWithRetry() {
+      var svgs = document.querySelectorAll('.family-diagram svg:not([data-family-hover-ready])');
+      svgs.forEach(function (svg) {
+        svg.setAttribute('data-family-hover-ready', 'true');
+        setupFamilyHover(svg);
+      });
+
+      if (!svgs.length) {
+        
+        setTimeout(attachFamilyHoverWithRetry, 400);
+      }
+    })();
+  });
+</script>
+
+
+<script>
+    let menu = document.getElementById('menu');
+    if (menu) {
+        
+        const scrollPosition = localStorage.getItem("menu-scroll-position");
+        if (scrollPosition) {
+            menu.scrollLeft = parseInt(scrollPosition, 10);
+        }
+        
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        const html = document.querySelector("html");
+        if (html.dataset.theme === "dark") {
+            html.dataset.theme = 'light';
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            html.dataset.theme = 'dark';
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>
