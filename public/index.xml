@@ -589,27 +589,6 @@
       <description>A few photos I&amp;#39;ve taken</description>
     </item>
     <item>
-      <title>Karpathy Summary</title>
-      <link>http://localhost:1313/posts/karpathy/</link>
-      <pubDate>Tue, 23 Dec 2025 10:00:00 -0500</pubDate>
-      <guid>http://localhost:1313/posts/karpathy/</guid>
-      <description>Andrej Karpathy blog summary</description>
-    </item>
-    <item>
-      <title>Looking back at CMU MSML</title>
-      <link>http://localhost:1313/posts/cmu-msml/</link>
-      <pubDate>Tue, 23 Dec 2025 10:00:00 -0500</pubDate>
-      <guid>http://localhost:1313/posts/cmu-msml/</guid>
-      <description>Looking Back at CMU MSML</description>
-    </item>
-    <item>
-      <title>Thoughts</title>
-      <link>http://localhost:1313/posts/thoughts/</link>
-      <pubDate>Tue, 23 Dec 2025 10:00:00 -0500</pubDate>
-      <guid>http://localhost:1313/posts/thoughts/</guid>
-      <description>Thoughts on the arrival of AGI</description>
-    </item>
-    <item>
       <title>The Cut</title>
       <link>http://localhost:1313/photo/img-3602/</link>
       <pubDate>Tue, 16 Dec 2025 01:22:06 +0530</pubDate>
@@ -650,20 +629,6 @@
       <pubDate>Fri, 28 Nov 2025 06:23:18 +0530</pubDate>
       <guid>http://localhost:1313/photo/img-3113/</guid>
       <description>San Diego</description>
-    </item>
-    <item>
-      <title>Mamba-2 Kernels</title>
-      <link>http://localhost:1313/posts/mamba/</link>
-      <pubDate>Thu, 30 Oct 2025 10:00:00 -0500</pubDate>
-      <guid>http://localhost:1313/posts/mamba/</guid>
-      <description>The Mamba-2 Kernels</description>
-    </item>
-    <item>
-      <title>Mamba-3 Kernels</title>
-      <link>http://localhost:1313/posts/mamba-3/</link>
-      <pubDate>Thu, 30 Oct 2025 10:00:00 -0500</pubDate>
-      <guid>http://localhost:1313/posts/mamba-3/</guid>
-      <description>The Mamba-3 Kernels</description>
     </item>
     <item>
       <title>More About Me</title>
