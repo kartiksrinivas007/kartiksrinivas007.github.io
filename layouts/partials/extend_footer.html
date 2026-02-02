@@ -1,4 +1,4 @@
-{{- /* Custom footer additions: KaTeX CSS/JS + auto-render for LaTeX */ -}}
+{{- /* Custom footer additions: KaTeX, Mermaid, etc. */ -}}
 
 <!-- KaTeX JS and auto-render plugin (CSS loaded in head) -->
 <!-- Using @latest so the newest KaTeX release is used. Replace with a pinned version (e.g. @0.16.8) for reproducible builds. -->
@@ -7,19 +7,15 @@
 
 <!-- Initialize KaTeX auto-render when scripts load -->
 <script>
-  // Wait for DOMContentLoaded in case footer loads before body is ready
   document.addEventListener('DOMContentLoaded', function () {
     if (typeof renderMathInElement === 'function') {
       try {
         renderMathInElement(document.body, {
-          // Delimiters: $$...$$ for display math, \(...\) for inline math
           delimiters: [
             {left: '$$', right: '$$', display: true},
             {left: '\\(', right: '\\)', display: false}
           ],
-          // Do not render inside these tags
           ignoredTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
-          // Prefer not to throw on LaTeX errors in content; show a red error box instead
           throwOnError: false,
           errorColor: '#cc0000'
         });
@@ -27,5 +23,352 @@
         console.warn('KaTeX auto-render failed:', e);
       }
     }
+  });
+</script>
+
+<!-- Mermaid for diagrams -->
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    if (window.mermaid) {
+      mermaid.initialize({
+        startOnLoad: true,
+        securityLevel: 'loose'
+      });
+    }
+
+    // Simple zoom controls for family diagrams
+    var diagrams = document.querySelectorAll('.family-diagram');
+    diagrams.forEach(function (wrapper) {
+      var inner = wrapper.querySelector('.family-diagram-inner');
+      if (!inner) return;
+      var zoom = 1;
+
+      function applyZoom() {
+        inner.style.transform = 'scale(' + zoom + ')';
+      }
+
+      var zoomIn = wrapper.querySelector('.family-diagram-zoom-in');
+      var zoomOut = wrapper.querySelector('.family-diagram-zoom-out');
+      var zoomReset = wrapper.querySelector('.family-diagram-zoom-reset');
+
+      if (zoomIn) {
+        zoomIn.addEventListener('click', function () {
+          zoom = Math.min(zoom + 0.1, 2.5);
+          applyZoom();
+        });
+      }
+      if (zoomOut) {
+        zoomOut.addEventListener('click', function () {
+          zoom = Math.max(zoom - 0.1, 0.4);
+          applyZoom();
+        });
+      }
+      if (zoomReset) {
+        zoomReset.addEventListener('click', function () {
+          zoom = 1;
+          applyZoom();
+        });
+      }
+
+      applyZoom();
+    });
+
+    // Wrap GOAT code blocks and add zoom controls
+    var goatBlocks = document.querySelectorAll('pre code.language-goat');
+    goatBlocks.forEach(function (code) {
+      var pre = code.parentElement;
+      if (!pre || pre.parentElement.classList.contains('goat-diagram-inner')) {
+        return;
+      }
+
+      var wrapper = document.createElement('div');
+      wrapper.className = 'goat-diagram';
+
+      var controls = document.createElement('div');
+      controls.className = 'goat-diagram-controls';
+      controls.innerHTML = '' +
+        '<button type="button" class="goat-diagram-zoom-out" aria-label="Zoom out">−</button>' +
+        '<button type="button" class="goat-diagram-zoom-reset" aria-label="Reset zoom">100%</button>' +
+        '<button type="button" class="goat-diagram-zoom-in" aria-label="Zoom in">+</button>';
+
+      var inner = document.createElement('div');
+      inner.className = 'goat-diagram-inner';
+
+      var parent = pre.parentElement;
+      parent.insertBefore(wrapper, pre);
+      wrapper.appendChild(controls);
+      wrapper.appendChild(inner);
+      inner.appendChild(pre);
+    });
+
+    // Zoom behaviour for GOAT diagrams
+    var goatWrappers = document.querySelectorAll('.goat-diagram');
+    goatWrappers.forEach(function (wrapper) {
+      var inner = wrapper.querySelector('.goat-diagram-inner');
+      if (!inner) return;
+      var zoom = 1;
+
+      function applyZoom() {
+        inner.style.transform = 'scale(' + zoom + ')';
+      }
+
+      var zoomIn = wrapper.querySelector('.goat-diagram-zoom-in');
+      var zoomOut = wrapper.querySelector('.goat-diagram-zoom-out');
+      var zoomReset = wrapper.querySelector('.goat-diagram-zoom-reset');
+
+      if (zoomIn) {
+        zoomIn.addEventListener('click', function () {
+          zoom = Math.min(zoom + 0.1, 2.5);
+          applyZoom();
+        });
+      }
+      if (zoomOut) {
+        zoomOut.addEventListener('click', function () {
+          zoom = Math.max(zoom - 0.1, 0.4);
+          applyZoom();
+        });
+      }
+      if (zoomReset) {
+        zoomReset.addEventListener('click', function () {
+          zoom = 1;
+          applyZoom();
+        });
+      }
+
+      applyZoom();
+    });
+
+    // Hover / click behaviour for Mermaid family diagrams:
+    // - Hovering a node or edge highlights it and its neighbours.
+    // - Clicking an edge "locks" that edge highlight until clicked again.
+    // - Clicking a node highlights its parents + incoming edges and shows a small popup
+    //   with a link to the person's page instead of navigating immediately.
+    function setupFamilyHover(svg) {
+      if (!svg) return;
+
+      // Keep track of a "locked" selection (edges + nodes)
+      var lockedEdges = [];
+      var lockedNodeIds = [];
+      var lockedCenterNodeId = null; // which node's neighbourhood is locked, if any
+
+      // Popup state (per diagram)
+      var diagramWrapper = svg.closest('.family-diagram');
+      var nodePopup = null;
+
+      function ensureNodePopup() {
+        if (!diagramWrapper) return null;
+        if (!nodePopup) {
+          nodePopup = document.createElement('div');
+          nodePopup.className = 'family-node-popup';
+          diagramWrapper.appendChild(nodePopup);
+        }
+        return nodePopup;
+      }
+
+      function applyLockedHighlights() {
+        lockedEdges.forEach(function (edge) {
+          edge.classList.add('family-highlight-edge');
+        });
+        lockedNodeIds.forEach(function (id) {
+          var wrapper = svg.querySelector('[data-node="true"][data-id="' + id + '"]');
+          if (!wrapper) return;
+          var nodeGroup = wrapper.querySelector('g.node') || wrapper;
+          nodeGroup.classList.add('family-highlight-node');
+        });
+      }
+
+      function clearHighlights() {
+        svg.querySelectorAll('.family-highlight-node').forEach(function (el) {
+          el.classList.remove('family-highlight-node');
+        });
+        svg.querySelectorAll('.family-highlight-edge').forEach(function (el) {
+          el.classList.remove('family-highlight-edge');
+        });
+        // Re‑apply any locked selection
+        applyLockedHighlights();
+      }
+
+      function highlightNodeById(nodeId) {
+        if (!nodeId) {
+          return;
+        }
+        var wrapper = svg.querySelector('[data-node="true"][data-id="' + nodeId + '"]');
+        if (!wrapper) return;
+        var nodeGroup = wrapper.querySelector('g.node') || wrapper;
+        nodeGroup.classList.add('family-highlight-node');
+      }
+
+      function lockEdge(edge, fromId, toId) {
+        // Toggle this edge as the only locked edge
+        if (lockedEdges.length === 1 && lockedEdges[0] === edge) {
+          lockedEdges = [];
+          lockedNodeIds = [];
+          lockedCenterNodeId = null;
+        } else {
+          lockedEdges = [edge];
+          lockedNodeIds = [fromId, toId].filter(Boolean);
+          lockedCenterNodeId = null;
+        }
+        clearHighlights();
+      }
+
+      // Lock + highlight all incident edges (parents and children) for a given node
+      function lockNodeSelection(nodeId) {
+        if (!nodeId) return;
+
+        // Second click on same node: unlock its selection
+        if (lockedCenterNodeId === nodeId) {
+          lockedCenterNodeId = null;
+          lockedEdges = [];
+          lockedNodeIds = [];
+          clearHighlights();
+          return;
+        }
+
+        var newLockedEdges = [];
+        var newLockedNodes = [nodeId];
+
+        var edges = svg.querySelectorAll('path.flowchart-link');
+        edges.forEach(function (edge) {
+          var cls = edge.getAttribute('class') || '';
+          var fromMatch = cls.match(/LS-([A-Z0-9]+)/);
+          var toMatch = cls.match(/LE-([A-Z0-9]+)/);
+          var fromId = fromMatch && fromMatch[1];
+          var toId = toMatch && toMatch[1];
+
+          // Any edge where this node is either parent or child
+          if (fromId === nodeId || toId === nodeId) {
+            edge.classList.add('family-highlight-edge');
+            newLockedEdges.push(edge);
+            if (fromId) newLockedNodes.push(fromId);
+            if (toId) newLockedNodes.push(toId);
+          }
+        });
+
+        lockedEdges = newLockedEdges;
+        lockedNodeIds = newLockedNodes.filter(Boolean);
+        lockedCenterNodeId = nodeId;
+        clearHighlights();
+      }
+
+      function showNodePopup(nodeEl) {
+        var href = nodeEl.getAttribute('xlink:href') || nodeEl.getAttribute('href');
+        if (!href) return;
+
+        var popup = ensureNodePopup();
+        if (!popup) return;
+
+        var labelEl = nodeEl.querySelector('.nodeLabel');
+        var label = labelEl ? labelEl.textContent.trim() : href;
+
+        popup.innerHTML = '';
+
+        var title = document.createElement('div');
+        title.className = 'family-node-popup-title';
+        title.textContent = label + "'s personal page";
+
+        var link = document.createElement('a');
+        link.href = href;
+        link.className = 'family-node-popup-link';
+        link.textContent = label;
+
+        popup.appendChild(title);
+        popup.appendChild(link);
+        popup.style.display = 'block';
+      }
+
+      // Attach listeners to all nodes (anchors and plain groups)
+      var nodeElements = svg.querySelectorAll('[data-node="true"]');
+      nodeElements.forEach(function (el) {
+        el.addEventListener('mouseenter', function () {
+          clearHighlights();
+          var nodeId = el.getAttribute('data-id');
+          highlightNodeById(nodeId);
+
+          var edges = svg.querySelectorAll('path.flowchart-link');
+          edges.forEach(function (edge) {
+            var cls = edge.getAttribute('class') || '';
+            if (!nodeId) return;
+            var fromMatch = cls.match(/LS-([A-Z0-9]+)/);
+            var toMatch = cls.match(/LE-([A-Z0-9]+)/);
+            var fromId = fromMatch && fromMatch[1];
+            var toId = toMatch && toMatch[1];
+
+            if (fromId === nodeId || toId === nodeId) {
+              edge.classList.add('family-highlight-edge');
+              highlightNodeById(fromId);
+              highlightNodeById(toId);
+            }
+          });
+        });
+
+        el.addEventListener('mouseleave', function () {
+          clearHighlights();
+        });
+
+        // Override Mermaid's default click navigation:
+        // instead, lock parent connections + show a popup with a link.
+        el.addEventListener('click', function (evt) {
+          var href = el.getAttribute('xlink:href') || el.getAttribute('href');
+          // If there is no link (e.g. ancestor group nodes), leave behaviour unchanged
+          if (!href) return;
+
+          evt.preventDefault();
+          evt.stopPropagation();
+
+          var nodeId = el.getAttribute('data-id');
+          clearHighlights();
+          lockNodeSelection(nodeId);
+          showNodePopup(el);
+        });
+      });
+
+      // Also allow hovering directly on edges to highlight parents/children
+      var edgeElements = svg.querySelectorAll('path.flowchart-link');
+      edgeElements.forEach(function (edge) {
+        edge.addEventListener('mouseenter', function () {
+          clearHighlights();
+          var cls = edge.getAttribute('class') || '';
+          var fromMatch = cls.match(/LS-([A-Z0-9]+)/);
+          var toMatch = cls.match(/LE-([A-Z0-9]+)/);
+          var fromId = fromMatch && fromMatch[1];
+          var toId = toMatch && toMatch[1];
+
+          edge.classList.add('family-highlight-edge');
+          highlightNodeById(fromId);
+          highlightNodeById(toId);
+        });
+
+        edge.addEventListener('mouseleave', function () {
+          clearHighlights();
+        });
+
+        // On click, toggle a "locked" selection that persists until clicked again
+        edge.addEventListener('click', function (evt) {
+          evt.stopPropagation();
+          var cls = edge.getAttribute('class') || '';
+          var fromMatch = cls.match(/LS-([A-Z0-9]+)/);
+          var toMatch = cls.match(/LE-([A-Z0-9]+)/);
+          var fromId = fromMatch && fromMatch[1];
+          var toId = toMatch && toMatch[1];
+          lockEdge(edge, fromId, toId);
+        });
+      });
+    }
+
+    // Run hover setup after Mermaid has rendered the diagrams.
+    (function attachFamilyHoverWithRetry() {
+      var svgs = document.querySelectorAll('.family-diagram svg:not([data-family-hover-ready])');
+      svgs.forEach(function (svg) {
+        svg.setAttribute('data-family-hover-ready', 'true');
+        setupFamilyHover(svg);
+      });
+
+      if (!svgs.length) {
+        // Mermaid may not have finished rendering yet; try again shortly.
+        setTimeout(attachFamilyHoverWithRetry, 400);
+      }
+    })();
   });
 </script>

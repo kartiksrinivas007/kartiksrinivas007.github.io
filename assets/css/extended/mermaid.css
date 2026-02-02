@@ -1,0 +1,149 @@
+.mermaid {
+  font-family: var(--site-sans, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial);
+}
+
+.mermaid svg text {
+  font-family: var(--site-sans, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial);
+}
+
+.mermaid svg a text {
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+  text-decoration-color: var(--primary, #ffffff);
+}
+
+.family-diagram {
+  padding: 0.5rem 0 1.25rem 0;
+  border-radius: 8px;
+  position: relative;
+}
+
+.family-diagram-scroll {
+  overflow: auto;
+}
+
+.family-diagram-inner {
+  display: inline-block;
+  transform-origin: top left;
+}
+
+.family-diagram svg {
+  min-width: 1600px;
+  height: auto;
+}
+
+/* Widen family page when using GOAT code blocks and make text smaller */
+.post-single:has(pre code.language-goat) {
+  max-width: min(1600px, 100vw);
+}
+
+pre code.language-goat {
+  font-size: 0.8rem;
+}
+
+.goat-diagram {
+  overflow: auto;
+  padding: 0.5rem 0 1.25rem 0;
+}
+
+.goat-diagram-inner {
+  display: inline-block;
+  transform-origin: top left;
+}
+
+.goat-diagram-controls {
+  display: flex;
+  gap: 0.4rem;
+  justify-content: flex-end;
+  margin-bottom: 0.4rem;
+  font-size: 0.85rem;
+}
+
+.goat-diagram-controls button {
+  border-radius: 999px;
+  border: 1px solid var(--border, #4b5563);
+  padding: 0.15rem 0.55rem;
+  background: var(--code-bg, #020617);
+  color: inherit;
+  cursor: pointer;
+  font: inherit;
+}
+
+.goat-diagram-controls button:hover {
+  background: rgba(148, 163, 184, 0.15);
+}
+
+.family-diagram-controls {
+  display: flex;
+  gap: 0.4rem;
+  justify-content: flex-end;
+  margin-bottom: 0.4rem;
+  font-size: 0.85rem;
+}
+
+.family-diagram-controls button {
+  border-radius: 999px;
+  border: 1px solid var(--border, #4b5563);
+  padding: 0.15rem 0.55rem;
+  background: var(--code-bg, #020617);
+  color: inherit;
+  cursor: pointer;
+  font: inherit;
+}
+
+.family-diagram-controls button:hover {
+  background: rgba(148, 163, 184, 0.15);
+}
+
+/* Make the Family page use nearly full viewport width */
+.main:has(.family-diagram) {
+  max-width: 100vw;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+.post-single:has(.family-diagram) {
+  max-width: 100%;
+}
+
+/* Hover highlighting: nodes + connecting edges */
+.family-highlight-node rect,
+.family-highlight-node polygon,
+.family-highlight-node path {
+  stroke: #f97316 !important; /* bright orange for visibility */
+  stroke-width: 2.5px !important;
+}
+
+.family-highlight-edge {
+  stroke: #f97316 !important;
+  stroke-width: 2.5px !important;
+}
+
+/* Distinct resting color for marriage links (Mermaid `---`) */
+.family-diagram svg path.flowchart-link:not([marker-end]) {
+  stroke: #ef4444 !important; /* red that works on light/dark */
+}
+
+/* Popup shown when clicking a node in the family diagram */
+.family-node-popup {
+  position: absolute;
+  right: 1rem;
+  bottom: 1rem;
+  max-width: 360px;
+  padding: 0.75rem 1rem;
+  border-radius: 0.75rem;
+  background: var(--entry, rgba(15, 23, 42, 0.96));
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
+  font-size: 0.9rem;
+  z-index: 5;
+}
+
+.family-node-popup-title {
+  font-weight: 600;
+  margin-bottom: 0.25rem;
+}
+
+.family-node-popup-link {
+  box-shadow: 0 1px 0 var(--primary, #e5e7eb);
+}

@@ -5,7 +5,7 @@ draft: true
 author: "Kartik"
 tags: ["mamba"]
 categories: ["misc"]
-description: "The Mamba-2 Kernels"
+description: "The Mamba-3 Kernels"
 ---
 
 
@@ -56,7 +56,7 @@ Note that \\(\bar{S_c}  = \bar{F_{c}}\\), so we need a variable that keeps track
 The first part of the gradient of `F_{c - 1}` is through `O_c`
 
 $$
-\bar{F_{c - 1}} = (\bar{O}^T \odot A_{cs}) \times C
+\bar{F_{c - 1}} = (\bar{O} \odot A_{cs})^T \times C
 $$
 
 The second part of the gradient is the indirect `effect` of `F_(c - 1)` on `F_c` from equation (2)

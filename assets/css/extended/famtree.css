@@ -1,0 +1,29 @@
+.famtree {
+  margin-top: 1.5rem;
+}
+
+.famtree ul {
+  list-style: none;
+  padding-left: 0;
+  margin: 0;
+  display: grid;
+  gap: 12px;
+}
+
+.famtree ul > li {
+  padding: 12px 14px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--code-bg);
+}
+
+.famtree ul ul {
+  margin-top: 10px;
+  padding-left: 14px;
+  display: block;
+}
+
+.famtree a {
+  text-decoration: none;
+}
+

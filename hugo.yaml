@@ -49,7 +49,6 @@ menus:
     - name: "Photos"
       url: "/photos/"
       weight: 9
-
     - name: "Posts"
       url: "/posts/"
       weight: 11
