@@ -4,6 +4,7 @@ date: 2026-02-01
 draft: false
 description: "Family link tree."
 type: "page"
+url: "/family-tree/"
 ---
 
 {{< mermaid >}}
