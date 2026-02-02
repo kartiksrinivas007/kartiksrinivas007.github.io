@@ -1,0 +1,6 @@
+.home-info .entry-content {
+  /* Override theme defaults from themes/PaperMod/assets/css/common/post-entry.css */
+  font-size: 18px;
+  color: var(--content);
+}
+
