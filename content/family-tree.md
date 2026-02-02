@@ -95,6 +95,9 @@ flowchart TB
   K[Kartik]:::person
   HR[Hrithik]:::person
 
+  %% Parents' marriage
+  SM --- SR
+
   %% Edges: grandparents -> parents
   MH --> SM
   RM --> SM
