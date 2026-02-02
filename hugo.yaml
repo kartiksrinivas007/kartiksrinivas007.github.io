@@ -28,7 +28,7 @@ params:
   # Home-Info params: enable a home-info block on the homepage
   homeInfoParams:
     Title: "Kartik"
-    Content: "Hi — I'm Kartik. I am a computer programmer from [CMU MLD](https://www.ml.cmu.edu/), and I did my undergraduate studies in Computer Science at [IIT Hyderabad](https://www.iith.ac.in/)."
+    Content: "Hi — I'm Kartik. I am a graduate student at [CMU MLD](https://www.ml.cmu.edu/), and I did my undergraduate studies in Computer Science at [IIT Hyderabad](https://www.iith.ac.in/)."
     AlignSocialIconsTo: "center"
 
   # Show posts on the homepage and in archives
