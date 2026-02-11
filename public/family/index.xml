@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
-    <title>Kartik&#39;s Blog</title>
-    <link>http://localhost:1313/</link>
-    <description>Recent content on Kartik&#39;s Blog</description>
+    <title>Families on Kartik&#39;s Blog</title>
+    <link>http://localhost:1313/family/</link>
+    <description>Recent content in Families on Kartik&#39;s Blog</description>
     <generator>Hugo -- 0.152.2</generator>
     <language>en-us</language>
     <lastBuildDate>Sun, 01 Feb 2026 00:00:00 +0000</lastBuildDate>
-    <atom:link href="http://localhost:1313/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://localhost:1313/family/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Achu</title>
       <link>http://localhost:1313/family/achu/</link>
@@ -119,20 +119,6 @@
       <guid>http://localhost:1313/family/divya/</guid>
       <description>&lt;p&gt;&lt;img alt=&#34;Divya&#34; loading=&#34;lazy&#34; src=&#34;http://localhost:1313/family_images/divya.jpg&#34;&gt;&lt;/p&gt;
 &lt;p&gt;Parents: &lt;a href=&#34;http://localhost:1313/family/pradeep/&#34;&gt;Pradeep&lt;/a&gt; and &lt;a href=&#34;http://localhost:1313/family/deepa/&#34;&gt;Deepa&lt;/a&gt;&lt;/p&gt;</description>
-    </item>
-    <item>
-      <title>Family</title>
-      <link>http://localhost:1313/family-tree/</link>
-      <pubDate>Sun, 01 Feb 2026 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/family-tree/</guid>
-      <description>Family link tree.</description>
-    </item>
-    <item>
-      <title>Family (GOAT Diagram)</title>
-      <link>http://localhost:1313/family-goat/</link>
-      <pubDate>Sun, 01 Feb 2026 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/family-goat/</guid>
-      <description>Family link tree (GOAT ASCII diagram).</description>
     </item>
     <item>
       <title>Ganga</title>
@@ -580,160 +566,6 @@
       <pubDate>Sun, 01 Feb 2026 00:00:00 +0000</pubDate>
       <guid>http://localhost:1313/family/yashodham/</guid>
       <description>&lt;p&gt;&lt;img alt=&#34;Yashodham&#34; loading=&#34;lazy&#34; src=&#34;http://localhost:1313/family_images/yashodham.jpg&#34;&gt;&lt;/p&gt;</description>
-    </item>
-    <item>
-      <title>Photos</title>
-      <link>http://localhost:1313/photos/</link>
-      <pubDate>Tue, 30 Dec 2025 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/photos/</guid>
-      <description>A few photos I&amp;#39;ve taken</description>
-    </item>
-    <item>
-      <title>Karpathy Summary</title>
-      <link>http://localhost:1313/posts/karpathy/</link>
-      <pubDate>Tue, 23 Dec 2025 10:00:00 -0500</pubDate>
-      <guid>http://localhost:1313/posts/karpathy/</guid>
-      <description>Andrej Karpathy blog summary</description>
-    </item>
-    <item>
-      <title>Looking back at CMU MSML</title>
-      <link>http://localhost:1313/posts/cmu-msml/</link>
-      <pubDate>Tue, 23 Dec 2025 10:00:00 -0500</pubDate>
-      <guid>http://localhost:1313/posts/cmu-msml/</guid>
-      <description>Looking Back at CMU MSML</description>
-    </item>
-    <item>
-      <title>Thoughts</title>
-      <link>http://localhost:1313/posts/thoughts/</link>
-      <pubDate>Tue, 23 Dec 2025 10:00:00 -0500</pubDate>
-      <guid>http://localhost:1313/posts/thoughts/</guid>
-      <description>Thoughts on the arrival of AGI</description>
-    </item>
-    <item>
-      <title>The Cut</title>
-      <link>http://localhost:1313/photo/img-3602/</link>
-      <pubDate>Tue, 16 Dec 2025 01:22:06 +0530</pubDate>
-      <guid>http://localhost:1313/photo/img-3602/</guid>
-      <description>Fall at CMU</description>
-    </item>
-    <item>
-      <title>The port</title>
-      <link>http://localhost:1313/photo/img-3442/</link>
-      <pubDate>Thu, 04 Dec 2025 23:31:05 +0530</pubDate>
-      <guid>http://localhost:1313/photo/img-3442/</guid>
-      <description>SD Convention Centre</description>
-    </item>
-    <item>
-      <title>Scripps Pier</title>
-      <link>http://localhost:1313/photo/img-3347/</link>
-      <pubDate>Mon, 01 Dec 2025 06:13:04 +0530</pubDate>
-      <guid>http://localhost:1313/photo/img-3347/</guid>
-      <description>Bench at Scripps Pier</description>
-    </item>
-    <item>
-      <title>La Jolla</title>
-      <link>http://localhost:1313/photo/img-3287/</link>
-      <pubDate>Sun, 30 Nov 2025 05:40:25 +0530</pubDate>
-      <guid>http://localhost:1313/photo/img-3287/</guid>
-      <description>La Jolla Cove</description>
-    </item>
-    <item>
-      <title>Black&#39;s Beach</title>
-      <link>http://localhost:1313/photo/img-3226/</link>
-      <pubDate>Sun, 30 Nov 2025 02:32:42 +0530</pubDate>
-      <guid>http://localhost:1313/photo/img-3226/</guid>
-      <description>Torrey Pines Gliderport</description>
-    </item>
-    <item>
-      <title>Gliderport</title>
-      <link>http://localhost:1313/photo/img-3113/</link>
-      <pubDate>Fri, 28 Nov 2025 06:23:18 +0530</pubDate>
-      <guid>http://localhost:1313/photo/img-3113/</guid>
-      <description>San Diego</description>
-    </item>
-    <item>
-      <title>Mamba-2 Kernels</title>
-      <link>http://localhost:1313/posts/mamba/</link>
-      <pubDate>Thu, 30 Oct 2025 10:00:00 -0500</pubDate>
-      <guid>http://localhost:1313/posts/mamba/</guid>
-      <description>The Mamba-2 Kernels</description>
-    </item>
-    <item>
-      <title>Mamba-3 Kernels</title>
-      <link>http://localhost:1313/posts/mamba-3/</link>
-      <pubDate>Thu, 30 Oct 2025 10:00:00 -0500</pubDate>
-      <guid>http://localhost:1313/posts/mamba-3/</guid>
-      <description>The Mamba-3 Kernels</description>
-    </item>
-    <item>
-      <title>Content</title>
-      <link>http://localhost:1313/content/</link>
-      <pubDate>Thu, 30 Oct 2025 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/content/</guid>
-      <description>A short intro about Kartik.</description>
-    </item>
-    <item>
-      <title>More About Me</title>
-      <link>http://localhost:1313/more/</link>
-      <pubDate>Thu, 30 Oct 2025 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/more/</guid>
-      <description>More about Kartik, interests, and background.</description>
-    </item>
-    <item>
-      <title>Publications</title>
-      <link>http://localhost:1313/publications/</link>
-      <pubDate>Thu, 30 Oct 2025 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/publications/</guid>
-      <description>Selected research publications.</description>
-    </item>
-    <item>
-      <title>Teaching</title>
-      <link>http://localhost:1313/teaching/</link>
-      <pubDate>Thu, 30 Oct 2025 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/teaching/</guid>
-      <description>Teaching, TA work, and courses.</description>
-    </item>
-    <item>
-      <title>Schenley Park</title>
-      <link>http://localhost:1313/photo/img-2908/</link>
-      <pubDate>Wed, 22 Oct 2025 04:07:25 +0530</pubDate>
-      <guid>http://localhost:1313/photo/img-2908/</guid>
-      <description>Schenley</description>
-    </item>
-    <item>
-      <title>Pittsburgh Downtown</title>
-      <link>http://localhost:1313/photo/img-2831/</link>
-      <pubDate>Mon, 13 Oct 2025 23:59:45 +0530</pubDate>
-      <guid>http://localhost:1313/photo/img-2831/</guid>
-      <description>Pittsburgh</description>
-    </item>
-    <item>
-      <title>Green Lake</title>
-      <link>http://localhost:1313/photo/img-2800/</link>
-      <pubDate>Mon, 13 Oct 2025 21:40:13 +0530</pubDate>
-      <guid>http://localhost:1313/photo/img-2800/</guid>
-      <description>Pittsburgh</description>
-    </item>
-    <item>
-      <title>A small cove near Mcway</title>
-      <link>http://localhost:1313/photo/img-2446/</link>
-      <pubDate>Sun, 17 Aug 2025 08:35:46 +0530</pubDate>
-      <guid>http://localhost:1313/photo/img-2446/</guid>
-      <description>Cove Near Mcway</description>
-    </item>
-    <item>
-      <title>Mcway falls</title>
-      <link>http://localhost:1313/photo/img-2421/</link>
-      <pubDate>Sun, 17 Aug 2025 07:59:09 +0530</pubDate>
-      <guid>http://localhost:1313/photo/img-2421/</guid>
-      <description>Mcway falls</description>
-    </item>
-    <item>
-      <title>Panther Beach</title>
-      <link>http://localhost:1313/photo/img-2108/</link>
-      <pubDate>Mon, 04 Aug 2025 08:06:27 +0530</pubDate>
-      <guid>http://localhost:1313/photo/img-2108/</guid>
-      <description>Santa Cruz</description>
     </item>
   </channel>
 </rss>
