@@ -10,10 +10,10 @@ theme: ["PaperMod"]
 params:
   author:
     name: "Kartik"
-    email: "kartiksrinivas008@gmail.com"
+    email: "kartiksrinivas008 [at] gmail [dot] com"
   # homepage: "https://your-homepage-or-github"
-  subtitle: "Grad student at Carnegie Mellon University | kartiksrinivas008@gmail.com"
-  description: "Kartik's personal website. Contact: kartiksrinivas008@gmail.com"
+  subtitle: "Grad student at Carnegie Mellon University | kartiksrinivas008 [at] gmail [dot] com"
+  description: "Kartik's personal website. Contact: kartiksrinivas008 [at] gmail [dot] com"
   # Relative path from the site root to an avatar image (optional)
   avatar: "images/avatar.jpg"
   # Enable profile mode on the homepage
@@ -25,12 +25,10 @@ params:
       url: "https://github.com/your-username"
     - name: "linkedin"
       url: "https://www.linkedin.com/in/your-profile"
-    - name: "email"
-      url: "mailto:kartiksrinivas008@gmail.com"
   # Home-Info params: enable a home-info block on the homepage
   homeInfoParams:
     Title: "Kartik"
-    Content: "Hi — I'm Kartik. I am a research scientist at [Waymo](https://waymo.com/) working on training multimodal foundation models for autonomous driving. <br> Email: [kartiksrinivas008@gmail.com](mailto:kartiksrinivas008@gmail.com). <br> If you want to know [more](/resume.pdf)."
+    Content: "Hi — I'm Kartik. I am a research scientist at [Waymo](https://waymo.com/) working on training multimodal foundation models for autonomous driving. <br> Email: kartiksrinivas008 [at] gmail [dot] com. <br> If you want to know [more](/resume.pdf)."
     AlignSocialIconsTo: "center"
 
   # Show posts on the homepage and in archives
