@@ -1,24 +1,24 @@
 <!DOCTYPE html>
 <html lang="en" dir="auto" data-theme="auto">
 
-<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset="utf-8">
+<head><meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<meta name="robots" content="noindex, nofollow">
+<meta name="robots" content="index, follow">
 <title>Karpathy Summary | Kartik&#39;s Blog</title>
 <meta name="keywords" content="random, thoughts, karpathy">
 <meta name="description" content="Andrej Karpathy blog summary">
 <meta name="author" content="Kartik">
-<link rel="canonical" href="http://localhost:1313/posts/karpathy/">
+<link rel="canonical" href="https://kartiksrinivas007.github.io/posts/karpathy/">
 <link crossorigin="anonymous" href="/assets/css/stylesheet.02999a45cf396cdac357c1bd9d6391d3d5eb1bb2f0713c1bbc9753428052f3bb.css" integrity="sha256-ApmaRc85bNrDV8G9nWOR09XrG7LwcTwbvJdTQoBS87s=" rel="preload stylesheet" as="style">
-<link rel="icon" href="http://localhost:1313/favicon.ico">
-<link rel="icon" type="image/png" sizes="16x16" href="http://localhost:1313/favicon-16x16.png">
-<link rel="icon" type="image/png" sizes="32x32" href="http://localhost:1313/favicon-32x32.png">
-<link rel="apple-touch-icon" href="http://localhost:1313/apple-touch-icon.png">
-<link rel="mask-icon" href="http://localhost:1313/safari-pinned-tab.svg">
+<link rel="icon" href="https://kartiksrinivas007.github.io/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://kartiksrinivas007.github.io/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://kartiksrinivas007.github.io/favicon-32x32.png">
+<link rel="apple-touch-icon" href="https://kartiksrinivas007.github.io/apple-touch-icon.png">
+<link rel="mask-icon" href="https://kartiksrinivas007.github.io/safari-pinned-tab.svg">
 <meta name="theme-color" content="#2e2e33">
 <meta name="msapplication-TileColor" content="#2e2e33">
-<link rel="alternate" hreflang="en" href="http://localhost:1313/posts/karpathy/">
+<link rel="alternate" hreflang="en" href="https://kartiksrinivas007.github.io/posts/karpathy/">
 <noscript>
     <style>
         #theme-toggle,
@@ -147,13 +147,82 @@
     box-shadow: 0 1px 0 var(--primary);
   }
 </style>
+<meta property="og:url" content="https://kartiksrinivas007.github.io/posts/karpathy/">
+  <meta property="og:site_name" content="Kartik&#39;s Blog">
+  <meta property="og:title" content="Karpathy Summary">
+  <meta property="og:description" content="Andrej Karpathy blog summary">
+  <meta property="og:locale" content="en-us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2025-12-23T10:00:00-05:00">
+    <meta property="article:modified_time" content="2025-12-23T10:00:00-05:00">
+    <meta property="article:tag" content="Random">
+    <meta property="article:tag" content="Thoughts">
+    <meta property="article:tag" content="Karpathy">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Karpathy Summary">
+<meta name="twitter:description" content="Andrej Karpathy blog summary">
 
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "https://kartiksrinivas007.github.io/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "Karpathy Summary",
+      "item": "https://kartiksrinivas007.github.io/posts/karpathy/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Karpathy Summary",
+  "name": "Karpathy Summary",
+  "description": "Andrej Karpathy blog summary",
+  "keywords": [
+    "random", "thoughts", "karpathy"
+  ],
+  "articleBody": "I have decided to speed-run all of the older Karpathy blogs and the latest one to extract and see their relevance now, along with interesting things we can ponder about\nFrom CV Blog\nTurns out the image used in the CV blog still has GPT 5.2 in confusion. So even SOTA multimodal models are unable to extract ideas from images like humans do\nHere is the output from GPT 5.2 Thinking mode after prompting with “Why is this funny”.\nA couple specific visual gags are doing a lot of work:\nIncongruity: “Serious people doing serious business”… but the center of attention is a bathroom/clinic scale in a hallway.\nBody-language comedy: the guy in front has his leg stretched out and is leaning in with a grin, like he’s about to mess with the scale or playfully “help,” which feels out of place in such a formal setting.\nThe height contrast: the person on the scale looks especially tall on that platform, which exaggerates the whole moment.\nMirrors/reflections: you can see reflections on the left, which adds to the slightly absurd “caught in the act” vibe.\nThe model is unable to understand the mental play here – that the person would be conscious about his weight and playing with the scale would change it – effectively showing a larger value. It also missed out that its the president doing this act of comedy.\nThe emotional and the thought processes that might occur with this are not caught by the LLM.\nFrom Feature Learning\nHe exclaims – why do backbones trained from AlexNet really work for transfer learning. What is it exactly that enables this deep -transfer learning possible to other datasets.\nIn short, why are representations learnt in one dataset transferrable to another one? What is this common manifold? Why does it exist in the first place. Clearly it must be a function of the data in the datasets – if I pretrain AlexNet on images of dogs, would the same backbone be useful in predicting the type of flowers? – Intuitively, No – but this raises the question, what underlying latent does hold the property that the “backbone” is useful? Can I quantify the data manifold that is “correlated” to the pre-training dataset?\nAnother interesting discussion is why he believes things like unsupervised feature learning will not work – quite simply because there is no bias in the learning process towards learning features of things we care about. Unsupervised learning seems to be doing a statistical loss minimization that is not at all directed about what the important aspects of the image are (eg. such as faces) Doing things like auto-encoders makes the model follow statistical patterns in the data (for example, most of an image could be green grass, so the model learns great feature for grass and not other things).\nHe states humans learn in an unsupervised way, which is not completely right\nHumans learn via\nPrediction signals (self-supervised) Your brain is constantly doing: “what will I see next?” “what will this look like from another angle?” If your predictions are wrong, that’s an error signal.\nThis is basically self-supervised learning: predict missing/future sensory input.\nTemporal continuity and multi-view geometry You see the same object across time while you move your head/eyes. That gives a strong cue: “these two images are the same thing.”\nThis is a huge advantage over static image datasets.\nAction and embodiment (active learning) You can poke, grab, rotate, walk closer. That’s not passive pixels—your actions create informative data. You learn causality: “if I do A, B happens.”\nMulti-modal alignment Vision + sound + touch + proprioception + language later. When a dog barks while you see it, those modalities reinforce each other.\nRewards and social feedback Smiles, attention, approval/disapproval, success/failure at goals—these shape behavior and attention. Not “labels,” but definitely supervision.\nBuilt-in priors (structure from evolution) Humans likely come with biases: face attention, object permanence tendencies, etc. So the “learning algorithm” isn’t blank.\nAdversarial robustness\nIt is interesting to read the section of how many sanity checks he makes when training models\n“Digression: Technical fun parts. The fun part in actually doing this is that the standard AlexNetty ConvNet hyperparameters are of course completely inadequate. For example, normally you’d use weight decay of 0.0005 or so and learning rate of 0.01, and gaussian initialization drawn from a gaussian of 0.01 std. If you’ve trained linear classifiers before on this type of high-dimensional input (64x64x3 ~= 12K numbers), you’ll know that your learning rate will probably have to be much lower, the regularization much larger, and initialization of 0.01 std will probably be inadequate. Indeed, starting Caffe training with default hyperparameters gives a starting loss of about 80, which right away tells you that the initialization is completely out of whack (initial ImageNet loss should be ballpark 7.0, which is -log(1/1000)). I scaled it down to 0.0001 std for Gaussian init which gives sensible starting loss. But then the loss right away explodes which tells you that the learning rate is way too high - I had to scale it all the way down to about 1e-7. Lastly, a weight decay of 0.0005 will give almost negligible regularization loss with 12K inputs - I had to scale it up to 100 to start getting reasonably-looking weights that aren’t super-overfitted noise blobs. It’s fun being a Neural Networks practitioner.”\nRNNs post\nSequence to sequence is one more type of model, but are there simply more tasks in the “input” to “output” sense that cannot be done via sequence to sequence models in the first place. Does this give rich feature representations that we can use in the further steps that we can use for downstream tasks in the same way AlexNet features were used for downstream tasks in the first place?\nVideo classification per frame is an example of an immediate input-\u003e output conversion per frame in the RNN.\nIntuitive feeling of how much time each generation takes, and how the computation doubles with the size and dimension fo the hidden state\nDeep RL\nThe four things that hold back\nCompute (the obvious one: Moore’s Law, GPUs, ASICs), Data (in a nice form, not just out there somewhere on the internet - e.g. ImageNet), Algorithms (research and ideas, e.g. backprop, CNN, LSTM), and Infrastructure (software under you - Linux, TCP/IP, Git, ROS, PR2, AWS, AMT, TensorFlow, etc.).\n",
+  "wordCount" : "1062",
+  "inLanguage": "en",
+  "datePublished": "2025-12-23T10:00:00-05:00",
+  "dateModified": "2025-12-23T10:00:00-05:00",
+  "author":{
+    "@type": "Person",
+    "name": "Kartik"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://kartiksrinivas007.github.io/posts/karpathy/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Kartik's Blog",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://kartiksrinivas007.github.io/favicon.ico"
+    }
+  }
+}
+</script>
 </head>
 <body id="top">
     <header class="header">
     <nav class="nav">
         <div class="logo">
-            <a href="http://localhost:1313/" accesskey="h" title="Kartik&#39;s Blog (Alt + H)">Kartik&#39;s Blog</a>
+            <a href="https://kartiksrinivas007.github.io/" accesskey="h" title="Kartik&#39;s Blog (Alt + H)">Kartik&#39;s Blog</a>
             <div class="logo-switches">
                 <button id="theme-toggle" accesskey="t" title="(Alt + T)" aria-label="Toggle theme">
                     <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
@@ -179,27 +248,27 @@
         </div>
         <ul id="menu">
             <li>
-                <a href="http://localhost:1313/" title="Home">
+                <a href="https://kartiksrinivas007.github.io/" title="Home">
                     <span>Home</span>
                 </a>
             </li>
             <li>
-                <a href="http://localhost:1313/teaching/" title="Teaching">
+                <a href="https://kartiksrinivas007.github.io/teaching/" title="Teaching">
                     <span>Teaching</span>
                 </a>
             </li>
             <li>
-                <a href="http://localhost:1313/publications/" title="Publications">
+                <a href="https://kartiksrinivas007.github.io/publications/" title="Publications">
                     <span>Publications</span>
                 </a>
             </li>
             <li>
-                <a href="http://localhost:1313/photos/" title="Photos">
+                <a href="https://kartiksrinivas007.github.io/photos/" title="Photos">
                     <span>Photos</span>
                 </a>
             </li>
             <li>
-                <a href="http://localhost:1313/posts/" title="Posts">
+                <a href="https://kartiksrinivas007.github.io/posts/" title="Posts">
                     <span>Posts</span>
                 </a>
             </li>
@@ -302,16 +371,16 @@ Infrastructure (software under you - Linux, TCP/IP, Git, ROS, PR2, AWS, AMT, Ten
 
   <footer class="post-footer">
     <ul class="post-tags">
-      <li><a href="http://localhost:1313/tags/random/">Random</a></li>
-      <li><a href="http://localhost:1313/tags/thoughts/">Thoughts</a></li>
-      <li><a href="http://localhost:1313/tags/karpathy/">Karpathy</a></li>
+      <li><a href="https://kartiksrinivas007.github.io/tags/random/">Random</a></li>
+      <li><a href="https://kartiksrinivas007.github.io/tags/thoughts/">Thoughts</a></li>
+      <li><a href="https://kartiksrinivas007.github.io/tags/karpathy/">Karpathy</a></li>
     </ul>
   </footer>
 </article>
     </main>
     
 <footer class="footer">
-        <span>&copy; 2026 <a href="http://localhost:1313/">Kartik&#39;s Blog</a></span> · 
+        <span>&copy; 2026 <a href="https://kartiksrinivas007.github.io/">Kartik&#39;s Blog</a></span> · 
 
     <span>
         Powered by
