@@ -1,24 +1,24 @@
 <!DOCTYPE html>
 <html lang="en" dir="auto" data-theme="auto">
 
-<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset="utf-8">
+<head><meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<meta name="robots" content="noindex, nofollow">
+<meta name="robots" content="index, follow">
 <title>Mamba-2 Kernels | Kartik&#39;s Blog</title>
 <meta name="keywords" content="random, thoughts, coffee">
 <meta name="description" content="The Mamba-2 Kernels">
 <meta name="author" content="Kartik">
-<link rel="canonical" href="http://localhost:1313/posts/mamba/">
+<link rel="canonical" href="https://kartiksrinivas007.github.io/posts/mamba/">
 <link crossorigin="anonymous" href="/assets/css/stylesheet.02999a45cf396cdac357c1bd9d6391d3d5eb1bb2f0713c1bbc9753428052f3bb.css" integrity="sha256-ApmaRc85bNrDV8G9nWOR09XrG7LwcTwbvJdTQoBS87s=" rel="preload stylesheet" as="style">
-<link rel="icon" href="http://localhost:1313/favicon.ico">
-<link rel="icon" type="image/png" sizes="16x16" href="http://localhost:1313/favicon-16x16.png">
-<link rel="icon" type="image/png" sizes="32x32" href="http://localhost:1313/favicon-32x32.png">
-<link rel="apple-touch-icon" href="http://localhost:1313/apple-touch-icon.png">
-<link rel="mask-icon" href="http://localhost:1313/safari-pinned-tab.svg">
+<link rel="icon" href="https://kartiksrinivas007.github.io/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://kartiksrinivas007.github.io/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://kartiksrinivas007.github.io/favicon-32x32.png">
+<link rel="apple-touch-icon" href="https://kartiksrinivas007.github.io/apple-touch-icon.png">
+<link rel="mask-icon" href="https://kartiksrinivas007.github.io/safari-pinned-tab.svg">
 <meta name="theme-color" content="#2e2e33">
 <meta name="msapplication-TileColor" content="#2e2e33">
-<link rel="alternate" hreflang="en" href="http://localhost:1313/posts/mamba/">
+<link rel="alternate" hreflang="en" href="https://kartiksrinivas007.github.io/posts/mamba/">
 <noscript>
     <style>
         #theme-toggle,
@@ -147,13 +147,82 @@
     box-shadow: 0 1px 0 var(--primary);
   }
 </style>
+<meta property="og:url" content="https://kartiksrinivas007.github.io/posts/mamba/">
+  <meta property="og:site_name" content="Kartik&#39;s Blog">
+  <meta property="og:title" content="Mamba-2 Kernels">
+  <meta property="og:description" content="The Mamba-2 Kernels">
+  <meta property="og:locale" content="en-us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2025-10-30T10:00:00-05:00">
+    <meta property="article:modified_time" content="2025-10-30T10:00:00-05:00">
+    <meta property="article:tag" content="Random">
+    <meta property="article:tag" content="Thoughts">
+    <meta property="article:tag" content="Coffee">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Mamba-2 Kernels">
+<meta name="twitter:description" content="The Mamba-2 Kernels">
 
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "https://kartiksrinivas007.github.io/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "Mamba-2 Kernels",
+      "item": "https://kartiksrinivas007.github.io/posts/mamba/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Mamba-2 Kernels",
+  "name": "Mamba-2 Kernels",
+  "description": "The Mamba-2 Kernels",
+  "keywords": [
+    "random", "thoughts", "coffee"
+  ],
+  "articleBody": "Note: This is a rough, work-in-progress post — things may change or be incomplete.\nThis post describes the triton implementation of the Mamba-2 Chunking sequence layer from the perspective of an exponential moving average (EMA).\nForward Pass Kernel 2 mamba_chunk_state_fwd This Kernel computes the final state within a chunk assuming that the starting hidden state is all zeros. The final state simply a weighted average of the positive amplification (B) and the decay to the final position (A) multiplied with the state.\nThe kernels behavior with seq_idx stitching – simply compute the final state for a chunk according to what matches the final position in that particular chunk (seq_idx_last == seq_idx_k based scaling of the amplification terms, this will forget the final pieces of other sequences in the chunk). Ideally for final chunks like that, there should be 2 output states and not one\nBut the intelligent observation is that, we do not need the final state of a partial ending sequence anyways, we only need its start state, so that we can perform a chunk_scan, discarding the final state of the final partial sequence is okay.\nIs this problematic when the whole sequence is within a block? Will the other kernels handle this?\nKernel 3 mamba_state_pass This kernel passes states between chunks to obtain the correct starting state for each chunk (and also a final state), from which a scan will be performed to obtain correct final internal states.\nThe behavior under stitching is simple\nIf the seq_idx of the final position of the present chink does not match the seq_idx of the final position of the next chunk then do not pass states in between at all (zero out the states)\nBackward Pass We use adjoint notation, i.e \\(\\bar{A} \\) means \\(\\frac{\\partial L} {\\partial {A}} \\).The only important result to keep in mind here is how adjoints flow over matmuls, and that broadcasting calls for sum over the partial gradients over the dimension that was broadcasted on in the first place\n$$ AX = S \\implies \\bar{S} X^T = \\bar{A} \\ \\ \\ \\rightarrow \\ \\ A^T \\bar{S} = \\bar{X}$$\nKernel 1 chunk_scan_bwd_dstates chunk_scan_fwd kernel, matmul over d_state\n$$(C \\odot A’) \\times F + \\ldots = O$$\nchunk_scan_bwd_dstates kernel matmul over chunk_size\n$$(A’ \\odot C^T) \\times \\bar{O} = \\bar{F}$$\nWith \\(A’C^T \\) shape = (d_state, Q) and \\(\\bar{O} \\) shape = (Q, h_dim) and \\(\\bar{F} \\) shape = (d_st, h_dim) This is computed over a grid of shape (batch, chunks, num_heads, ...) and blocked over (head_dim, d_state), with tiled matrix multiplication over chunk_size\nFurther more, the same C and A’ are used, so the gradients need to be summed over the number of heads if we are looking at those factors.\nIn the EMA case, we do not need to do the following\nWe do not need to load a C We need to load A -\u003e Can we directly store gradients of A_cs? We do need the dstates We can also block over token_dim Kernel 2 _state_passing_bwd Forward pass\n$$F_c = A_{c - 1} F_{c - 1} + s_{c - 1}$$\nBackward pass\n$$ \\begin{equation*} \\overline{s_{c - 1}} = \\overline{F_{c}} = \\overline{F}_{c} + A_{c-1} \\overline{F}_{c + 1} \\end{equation*} $$\n$$ \\begin{equation*} \\overline{A_{c - 1}} = \\langle F_{c - 1} \\overline{F}_c \\rangle \\end{equation*} $$\nNote that \\(A_{c -1} = \\exp(A_{chunk})\\) – so one more step is needed (multiply again as \\(\\partial e^x = e^x\\)) The shape of each tensor is (head_dim * d_state), but the A factor is simply a scalar. Since A is broadcasted and the joint product dim is blocked with block_size we need to store the sum (or inner product) separately for each of the programs that are blocking and then add it up in the end, the grid is (batch, ..)\nFor EMA\nWe might need to also block over the batch dimension We might need to also store dA in separate pieces per program and add them later Kernel 3 _chunk_state_bwd_db Forward pass\n$$ \\begin{equation} (B^T \\odot A) \\times X = S \\end{equation} $$\nHere the shapes are B = (d_state, Q) and X = (Q, head_dim) and S = (d_state, head_dim). In the forward pass this is a tiled matrix multiplication over the chunk_size dimension.\nBackward Pass\n$$ \\begin{equation} (\\bar{S} \\times X^T) \\odot A = \\bar{B}^T \\end{equation} $$\n$$ \\begin{equation} (\\bar{S} \\times X^T) \\odot B^T = \\bar{A}_{d \\times Q} \\end{equation} $$ $$ \\begin{equation} \\bar{A}_{Q} = \\sum_d \\bar{A}_{d \\times Q} \\end{equation} $$\nNote that since A is broadcasted, we need to add it over the d-state dimension to obtain the true adjoint of A.\nFor EMA\nI need not compute the adjoint of B In our case, the inner product would be over (1 , token_dim) @ (token_dim, chunk_size). This differs from their design because the head_dim is actually smaller for them once they make multiple heads. We do not need to iterate over multiple heads, we do need to do a tiled mm over token_dim, unlike them Kernel 4 _chunk_scan_bwd_dC The complete equation for the forward of chunk_scan is\n$$ (C \\odot A’) \\times F + ({CB}_{q \\times q} \\odot A) \\times X = O $$\nThe shape of O = (chunk_size, head_dim) and shape of A = (chunk_size,), it is broadcasted differently for each piece of the computation.\nThe backward section of C computed in this kernel is only from the first part of the equation, the second is handled in a dCB kernel.\nSo, we need\n$$ \\bar{C} = (\\bar{O} \\times F^T) \\odot A’ + (\\bar{O} \\times X^T) \\odot A \\times B^T $$\nThe gradients for A will also be something similar.\n$$ \\bar{A}’ = (\\bar{O} \\times F^T) \\odot C $$\nThe backward part of A would have two flows, one from this and one from Kernel 6, we then need to reconcile them later because the orientation of the factors is different.\nWhat can we do for EMA?\nThis kernel, yet again needs a tiled matrix multiplication over token_dim, since the head_dim is assumed to be small and can be done together. Kernel 5 _chunk_scan_chunk_state_bwd_dx This does the backward for X both through chunk scan and the chunk state backward functions.\nThe Forward equation for the state is\n$$ (B^T \\odot A) \\times X = S $$\nAnd for scan\n$$ \\ldots + (CB \\odot A) X = O $$\nSo the net backward gradient flow is $$ (B^T \\odot A) \\bar{S} + (CB \\odot A) \\bar{O} = \\bar{X} $$\nThis is also computed via tiled matrix multiplication over the chunk_size dimension.\nKernel 6 _chunk_scan_bwd_dA_cs This does the backward for A both through chunk scan for the CB component only\nThe Forward equation for the output chunk_scan_fwd is\n$$ …. + (CB \\odot A) \\times X = O $$\nBackward yields\n$$ \\ldots + \\sum_q (\\bar{O} \\times X^T) \\odot CB = \\bar{A} $$\nThis is also computed via tiled matrix multiplication over the chunk_size dimension.\nTracking the gradients of A in each kernel The A factor is present in many kernels, let’s track the net gradient of “A” from each kernel and add it up.\n",
+  "wordCount" : "1176",
+  "inLanguage": "en",
+  "datePublished": "2025-10-30T10:00:00-05:00",
+  "dateModified": "2025-10-30T10:00:00-05:00",
+  "author":{
+    "@type": "Person",
+    "name": "Kartik"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://kartiksrinivas007.github.io/posts/mamba/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Kartik's Blog",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://kartiksrinivas007.github.io/favicon.ico"
+    }
+  }
+}
+</script>
 </head>
 <body id="top">
     <header class="header">
     <nav class="nav">
         <div class="logo">
-            <a href="http://localhost:1313/" accesskey="h" title="Kartik&#39;s Blog (Alt + H)">Kartik&#39;s Blog</a>
+            <a href="https://kartiksrinivas007.github.io/" accesskey="h" title="Kartik&#39;s Blog (Alt + H)">Kartik&#39;s Blog</a>
             <div class="logo-switches">
                 <button id="theme-toggle" accesskey="t" title="(Alt + T)" aria-label="Toggle theme">
                     <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
@@ -179,27 +248,27 @@
         </div>
         <ul id="menu">
             <li>
-                <a href="http://localhost:1313/" title="Home">
+                <a href="https://kartiksrinivas007.github.io/" title="Home">
                     <span>Home</span>
                 </a>
             </li>
             <li>
-                <a href="http://localhost:1313/teaching/" title="Teaching">
+                <a href="https://kartiksrinivas007.github.io/teaching/" title="Teaching">
                     <span>Teaching</span>
                 </a>
             </li>
             <li>
-                <a href="http://localhost:1313/publications/" title="Publications">
+                <a href="https://kartiksrinivas007.github.io/publications/" title="Publications">
                     <span>Publications</span>
                 </a>
             </li>
             <li>
-                <a href="http://localhost:1313/photos/" title="Photos">
+                <a href="https://kartiksrinivas007.github.io/photos/" title="Photos">
                     <span>Photos</span>
                 </a>
             </li>
             <li>
-                <a href="http://localhost:1313/posts/" title="Posts">
+                <a href="https://kartiksrinivas007.github.io/posts/" title="Posts">
                     <span>Posts</span>
                 </a>
             </li>
@@ -368,16 +437,16 @@ $$</p>
 
   <footer class="post-footer">
     <ul class="post-tags">
-      <li><a href="http://localhost:1313/tags/random/">Random</a></li>
-      <li><a href="http://localhost:1313/tags/thoughts/">Thoughts</a></li>
-      <li><a href="http://localhost:1313/tags/coffee/">Coffee</a></li>
+      <li><a href="https://kartiksrinivas007.github.io/tags/random/">Random</a></li>
+      <li><a href="https://kartiksrinivas007.github.io/tags/thoughts/">Thoughts</a></li>
+      <li><a href="https://kartiksrinivas007.github.io/tags/coffee/">Coffee</a></li>
     </ul>
   </footer>
 </article>
     </main>
     
 <footer class="footer">
-        <span>&copy; 2026 <a href="http://localhost:1313/">Kartik&#39;s Blog</a></span> · 
+        <span>&copy; 2026 <a href="https://kartiksrinivas007.github.io/">Kartik&#39;s Blog</a></span> · 
 
     <span>
         Powered by

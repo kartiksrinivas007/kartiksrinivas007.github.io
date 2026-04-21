@@ -1,24 +1,24 @@
 <!DOCTYPE html>
 <html lang="en" dir="auto" data-theme="auto">
 
-<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset="utf-8">
+<head><meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<meta name="robots" content="noindex, nofollow">
+<meta name="robots" content="index, follow">
 <title>Mamba-3 Kernels | Kartik&#39;s Blog</title>
 <meta name="keywords" content="mamba">
 <meta name="description" content="The Mamba-3 Kernels">
 <meta name="author" content="Kartik">
-<link rel="canonical" href="http://localhost:1313/posts/mamba-3/">
+<link rel="canonical" href="https://kartiksrinivas007.github.io/posts/mamba-3/">
 <link crossorigin="anonymous" href="/assets/css/stylesheet.02999a45cf396cdac357c1bd9d6391d3d5eb1bb2f0713c1bbc9753428052f3bb.css" integrity="sha256-ApmaRc85bNrDV8G9nWOR09XrG7LwcTwbvJdTQoBS87s=" rel="preload stylesheet" as="style">
-<link rel="icon" href="http://localhost:1313/favicon.ico">
-<link rel="icon" type="image/png" sizes="16x16" href="http://localhost:1313/favicon-16x16.png">
-<link rel="icon" type="image/png" sizes="32x32" href="http://localhost:1313/favicon-32x32.png">
-<link rel="apple-touch-icon" href="http://localhost:1313/apple-touch-icon.png">
-<link rel="mask-icon" href="http://localhost:1313/safari-pinned-tab.svg">
+<link rel="icon" href="https://kartiksrinivas007.github.io/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://kartiksrinivas007.github.io/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://kartiksrinivas007.github.io/favicon-32x32.png">
+<link rel="apple-touch-icon" href="https://kartiksrinivas007.github.io/apple-touch-icon.png">
+<link rel="mask-icon" href="https://kartiksrinivas007.github.io/safari-pinned-tab.svg">
 <meta name="theme-color" content="#2e2e33">
 <meta name="msapplication-TileColor" content="#2e2e33">
-<link rel="alternate" hreflang="en" href="http://localhost:1313/posts/mamba-3/">
+<link rel="alternate" hreflang="en" href="https://kartiksrinivas007.github.io/posts/mamba-3/">
 <noscript>
     <style>
         #theme-toggle,
@@ -147,13 +147,80 @@
     box-shadow: 0 1px 0 var(--primary);
   }
 </style>
+<meta property="og:url" content="https://kartiksrinivas007.github.io/posts/mamba-3/">
+  <meta property="og:site_name" content="Kartik&#39;s Blog">
+  <meta property="og:title" content="Mamba-3 Kernels">
+  <meta property="og:description" content="The Mamba-3 Kernels">
+  <meta property="og:locale" content="en-us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2025-10-30T10:00:00-05:00">
+    <meta property="article:modified_time" content="2025-10-30T10:00:00-05:00">
+    <meta property="article:tag" content="Mamba">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Mamba-3 Kernels">
+<meta name="twitter:description" content="The Mamba-3 Kernels">
 
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "https://kartiksrinivas007.github.io/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "Mamba-3 Kernels",
+      "item": "https://kartiksrinivas007.github.io/posts/mamba-3/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Mamba-3 Kernels",
+  "name": "Mamba-3 Kernels",
+  "description": "The Mamba-3 Kernels",
+  "keywords": [
+    "mamba"
+  ],
+  "articleBody": "Note: This is a rough, work-in-progress post — things may change or be incomplete.\nBackward pass Main equations are\n$$ \\begin{equation} (L \\odot CB^T) X_c + (C \\times F_{c - 1}^T) \\odot A_{cs} = O_c \\end{equation} $$\nWhere F is states of shape (head_dim, d_state)\nTo get the gradients of X_c, we must also use other equations, since F_c depends on X_c which inturn affects of O_(c + 1)\n$$ \\begin{equation} F_{c} = S_{c} + F_{c - 1} \\times A_{chunk-decay}(c) \\end{equation} $$\nWith F_0 as all zeroes and the chunk indexes are from 1, 2... num_chunks\n$$ \\begin{equation} S_{c} = (X_c \\odot A_{cs-rev})^T B \\end{equation} $$\nSo the gradients to X_c have two parts, one through the first term, and the other through S_c. The gradients are $$ \\bar{X_c} = (L^T \\odot C^T B) \\bar{O} + B \\bar{S_c}^T \\odot A_{cs-rev} $$\nNote that \\(\\bar{S_c} = \\bar{F_{c}}\\), so we need a variable that keeps track of the gradient of the final state chunks, this is d_ssm_states_acc.\nObtaining gradients of F_c The first part of the gradient of F_{c - 1} is through O_c\n$$ \\bar{F_{c - 1}} = (\\bar{O} \\odot A_{cs})^T \\times C $$\nThe second part of the gradient is the indirect effect of F_(c - 1) on F_c from equation (2)\n$$ \\bar{F_{c - 1}} = \\bar{F_c} \\times A_{chunk-decay}(c) $$\nWe add both of these gradient flows to get the full adjoint of F_c = S_c’s adjoint as well.\nAt any iteration, we maintain d_ssm_states_acc which is F_c since the kernel goes in reverse, at the end of the iteration, we update this accumulator to hold adjoint of F_(c - 1)\nTracking the Gradients of A The gradients of A are tricky, A comes in multiple areas, namely in\nIn the production of the segsum mask, L In A_cs In A_cs_rev In A_chunk_decay Let us go point by point\nPoint 1 We need the segsum mask gradients in terms of the gradients of A_cs\n$$ \\overline{L} = (\\bar{O} X^T) \\odot CB^T $$\nPoint 2 From Equation (1) we get\n$$ \\overline{A_{cs}} = \\bar{O} \\odot (C \\times F_{c - 1}^T) $$\nThis is line 564\ndM_rev_vector += tl.sum(QS * dO_reloaded, axis=1) * exp_da_cs # (CHUNK_SIZE,) Point 3 From Equation (3) we get\n$$ B \\overline{S_c}^T \\odot X_c = B \\overline{F_c}^T \\odot X_c = \\overline{A_{cs-rev}} $$\nThis is dM_vector in the code, note that is this the gradient with respect to reverse cumsums\nPoint 4 $$ \\overline{A_{chunk-decay}}(c) = \\sum \\bar{F_c} \\times F_{c - 1} $$\nNote that in the kernel SSM_states holds the “beginning” state for each chunk, so F_(c - 1), which is the final state of chunk c - 1, is actually the starting state of the c‘th chunk. This is dM_scalar in the code.\nThe Final Gradient accumulation In this step we decode this line\ndM_rev_vector += (tl.sum(dM_rev_vector) + dM_scalar) + tl.cumsum(dM_vector - dM_rev_vector) - dM_vector We can do it in 2 steps after noting cumsum(a - b) = cumsum(a) - cumsum(b)\nFirst part is to compute pure A gradients from dM_vector which is gradients with respect to dA_cs_rev. Let the gradients of dA_cs_rev = dM_vector = g_i, then the pure gradients are this map\n$$ [a_2 + a_3 + a_4 , a_3 + a_4, a_4, 1] \\longrightarrow [0, g_1, g_1 + g_2, g_1 + g_2 + g_3] $$\nThis is precisely tl.cumsum(dM_vector) - dM_vector\nSecond part is to distribute the gradients of chunk decay dM_scalar = g\n$$ [a_1 + a_2 + a_3 + a_4] \\longrightarrow [g, g, g, g] $$\nThe final step is to make gradients of dA_cs\n$$ [a_1, a_1 + a_2, a_1 + a_2 + a_3, a_1 + a_2 + a_3 + a_4] \\longrightarrow [g_1, g_1 + g_2, g_1 + g_2 + g_3, g_1 + g_2 + g_3 + g_4] $$\nThis is precisely the map dM_rev_vector + tl.sum(dM_rev_vector) - tl.cumsum(dM_rev_vector)\n",
+  "wordCount" : "638",
+  "inLanguage": "en",
+  "datePublished": "2025-10-30T10:00:00-05:00",
+  "dateModified": "2025-10-30T10:00:00-05:00",
+  "author":{
+    "@type": "Person",
+    "name": "Kartik"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://kartiksrinivas007.github.io/posts/mamba-3/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Kartik's Blog",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://kartiksrinivas007.github.io/favicon.ico"
+    }
+  }
+}
+</script>
 </head>
 <body id="top">
     <header class="header">
     <nav class="nav">
         <div class="logo">
-            <a href="http://localhost:1313/" accesskey="h" title="Kartik&#39;s Blog (Alt + H)">Kartik&#39;s Blog</a>
+            <a href="https://kartiksrinivas007.github.io/" accesskey="h" title="Kartik&#39;s Blog (Alt + H)">Kartik&#39;s Blog</a>
             <div class="logo-switches">
                 <button id="theme-toggle" accesskey="t" title="(Alt + T)" aria-label="Toggle theme">
                     <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
@@ -179,27 +246,27 @@
         </div>
         <ul id="menu">
             <li>
-                <a href="http://localhost:1313/" title="Home">
+                <a href="https://kartiksrinivas007.github.io/" title="Home">
                     <span>Home</span>
                 </a>
             </li>
             <li>
-                <a href="http://localhost:1313/teaching/" title="Teaching">
+                <a href="https://kartiksrinivas007.github.io/teaching/" title="Teaching">
                     <span>Teaching</span>
                 </a>
             </li>
             <li>
-                <a href="http://localhost:1313/publications/" title="Publications">
+                <a href="https://kartiksrinivas007.github.io/publications/" title="Publications">
                     <span>Publications</span>
                 </a>
             </li>
             <li>
-                <a href="http://localhost:1313/photos/" title="Photos">
+                <a href="https://kartiksrinivas007.github.io/photos/" title="Photos">
                     <span>Photos</span>
                 </a>
             </li>
             <li>
-                <a href="http://localhost:1313/posts/" title="Posts">
+                <a href="https://kartiksrinivas007.github.io/posts/" title="Posts">
                     <span>Posts</span>
                 </a>
             </li>
@@ -322,14 +389,14 @@ $$</p>
 
   <footer class="post-footer">
     <ul class="post-tags">
-      <li><a href="http://localhost:1313/tags/mamba/">Mamba</a></li>
+      <li><a href="https://kartiksrinivas007.github.io/tags/mamba/">Mamba</a></li>
     </ul>
   </footer>
 </article>
     </main>
     
 <footer class="footer">
-        <span>&copy; 2026 <a href="http://localhost:1313/">Kartik&#39;s Blog</a></span> · 
+        <span>&copy; 2026 <a href="https://kartiksrinivas007.github.io/">Kartik&#39;s Blog</a></span> · 
 
     <span>
         Powered by

@@ -2,94 +2,96 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
     <title>Photos on Kartik&#39;s Blog</title>
-    <link>http://localhost:1313/photo/</link>
+    <link>https://kartiksrinivas007.github.io/photo/</link>
     <description>Recent content in Photos on Kartik&#39;s Blog</description>
     <generator>Hugo -- 0.152.2</generator>
     <language>en-us</language>
+    <managingEditor>kartiksrinivas008@gmail.com (Kartik)</managingEditor>
+    <webMaster>kartiksrinivas008@gmail.com (Kartik)</webMaster>
     <lastBuildDate>Tue, 16 Dec 2025 01:22:06 +0530</lastBuildDate>
-    <atom:link href="http://localhost:1313/photo/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="https://kartiksrinivas007.github.io/photo/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>The Cut</title>
-      <link>http://localhost:1313/photo/img-3602/</link>
-      <pubDate>Tue, 16 Dec 2025 01:22:06 +0530</pubDate>
-      <guid>http://localhost:1313/photo/img-3602/</guid>
+      <link>https://kartiksrinivas007.github.io/photo/img-3602/</link>
+      <pubDate>Tue, 16 Dec 2025 01:22:06 +0530</pubDate><author>kartiksrinivas008@gmail.com (Kartik)</author>
+      <guid>https://kartiksrinivas007.github.io/photo/img-3602/</guid>
       <description>Fall at CMU</description>
     </item>
     <item>
       <title>The port</title>
-      <link>http://localhost:1313/photo/img-3442/</link>
-      <pubDate>Thu, 04 Dec 2025 23:31:05 +0530</pubDate>
-      <guid>http://localhost:1313/photo/img-3442/</guid>
+      <link>https://kartiksrinivas007.github.io/photo/img-3442/</link>
+      <pubDate>Thu, 04 Dec 2025 23:31:05 +0530</pubDate><author>kartiksrinivas008@gmail.com (Kartik)</author>
+      <guid>https://kartiksrinivas007.github.io/photo/img-3442/</guid>
       <description>SD Convention Centre</description>
     </item>
     <item>
       <title>Scripps Pier</title>
-      <link>http://localhost:1313/photo/img-3347/</link>
-      <pubDate>Mon, 01 Dec 2025 06:13:04 +0530</pubDate>
-      <guid>http://localhost:1313/photo/img-3347/</guid>
+      <link>https://kartiksrinivas007.github.io/photo/img-3347/</link>
+      <pubDate>Mon, 01 Dec 2025 06:13:04 +0530</pubDate><author>kartiksrinivas008@gmail.com (Kartik)</author>
+      <guid>https://kartiksrinivas007.github.io/photo/img-3347/</guid>
       <description>Bench at Scripps Pier</description>
     </item>
     <item>
       <title>La Jolla</title>
-      <link>http://localhost:1313/photo/img-3287/</link>
-      <pubDate>Sun, 30 Nov 2025 05:40:25 +0530</pubDate>
-      <guid>http://localhost:1313/photo/img-3287/</guid>
+      <link>https://kartiksrinivas007.github.io/photo/img-3287/</link>
+      <pubDate>Sun, 30 Nov 2025 05:40:25 +0530</pubDate><author>kartiksrinivas008@gmail.com (Kartik)</author>
+      <guid>https://kartiksrinivas007.github.io/photo/img-3287/</guid>
       <description>La Jolla Cove</description>
     </item>
     <item>
       <title>Black&#39;s Beach</title>
-      <link>http://localhost:1313/photo/img-3226/</link>
-      <pubDate>Sun, 30 Nov 2025 02:32:42 +0530</pubDate>
-      <guid>http://localhost:1313/photo/img-3226/</guid>
+      <link>https://kartiksrinivas007.github.io/photo/img-3226/</link>
+      <pubDate>Sun, 30 Nov 2025 02:32:42 +0530</pubDate><author>kartiksrinivas008@gmail.com (Kartik)</author>
+      <guid>https://kartiksrinivas007.github.io/photo/img-3226/</guid>
       <description>Torrey Pines Gliderport</description>
     </item>
     <item>
       <title>Gliderport</title>
-      <link>http://localhost:1313/photo/img-3113/</link>
-      <pubDate>Fri, 28 Nov 2025 06:23:18 +0530</pubDate>
-      <guid>http://localhost:1313/photo/img-3113/</guid>
+      <link>https://kartiksrinivas007.github.io/photo/img-3113/</link>
+      <pubDate>Fri, 28 Nov 2025 06:23:18 +0530</pubDate><author>kartiksrinivas008@gmail.com (Kartik)</author>
+      <guid>https://kartiksrinivas007.github.io/photo/img-3113/</guid>
       <description>San Diego</description>
     </item>
     <item>
       <title>Schenley Park</title>
-      <link>http://localhost:1313/photo/img-2908/</link>
-      <pubDate>Wed, 22 Oct 2025 04:07:25 +0530</pubDate>
-      <guid>http://localhost:1313/photo/img-2908/</guid>
+      <link>https://kartiksrinivas007.github.io/photo/img-2908/</link>
+      <pubDate>Wed, 22 Oct 2025 04:07:25 +0530</pubDate><author>kartiksrinivas008@gmail.com (Kartik)</author>
+      <guid>https://kartiksrinivas007.github.io/photo/img-2908/</guid>
       <description>Schenley</description>
     </item>
     <item>
       <title>Pittsburgh Downtown</title>
-      <link>http://localhost:1313/photo/img-2831/</link>
-      <pubDate>Mon, 13 Oct 2025 23:59:45 +0530</pubDate>
-      <guid>http://localhost:1313/photo/img-2831/</guid>
+      <link>https://kartiksrinivas007.github.io/photo/img-2831/</link>
+      <pubDate>Mon, 13 Oct 2025 23:59:45 +0530</pubDate><author>kartiksrinivas008@gmail.com (Kartik)</author>
+      <guid>https://kartiksrinivas007.github.io/photo/img-2831/</guid>
       <description>Pittsburgh</description>
     </item>
     <item>
       <title>Green Lake</title>
-      <link>http://localhost:1313/photo/img-2800/</link>
-      <pubDate>Mon, 13 Oct 2025 21:40:13 +0530</pubDate>
-      <guid>http://localhost:1313/photo/img-2800/</guid>
+      <link>https://kartiksrinivas007.github.io/photo/img-2800/</link>
+      <pubDate>Mon, 13 Oct 2025 21:40:13 +0530</pubDate><author>kartiksrinivas008@gmail.com (Kartik)</author>
+      <guid>https://kartiksrinivas007.github.io/photo/img-2800/</guid>
       <description>Pittsburgh</description>
     </item>
     <item>
       <title>A small cove near Mcway</title>
-      <link>http://localhost:1313/photo/img-2446/</link>
-      <pubDate>Sun, 17 Aug 2025 08:35:46 +0530</pubDate>
-      <guid>http://localhost:1313/photo/img-2446/</guid>
+      <link>https://kartiksrinivas007.github.io/photo/img-2446/</link>
+      <pubDate>Sun, 17 Aug 2025 08:35:46 +0530</pubDate><author>kartiksrinivas008@gmail.com (Kartik)</author>
+      <guid>https://kartiksrinivas007.github.io/photo/img-2446/</guid>
       <description>Cove Near Mcway</description>
     </item>
     <item>
       <title>Mcway falls</title>
-      <link>http://localhost:1313/photo/img-2421/</link>
-      <pubDate>Sun, 17 Aug 2025 07:59:09 +0530</pubDate>
-      <guid>http://localhost:1313/photo/img-2421/</guid>
+      <link>https://kartiksrinivas007.github.io/photo/img-2421/</link>
+      <pubDate>Sun, 17 Aug 2025 07:59:09 +0530</pubDate><author>kartiksrinivas008@gmail.com (Kartik)</author>
+      <guid>https://kartiksrinivas007.github.io/photo/img-2421/</guid>
       <description>Mcway falls</description>
     </item>
     <item>
       <title>Panther Beach</title>
-      <link>http://localhost:1313/photo/img-2108/</link>
-      <pubDate>Mon, 04 Aug 2025 08:06:27 +0530</pubDate>
-      <guid>http://localhost:1313/photo/img-2108/</guid>
+      <link>https://kartiksrinivas007.github.io/photo/img-2108/</link>
+      <pubDate>Mon, 04 Aug 2025 08:06:27 +0530</pubDate><author>kartiksrinivas008@gmail.com (Kartik)</author>
+      <guid>https://kartiksrinivas007.github.io/photo/img-2108/</guid>
       <description>Santa Cruz</description>
     </item>
   </channel>
