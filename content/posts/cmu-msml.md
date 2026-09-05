@@ -1,7 +1,7 @@
 ---
 title: "A CMU MSML Guide"
 date: 2025-12-23T10:00:00-05:00
-draft: false
+draft: true
 author: "Kartik"
 tags: ["random","thoughts","cmu"]
 categories: ["misc"]
