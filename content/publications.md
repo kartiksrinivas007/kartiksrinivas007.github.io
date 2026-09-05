@@ -18,4 +18,4 @@ Here are a few papers I’ve worked on:
 
 - **Removing the Influence of Source Exclusive Classes in Domain Adaptation**  
   A. Devalapally, K. Srinivas, P. Jain, V. N. Balasubramanian  
-  *Under review*
+  CVPR 2026
